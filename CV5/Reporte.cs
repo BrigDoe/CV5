@@ -24,9 +24,9 @@ namespace CV5
         }
 
         public void SetImagen(iTextSharp.text.Image img, Document doc) { 
-        img.SetAbsolutePosition(100, 750);
+        img.SetAbsolutePosition(100, 650);
         doc.Add(img);
-        img.ScaleToFit(115f, 50F);
+        img.ScaleAbsolute(25f, 25F);
         }
 
         public iTextSharp.text.Font Fuente() { 
