@@ -146,6 +146,7 @@
             this.BackgroundImage = global::CV5.Properties.Resources.Death_Star;
             this.ClientSize = new System.Drawing.Size(1381, 690);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.IsMdiContainer = true;
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;

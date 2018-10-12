@@ -43,7 +43,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Corbel", 14F);
-            this.button1.Location = new System.Drawing.Point(1025, 692);
+            this.button1.Location = new System.Drawing.Point(1087, 681);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(124, 43);
             this.button1.TabIndex = 0;
@@ -60,18 +60,18 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(44, 211);
+            this.dataGridView1.Location = new System.Drawing.Point(52, 211);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(1107, 451);
+            this.dataGridView1.Size = new System.Drawing.Size(1162, 451);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // Imprimir
             // 
             this.Imprimir.Font = new System.Drawing.Font("Corbel", 14F);
-            this.Imprimir.Location = new System.Drawing.Point(861, 692);
+            this.Imprimir.Location = new System.Drawing.Point(923, 681);
             this.Imprimir.Name = "Imprimir";
             this.Imprimir.Size = new System.Drawing.Size(135, 43);
             this.Imprimir.TabIndex = 2;
@@ -134,7 +134,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Corbel", 14F);
-            this.button2.Location = new System.Drawing.Point(710, 692);
+            this.button2.Location = new System.Drawing.Point(772, 681);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(135, 43);
             this.button2.TabIndex = 8;
@@ -147,7 +147,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1193, 756);
+            this.ClientSize = new System.Drawing.Size(1252, 736);
             this.ControlBox = false;
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);

@@ -76,12 +76,16 @@ namespace CV5
         {
             comboBox1.Items.Clear();
             //string cadena = "SELECT NOMBRE, CODIGO_ACTIVO FROM ACTV_Ficha_Principal";
-            string cadena = "SELECT EMPRESA, NOMBRE_CLIENTE, IDENTIFICACION_FISCAL FROM CLNT_Ficha_Principal ";
+            string cadena = "SELECT CORP, DOC_REFERENCE, DATE_TO_CHAR(INVOICE_DATE, 'dd[/]mm[/]yyyy') AS FECHA," +
+                " `ENTERED BY`, DATE_TO_CHAR(`ENTRY DATE`, 'dd[/]mm[/]yyyy') AS EXPR1, INVOICE_TOTAL, `AMOUNT PAY TOT`," +
+                " `AMOUNT RETENTIO`, BALANCE, `AMOUNT PAID`, `AMOUNT TAX2`, `RETENTION BASIS`, VOID " +
+                "FROM PROV_Factura_Principal";
             string cadena3 = "SELECT DISTINCT NOMBRE_CUENTA_ACTIVO FROM ACTV_Ficha_Principal";
             OdbcCommand DbCommand = new OdbcCommand(cadena, DbConnection);
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
             DataTable dt = new DataTable();
             adp1.SelectCommand = DbCommand;
+
             adp1.Fill(dt);
             if (dt.Rows.Count >0){
                 dataGridView1.DataSource = dt;
@@ -97,8 +101,11 @@ namespace CV5
             {
                 comboBox1.Items.Add(dt.Rows[i]["NOMBRE_CUENTA_ACTIVO"].ToString());
             }
-            DbConnection.Close();
 
+            DbConnection.Close();
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
