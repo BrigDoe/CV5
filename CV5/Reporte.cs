@@ -14,7 +14,7 @@ namespace CV5
     {
 
         public Document CreaDoc() { 
-        Document doc = new Document(PageSize.A4);
+        Document doc = new Document(PageSize.A4.Rotate());
             return doc;
         }
 
@@ -63,13 +63,35 @@ namespace CV5
             PdfPTable Tabla = new PdfPTable(columnas);
             return Tabla;
         }
-        
+
+        public float[] AnchoCols(Font font, params string[] headers)
+        {
+            var total = 0;
+            var columns = headers.Length;
+            var widths = new int[columns];
+            for (var i = 0; i < columns; ++i)
+            {
+                var w = font.GetCalculatedBaseFont(true).GetWidth(headers[i]);
+                total += w;
+                widths[i] = w;
+            }
+            var result = new float[columns];
+            for (var i = 0; i < columns; ++i)
+            {
+                result[i] = (float)widths[i] / total * 100;
+            }
+            return result;
+        }
+
         public void Contenido(int columnas, List<string> encabezados,
             DataGridView dataGridView1, PdfPTable Tabla, iTextSharp.text.Font _standardFont)
         {
-                // Creamos una tabla que contendrá el nombre, apellido y país
-                // de nuestros visitante.
-            Tabla.WidthPercentage = 50;
+            //Se usa el 100% de la tabla 
+            Tabla.WidthPercentage = 100;
+            float[] widths = new float[] { 2f, 2f, 2f, 1f, 1f, 1f, 1f, 1f,1f, 1f, 1f, 1f,1f };
+            Tabla.SetWidths(widths);
+
+            //Ancho de cada celda
             // Configuramos el título de las columnas de la tabla
             for (int i = 0; i <= columnas-1; i++)
             {
@@ -78,7 +100,9 @@ namespace CV5
                 u.BorderWidthBottom = 0.75f;
                 // Añadimos las celdas a la tabla
                 Tabla.AddCell(u);
+               
             }
+            
         }
 
 
@@ -89,14 +113,15 @@ namespace CV5
         //          Celdas: Lista de celdas que contendran los valores 
         //
         //Este metodo genera un recorrido al DataGridView para ir poblando a las celdas
+
         public void detalleContenido(DataGridView dataGridView1,  PdfPTable Tabla,
                                     iTextSharp.text.Font _standardFont,  Document doc,
                                     List<PdfPCell> Celdas)
         {
-                
+               
                 for (int rows = 0; rows < dataGridView1.Rows.Count; rows++)
                 {
-                    for (int i = 0; i <= Celdas.Count-1; i++)
+                    for (int i = 0; i < Celdas.Count; i++)
                     {
                         string value = dataGridView1.Rows[rows].Cells[i].Value.ToString();
                         Celdas[i] = new PdfPCell(new Phrase(value, _standardFont));
@@ -104,32 +129,14 @@ namespace CV5
                         Celdas[i].BorderWidthBottom = 0.75f;
                         Tabla.AddCell(Celdas[i]);
                     }
-                    //string value = dataGridView1.Rows[rows].Cells[0].Value.ToString();
-                    //Celda = new PdfPCell(new Phrase(value, _standardFont));
-                    //Celda.BorderWidth = 0;  
-                    //Celda.BorderWidthBottom = 0.75f;
-                    //Tabla.AddCell(Celda);
-                    //value = dataGridView1.Rows[rows].Cells[1].Value.ToString();
-                    //Celda = new PdfPCell(new Phrase(value, _standardFont));
-                    //Celda.BorderWidth = 0;
-                    //Celda.BorderWidthBottom = 0.75f;
-                    //Tabla.AddCell(Celda);
-                    //value = dataGridView1.Rows[rows].Cells[2].Value.ToString();
-                    //Celda = new PdfPCell(new Phrase(value, _standardFont));
-                    //Celda.BorderWidth = 0;
-                    //Celda.BorderWidthBottom = 0.75f;
-                    //Tabla.AddCell(Celda);
-            }
-                doc.Add(Tabla);
+               
+                }
+
+               doc.Add(Tabla);
             
         }
 
-
-      
-
-
-
-
+         
 
     public void Cerrar(Document doc, PdfWriter writer)
         {

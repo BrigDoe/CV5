@@ -76,10 +76,18 @@ namespace CV5
         {
             comboBox1.Items.Clear();
             //string cadena = "SELECT NOMBRE, CODIGO_ACTIVO FROM ACTV_Ficha_Principal";
-            string cadena = "SELECT CORP, DOC_REFERENCE, DATE_TO_CHAR(INVOICE_DATE, 'dd[/]mm[/]yyyy') AS FECHA," +
-                " `ENTERED BY`, DATE_TO_CHAR(`ENTRY DATE`, 'dd[/]mm[/]yyyy') AS EXPR1, INVOICE_TOTAL, `AMOUNT PAY TOT`," +
-                " `AMOUNT RETENTIO`, BALANCE, `AMOUNT PAID`, `AMOUNT TAX2`, `RETENTION BASIS`, VOID " +
-                "FROM PROV_Factura_Principal";
+            string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , pfp.`TERMS ALFA` AS Dias_Credito, " +
+                "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS FECHA_FACTURA," +
+                "fp.`RETENTION BASIS` AS Subtotal_Fac, fp.`AMOUNT TAX2` AS Total_CR_Tributario, fp.INVOICE_TOTAL AS" +
+                " TOTAL_FACTURA, pcu.`PAYMENT AMOUNT` AS TOTAL_Pagos, pcu.`PAYMENT AMOUNT` AS TOTAL_Ncprv_Ndprv," +
+                " pcu.`DISCOUNT AMOUNT` AS Total_dcto, pcu.`RETENTION AMNT` AS Total_Retenciones," +
+                " pcu.`AMOUNT DUE` AS Saldos_Actual, pcu.`CHECK NUMBER` AS Chq " +
+                "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp " +
+                "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND fp.VENDOR_ID_CORP =" +
+                "pfp.CODIGO_PROVEEDOR_EMPRESA AND (PROV_Cobros_Cuotas.CORP = 'LABOV') AND " +
+                "fp.VOID = cast('False' as Boolean) ORDER BY fp.INVOICE_DATE";
+            //string cadena = "SELECT   FROM PROV_Ficha_Principal " +
+            //    "WHERE(CODIGO_PROVEEDOR_EMPRESA = 'P0140-LABOV')";
             string cadena3 = "SELECT DISTINCT NOMBRE_CUENTA_ACTIVO FROM ACTV_Ficha_Principal";
             OdbcCommand DbCommand = new OdbcCommand(cadena, DbConnection);
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
@@ -92,15 +100,16 @@ namespace CV5
                 dataGridView1.Refresh();
                 //Soy un comentario
             }
-            DbCommand = new OdbcCommand(cadena3, DbConnection);
+            DbCommand = new OdbcCommand(cadena, DbConnection);
             adp1 = new OdbcDataAdapter();
             dt = new DataTable();
             adp1.SelectCommand = DbCommand;
             adp1.Fill(dt);
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                comboBox1.Items.Add(dt.Rows[i]["NOMBRE_CUENTA_ACTIVO"].ToString());
-            }
+
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    comboBox1.Items.Add(dt.Rows[i]["NOMBRE_CUENTA_ACTIVO"].ToString());
+            //}
 
             DbConnection.Close();
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
@@ -121,99 +130,66 @@ namespace CV5
             iTextSharp.text.Font font = R.Fuente();
             PdfWriter writer = R.CreaWriter(doc);
             R.Iniciar(doc);
-            R.Titulo(doc, "Reportes prueba");
+            R.Titulo(doc, "Reportes de Cuentas por pagar");
             iTextSharp.text.Image img = R.Imagen();
             R.SetImagen(img, doc);
 
             // Lista de encabezados para reporte
             List<string> lista1 = new List<string>()
             {
-                "Empresa",
-                "Codigo",
-                "Nombre"
+                "Proveedor",
+                "Dias cred",
+                "No. Fac.",
+                "Fecha factura",
+                "Subtotal factura",
+                "Total_Cr_Tributario",
+                "Total factura",
+                "Total Pagos",
+                "Total Nc/Db",
+                "Total dcto",
+                "Total Retenciones",
+                "Saldos actual",
+                "Cheque"
+
             };
 
             // Se crea objetos en base a la lista de encabezados
             var celdas = new List<PdfPCell>();
-            var Empresa = new PdfPCell();
-            celdas.Add(Empresa);
-            var Codigo = new PdfPCell();
-            celdas.Add(Codigo);
-            var Nombre = new PdfPCell();
-            celdas.Add(Nombre);
+            var Proveedor = new PdfPCell();
+            var DiasCredito = new PdfPCell();
+            var NumFactura = new PdfPCell();
+            var Fecha_factura = new PdfPCell();
+            var Subtotal_factura = new PdfPCell();
+            var Total_cr_trib = new PdfPCell();
+            var TotalFac = new PdfPCell();
+            var TotalPag = new PdfPCell();
+            var TotalNcDb = new PdfPCell();
+            var TotalDcto = new PdfPCell();
+            var TotalReten = new PdfPCell();
+            var SaldosACT = new PdfPCell();
+            var Chq = new PdfPCell();
+
+            celdas.Add(Proveedor);
+            celdas.Add(DiasCredito);
+            celdas.Add(NumFactura);
+            celdas.Add(Fecha_factura);
+            celdas.Add(Subtotal_factura);
+            celdas.Add(Total_cr_trib);
+            celdas.Add(TotalFac);
+            celdas.Add(TotalPag);
+            celdas.Add(TotalNcDb);
+            celdas.Add(TotalDcto);
+            celdas.Add(TotalReten);
+            celdas.Add(SaldosACT);
+            celdas.Add(Chq);
+
+
 
             //Genera las columnas de la tabla en base a la lista
             PdfPTable Tabla = R.TablaPDF(lista1.Count);
             R.Contenido(lista1.Count, lista1, dataGridView1, Tabla, font);
             R.detalleContenido(dataGridView1, Tabla, font, doc, celdas);
             R.Cerrar(doc, writer);
-
-            //Reporte Rp = new Reporte();
-
-
-            //Document doc = new Document(PageSize.A4);
-            //PdfWriter writer = PdfWriter.GetInstance(doc,
-            //                            new FileStream(@"C:\Pruebas REPORTES\prueba.pdf", 
-            //                            FileMode.Create));
-            //doc.AddTitle("PDF LABO");
-            //doc.AddCreator("B. Vera");
-            //doc.Open();
-
-            //// Creamos el tipo de Font que vamos utilizar
-            //iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(
-            //    iTextSharp.text.Font.FontFamily.HELVETICA, 8, iTextSharp.text.Font.NORMAL,
-            //    BaseColor.BLACK);           
-
-            //// Escribimos el encabezado en el documento
-            //doc.Add(new Paragraph("Reporte de activos"));
-            //doc.Add(Chunk.NEWLINE);
-
-            //// Creamos una tabla que contendrá el nombre, apellido y país
-            //// de nuestros visitante.
-            //PdfPTable tblPrueba = new PdfPTable(3);
-            //tblPrueba.WidthPercentage = 50;
-
-            //// Configuramos el título de las columnas de la tabla
-            //PdfPCell clNombre = new PdfPCell(new Phrase("Empresa", _standardFont));
-            //clNombre.BorderWidth = 0;
-            //clNombre.BorderWidthBottom = 0.75f;
-
-            //PdfPCell clCodigo = new PdfPCell(new Phrase("Codigo", _standardFont));
-            //clCodigo.BorderWidth = 0;
-            //clCodigo.BorderWidthBottom = 0.75f;
-
-            //PdfPCell clEmpresa = new PdfPCell(new Phrase("Nombre", _standardFont));
-            //clEmpresa.BorderWidth = 0;
-            //clEmpresa.BorderWidthBottom = 0.75f;
-
-
-            //// Añadimos las celdas a la tabla
-            //tblPrueba.AddCell(clNombre);
-            //tblPrueba.AddCell(clCodigo);
-            //tblPrueba.AddCell(clEmpresa);
-
-            //for (int rows = 0; rows < dataGridView1.Rows.Count; rows++)
-            //{
-            //        string value = dataGridView1.Rows[rows].Cells[0].Value.ToString();
-            //        Console.WriteLine("Nombre:" + value);
-            //        clNombre = new PdfPCell(new Phrase(value, _standardFont));
-            //        clNombre.BorderWidth = 0;
-            //        tblPrueba.AddCell(clNombre);
-            //        value = dataGridView1.Rows[rows].Cells[1].Value.ToString();
-            //        Console.WriteLine("Cod:" + value);
-            //        clCodigo = new PdfPCell(new Phrase(value, _standardFont));
-            //        clCodigo.BorderWidth = 0;
-            //        tblPrueba.AddCell(clCodigo);
-            //        value = dataGridView1.Rows[rows].Cells[2].Value.ToString();
-            //        Console.WriteLine("Cod:" + value);
-            //        clEmpresa = new PdfPCell(new Phrase(value, _standardFont));
-            //        clEmpresa.BorderWidth = 0;
-            //        tblPrueba.AddCell(clEmpresa);
-            //}
-            //doc.Add(tblPrueba);
-            //doc.Close();
-            //writer.Close();
-            //System.Diagnostics.Process.Start(@"C:\Pruebas REPORTES\prueba.pdf");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
