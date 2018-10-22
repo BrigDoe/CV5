@@ -151,26 +151,6 @@ namespace CV5
         }
 
 
-        private List<string> Encabezados(DataGridView dg)
-        {
-            List<string> lista1 = new List<string>();
-            for (int i = 0; i < dg.ColumnCount; i++)
-            {
-                lista1.Add( dataGridView1.Columns[i].HeaderText.ToString() );
-            }
-            return lista1;
-        }
-
-        private List<PdfPCell> SetCeldasPDF(List<string> lista1)
-        {
-            var celdas = new List<PdfPCell>();
-            var _celdas = new PdfPCell();
-            for (int i = 0; i < lista1.Count; i++)
-            {
-                celdas.Add(_celdas);
-            }
-            return celdas;
-        }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
