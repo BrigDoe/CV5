@@ -13,6 +13,8 @@ namespace CV5
     class Reporte
     {
 
+        
+                
         //Verdadero si se requiere horizontal
         public Document CreaDoc(Boolean flag) { 
         Document doc = new Document(PageSize.A4);
@@ -25,7 +27,7 @@ namespace CV5
             iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(@"Resources\labovida.jpg");
             return img;
         }
-
+        
         public void SetImagen(iTextSharp.text.Image img, Document doc) { 
         img.SetAbsolutePosition(100, 650);
         doc.Add(img);
@@ -139,9 +141,44 @@ namespace CV5
             
         }
 
-         
 
-    public void Cerrar(Document doc, PdfWriter writer)
+        public void CreaReport(DataGridView dg, iTextSharp.text.Font font,
+                                Document doc, PdfWriter writer)
+        {
+            List<string> lista1 = Encabezados(dg);
+            var celdas = new List<PdfPCell>();
+            celdas = SetCeldasPDF(lista1);
+            PdfPTable Tabla = TablaPDF(lista1.Count);
+            Contenido(lista1.Count, lista1, dg, Tabla, font);
+            detalleContenido(dg, Tabla, font, doc, celdas);
+            Cerrar(doc, writer);
+        }
+
+        public List<PdfPCell> SetCeldasPDF(List<string> lista1)
+        {
+            var celdas = new List<PdfPCell>();
+            var _celdas = new PdfPCell();
+            for (int i = 0; i < lista1.Count; i++)
+            {
+                celdas.Add(_celdas);
+            }
+            return celdas;
+        }
+
+        public List<string> Encabezados(DataGridView dg)
+        {
+            var celdas = new List<PdfPCell>();
+            List<string> lista1 = new List<string>();
+            for (int i = 0; i < dg.ColumnCount; i++)
+            {
+                lista1.Add(dg.Columns[i].HeaderText.ToString());
+            }
+            return lista1;
+        }
+
+
+
+        public void Cerrar(Document doc, PdfWriter writer)
         {
             doc.Close();
             writer.Close();

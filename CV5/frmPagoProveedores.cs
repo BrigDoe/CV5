@@ -53,9 +53,15 @@ namespace CV5
             }
         }
 
+        private void CleanGrid(DataGridView dg) {
+            dg.DataSource=null;
+            dg.Refresh();
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             //flag para chequear si existen un Acreedor en particular
+            CleanGrid(dataGridView1);
             Boolean flag;
             if (!fg.CheckDatePicker(dtpFechAct, dtpFechFin))
             {
@@ -90,7 +96,7 @@ namespace CV5
                 {
                     flag = false;
                 }
-                string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , pfp.`TERMS ALFA` AS `Dias Credito`, " +
+                string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
                 "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
                 "fp.`RETENTION BASIS` AS Subtotal, fp.`AMOUNT TAX2` AS Total_CR_Tributario, fp.INVOICE_TOTAL AS" +
                 " TOTAL_FACTURA, pcu.`PAYMENT AMOUNT` AS TOTAL_Pagos, pcu.`PAYMENT AMOUNT` AS TOTAL_Ncprv_Ndprv," +
@@ -145,79 +151,47 @@ namespace CV5
         }
 
 
-        private List<string> Encabezados()
+        private List<string> Encabezados(DataGridView dg)
         {
-            List<string> lista1 = new List<string>()
+            List<string> lista1 = new List<string>();
+            for (int i = 0; i < dg.ColumnCount; i++)
             {
-                "Proveedor",
-                "Dias cred",
-                "No. Fac.",
-                "Fecha factura",
-                "Subtotal factura",
-                "Total Trib",
-                "Total factura",
-                "Total Pagos",
-                "Total Nc/Db",
-                "Total dcto",
-                "Total Retenciones",
-                "Saldos actual",
-                "Cheque"
-            };
+                lista1.Add( dataGridView1.Columns[i].HeaderText.ToString() );
+            }
             return lista1;
         }
 
+        private List<PdfPCell> SetCeldasPDF(List<string> lista1)
+        {
+            var celdas = new List<PdfPCell>();
+            var _celdas = new PdfPCell();
+            for (int i = 0; i < lista1.Count; i++)
+            {
+                celdas.Add(_celdas);
+            }
+            return celdas;
+        }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            //
+            // SE GENERA EL PDF CON LA CLASE REPORTE
             Reporte R = new Reporte();
+            // ES HORIZONTAL
             Document doc = R.CreaDoc(true);
-            iTextSharp.text.Font font = R.Fuente();
-            PdfWriter writer = R.CreaWriter(doc);
+            //Se genera fuente
+            Font font = R.Fuente();
+            //Generar un writer para el reporte
+            var writer = R.CreaWriter(doc);
+            //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
+            //Titulo
             R.Titulo(doc, "Reportes de Cuentas por pagar");
-            iTextSharp.text.Image img = R.Imagen();
+            Image img = R.Imagen();
             R.SetImagen(img, doc);
             // Lista de encabezados para reporte
-            List<string> lista1 = Encabezados();
-
-            // Se crea objetos en base a la lista de encabezados
-            var celdas = new List<PdfPCell>();
-            var Proveedor = new PdfPCell();
-            var DiasCredito = new PdfPCell();
-            var NumFactura = new PdfPCell();
-            var Fecha_factura = new PdfPCell();
-            var Subtotal_factura = new PdfPCell();
-            var Total_cr_trib = new PdfPCell();
-            var TotalFac = new PdfPCell();
-            var TotalPag = new PdfPCell();
-            var TotalNcDb = new PdfPCell();
-            var TotalDcto = new PdfPCell();
-            var TotalReten = new PdfPCell();
-            var SaldosACT = new PdfPCell();
-            var Chq = new PdfPCell();
-
-            //Se adhieren a las celdas 
-            celdas.Add(Proveedor);
-            celdas.Add(DiasCredito);
-            celdas.Add(NumFactura);
-            celdas.Add(Fecha_factura);
-            celdas.Add(Subtotal_factura);
-            celdas.Add(Total_cr_trib);
-            celdas.Add(TotalFac);
-            celdas.Add(TotalPag);
-            celdas.Add(TotalNcDb);
-            celdas.Add(TotalDcto);
-            celdas.Add(TotalReten);
-            celdas.Add(SaldosACT);
-            celdas.Add(Chq);
-
-            //Genera las columnas de la tabla en base a la lista
-            PdfPTable Tabla = R.TablaPDF(lista1.Count);
-            R.Contenido(lista1.Count, lista1, dataGridView1, Tabla, font);
-            R.detalleContenido(dataGridView1, Tabla, font, doc, celdas);
-            R.Cerrar(doc, writer);
+            R.CreaReport(dataGridView1,font,doc,writer);   
         }
+
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
