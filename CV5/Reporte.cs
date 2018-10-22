@@ -107,6 +107,8 @@ namespace CV5
                 Tabla.AddCell(u);
                
             }
+
+            
             
         }
 
@@ -138,7 +140,8 @@ namespace CV5
                 }
 
                doc.Add(Tabla);
-            
+               Tabla.HeaderRows = 1;
+               
         }
 
 

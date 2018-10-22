@@ -78,7 +78,7 @@
             this.tStripOpciones.Name = "tStripOpciones";
             this.tStripOpciones.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.tStripOpciones.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tStripOpciones.Size = new System.Drawing.Size(1248, 27);
+            this.tStripOpciones.Size = new System.Drawing.Size(1248, 28);
             this.tStripOpciones.TabIndex = 33;
             this.tStripOpciones.Text = "toolStrip1";
             // 
@@ -88,7 +88,7 @@
             this.btnNuevo.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevo.Image")));
             this.btnNuevo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(24, 24);
+            this.btnNuevo.Size = new System.Drawing.Size(24, 25);
             this.btnNuevo.Text = "Nuevo";
             // 
             // btnBuscar
@@ -183,7 +183,6 @@
             this.groupBox1.TabIndex = 34;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // chkAllProv
             // 
@@ -320,6 +319,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(1206, 334);
             this.dataGridView1.TabIndex = 6;
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // groupBox2
             // 

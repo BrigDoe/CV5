@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Data.Odbc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using System.Globalization;
 
 namespace CV5
 {
@@ -98,7 +99,7 @@ namespace CV5
                 }
                 string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
                 "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
-                "fp.`RETENTION BASIS` AS Subtotal, fp.`AMOUNT TAX2` AS Total_CR_Tributario, fp.INVOICE_TOTAL AS" +
+                "(fp.`RETENTION BASIS` + 0.00) AS Subtotal, fp.`AMOUNT TAX2` AS Total_CR_Tributario, fp.INVOICE_TOTAL AS" +
                 " TOTAL_FACTURA, pcu.`PAYMENT AMOUNT` AS TOTAL_Pagos, pcu.`PAYMENT AMOUNT` AS TOTAL_Ncprv_Ndprv," +
                 " pcu.`DISCOUNT AMOUNT` AS Total_dcto, pcu.`RETENTION AMNT` AS Total_Retenciones," +
                 " pcu.`AMOUNT DUE` AS Saldos_Actual, pcu.`CHECK NUMBER` AS Chq " +
@@ -110,6 +111,8 @@ namespace CV5
                     cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
             }
+
+        
             return;
     
         }
@@ -172,10 +175,45 @@ namespace CV5
             R.CreaReport(dataGridView1,font,doc,writer);   
         }
 
-
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-
+            if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index ==  5 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 9 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 10 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 11)
+            {
+                if (e.Value != null)
+                {
+                    ConvertirFloat(e);
+                }
+            }
         }
+
+
+        //SE REALIZA EL FORMATEO PARA DECIMALES 
+        private void ConvertirFloat(DataGridViewCellFormattingEventArgs formatting)
+        {
+            if (formatting.Value != null)
+            {
+                try
+                {
+                    decimal e;
+                    e = decimal.Parse(formatting.Value.ToString());
+                    // Convierte a decimales
+                    formatting.Value = e.ToString("N2");
+                }
+                catch (FormatException)
+                {
+                    formatting.FormattingApplied = false;
+                  
+                }
+            }
+        }
+
+        
     }
 }

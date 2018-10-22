@@ -65,10 +65,13 @@ namespace CV5
             if (dt.Rows.Count > 0)
             {
                 dataGridView1.DataSource = dt;
-                dataGridView1.Refresh();
+                dataGridView1.Refresh();                
             }
+
             DbConnection.Close();
         }
+
+   
 
         public Boolean CheckDatePicker(DateTimePicker dtpinicio, DateTimePicker dtpfin)
         {
