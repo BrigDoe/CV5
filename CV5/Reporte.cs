@@ -13,8 +13,11 @@ namespace CV5
     class Reporte
     {
 
-        public Document CreaDoc() { 
-        Document doc = new Document(PageSize.A4.Rotate());
+        //Verdadero si se requiere horizontal
+        public Document CreaDoc(Boolean flag) { 
+        Document doc = new Document(PageSize.A4);
+            if (flag)
+                doc.SetPageSize(PageSize.A4.Rotate());
             return doc;
         }
 
