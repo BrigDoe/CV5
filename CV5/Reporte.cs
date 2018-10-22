@@ -42,7 +42,7 @@ namespace CV5
 
         public PdfWriter CreaWriter(Document doc) { 
         PdfWriter writer = PdfWriter.GetInstance(doc,
-                                   new FileStream(@"C:\Pruebas REPORTES\prueba.pdf",
+                                   new FileStream(@"C:\Reporteria\ReporteGeneral.pdf",
                                    FileMode.Create));
             return writer;
         }
@@ -145,7 +145,7 @@ namespace CV5
         {
             doc.Close();
             writer.Close();
-            System.Diagnostics.Process.Start(@"C:\Pruebas REPORTES\prueba.pdf");
+            System.Diagnostics.Process.Start(@"C:\Reporteria\ReporteGeneral.pdf");
             doc.CloseDocument();
         }
     }
