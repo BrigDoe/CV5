@@ -66,6 +66,8 @@ namespace CV5
         public PdfPTable TablaPDF (int columnas)
         {
             PdfPTable Tabla = new PdfPTable(columnas);
+            //Convierte headers en continuacion de siguiente pagina
+            Tabla.HeaderRows = 1;
             return Tabla;
         }
 
@@ -111,6 +113,7 @@ namespace CV5
             
             
         }
+
 
 
         //Este metodo recoge los siguientes parametros:

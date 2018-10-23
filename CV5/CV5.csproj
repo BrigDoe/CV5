@@ -129,6 +129,7 @@
     <None Include="Resources\resistance.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sentencias.txt" />
     <None Include="Resources\if_excel_272697.png" />
     <Content Include="Resources\labovida.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
