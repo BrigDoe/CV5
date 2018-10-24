@@ -97,19 +97,23 @@ namespace CV5
                 {
                     flag = false;
                 }
-                string cadenav = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
+                string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
                 "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
-                "fp.`RETENTION BASIS`  AS Subtotal, fp.`AMOUNT TAX2` AS Total_CR_Tributario, fp.INVOICE_TOTAL AS" +
-                " TOTAL_FACTURA, pcu.`PAYMENT AMOUNT` AS TOTAL_Pagos, pcu.`PAYMENT AMOUNT` AS TOTAL_Ncprv_Ndprv," +
-                " pcu.`DISCOUNT AMOUNT` AS Total_dcto, pcu.`RETENTION AMNT` AS Total_Retenciones," +
-                " pcu.`AMOUNT DUE` AS Saldos_Actual, pcu.`CHECK NUMBER` AS Chq " +
-                "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp " +
-                "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA " +
+                "fp.`RETENTION BASIS`  AS Subtotal, fp.`AMOUNT TAX2` AS `Total Cr Tributario`, fp.INVOICE_TOTAL AS" +
+                "`Total Factura`, pcu.`PAYMENT AMOUNT` AS `Total Pagos`," +
+                " " +
+                "pcu.`AMOUNT DUE` AS `Saldos Actual`, pcu.`CHECK NUMBER` AS `No. Cheque`, " +
+                "bfp.NOMBRE_BANCO AS Banco, bmp.MEMO as Memo, DATE_TO_CHAR(bmp.FECHA_PAGO, 'dd[/]mm[/]yyyy') as `Fecha Cheque`," +
+                "pfp.LOCALIZACION_PROVEEDOR as Localizacion " +
+                "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp, BANC_Movimientos_Principal bmp, BANC_FICHA_PRINCIPAL bfp " +
+                "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND bfp.CODIGO_BANCO_EMPRESA = bmp.CODIGO_BANCO_EMPRESA " +
+                "AND  pcu.`CHECK ID CORP`= bmp.CODIGO_MOVIMIENTO_EMPRESA " +
+                "AND fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA " +
                 "AND (PROV_Cobros_Cuotas.CORP = '" +  _CORP +  "') AND " +
                 "fp.VOID = cast('False' as Boolean) and fp.INVOICE_DATE >= '"+  Fech1 + "' and fp.INVOICE_DATE <= '" + Fech2 + "'";
-                string cadena = "SELECT * FROM PROV_FICHA_PRINCIPAL";
+               // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 if (flag)
-                    cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
+                   cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
             }
 
@@ -172,8 +176,12 @@ namespace CV5
             R.Titulo(doc, "Reportes de Cuentas por pagar");
             Image img = R.Imagen();
             R.SetImagen(img, doc);
+            //Settear anchos de la tabla en base a los encabezados
+            float[] widths = new float[] {  2f, 1f, 2f, 1f, 1f, 1f, 1f,
+                                            1f, 1f, 1f, 2f, 3f, 1.5f,
+                                            0.5f };
             // Lista de encabezados para reporte
-            R.CreaReport(dataGridView1,font,doc,writer);   
+            R.CreaReport(dataGridView1,font,doc,writer, widths);   
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

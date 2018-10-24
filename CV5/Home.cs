@@ -38,7 +38,7 @@ namespace CV5
             if (keyData == (Keys.Control | Keys.Space))
             {
                
-                Form1 fr_report = new Form1();
+                frmPagoProveedores fr_report= new frmPagoProveedores();
                 fr_report.MdiParent = this;
                 fr_report.Show();
             }

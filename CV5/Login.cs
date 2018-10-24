@@ -62,7 +62,7 @@ namespace CV5
                 {
                     MessageBox.Show("Se ha ingresado correctamente");
                     this.Hide();
-                    Form1 fr_report = new Form1();
+                    frmPagoProveedores fr_report = new frmPagoProveedores();
                     fr_report.MdiParent = this.ParentForm;
                     fr_report.Show();
                 }
