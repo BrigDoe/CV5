@@ -179,7 +179,7 @@ namespace CV5
             //Settear anchos de la tabla en base a los encabezados
             float[] widths = new float[] {  2f, 1f, 2f, 1f, 1f, 1f, 1f,
                                             1f, 1f, 1f, 2f, 3f, 1.5f,
-                                            0.5f };
+                                            0.5f};
             // Lista de encabezados para reporte
             R.CreaReport(dataGridView1,font,doc,writer, widths);   
         }
@@ -191,7 +191,6 @@ namespace CV5
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 9 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 10 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 11)
             {
