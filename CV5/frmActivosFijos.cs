@@ -9,13 +9,13 @@ using System.Globalization;
 
 namespace CV5
 {
-    public partial class frmPagoProveedores : Form
+    public partial class frmActivosFijos : Form
     {
         OdbcConnection DbConnection = new OdbcConnection("Dsn=MBA3 PRUEBA12;Driver={4D v12 ODBC Driver};server=192.168.1.2;port=19819;");
         Reporte R = new Reporte();
         Funciones_Generales fg = new Funciones_Generales();
 
-        public frmPagoProveedores()
+        public frmActivosFijos()
         {
             InitializeComponent();
             CargarDatos();
@@ -26,8 +26,8 @@ namespace CV5
             string query = "SELECT  `CORPORATION NAM` FROM SIST_Parametros_Empresa ";
             fg.LlenarCombo(query, cmbEmpresa);
             query = "SELECT DISTINCT VENDOR_NAME FROM PROV_Ficha_Principal";
-            fg.LlenarCombo(query, cmbAcreedor,-1);
-           
+            fg.LlenarCombo(query, cmbAcreedor, -1);
+
         }
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace CV5
             dtpFechFin.Enabled = true;
             btnOk.Enabled = true;
         }
-            
+
 
         private void btnExcel_Click(object sender, EventArgs e)
         {
@@ -54,8 +54,9 @@ namespace CV5
             }
         }
 
-        private void CleanGrid(DataGridView dg) {
-            dg.DataSource=null;
+        private void CleanGrid(DataGridView dg)
+        {
+            dg.DataSource = null;
             dg.Refresh();
         }
 
@@ -72,9 +73,10 @@ namespace CV5
                 DbConnection.Open();
                 OdbcCommand DbCommand = new OdbcCommand(CORP, DbConnection);
                 OdbcDataReader reader = DbCommand.ExecuteReader();
-                string _CORP="";
+                string _CORP = "";
                 string _Acree = "";
-                while (reader.Read()) { 
+                while (reader.Read())
+                {
                     _CORP = reader.GetString(0);
                 }
                 DbConnection.Close();
@@ -86,14 +88,15 @@ namespace CV5
                     DbConnection.Open();
                     DbCommand = new OdbcCommand(Acree, DbConnection);
                     reader = DbCommand.ExecuteReader();
-                    
+
                     while (reader.Read())
                     {
                         _Acree = reader.GetString(0);
                     }
                     DbConnection.Close();
                     flag = true;
-                } else
+                }
+                else
                 {
                     flag = false;
                 }
@@ -109,20 +112,20 @@ namespace CV5
                 "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND bfp.CODIGO_BANCO_EMPRESA = bmp.CODIGO_BANCO_EMPRESA " +
                 "AND  pcu.`CHECK ID CORP`= bmp.CODIGO_MOVIMIENTO_EMPRESA " +
                 "AND fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA " +
-                "AND (PROV_Cobros_Cuotas.CORP = '" +  _CORP +  "') AND " +
-                "fp.VOID = cast('False' as Boolean) and fp.INVOICE_DATE >= '"+  Fech1 + "' and fp.INVOICE_DATE <= '" + Fech2 + "'";
-               // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
+                "AND (PROV_Cobros_Cuotas.CORP = '" + _CORP + "') AND " +
+                "fp.VOID = cast('False' as Boolean) and fp.INVOICE_DATE >= '" + Fech1 + "' and fp.INVOICE_DATE <= '" + Fech2 + "'";
+                // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 if (flag)
-                   cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
+                    cadena += " AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
             }
 
-        
+
             return;
-    
+
         }
 
-        
+
 
         private void cmbAcreedor_Leave(object sender, EventArgs e)
         {
@@ -146,7 +149,8 @@ namespace CV5
             {
                 cmbAcreedor.Enabled = false;
                 btnSearch.Enabled = false;
-            } else
+            }
+            else
             {
                 cmbAcreedor.Enabled = true;
                 btnSearch.Enabled = true;
@@ -177,17 +181,17 @@ namespace CV5
             Image img = R.Imagen();
             R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
-            float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1f, 1f,
+            float[] widths = new float[] {  2f, 1f, 2f, 1f, 1f, 1f, 1f,
                                             1f, 1f, 1f, 2f, 3f, 1.5f,
-                                            0.5f};
+                                            0.5f };
             // Lista de encabezados para reporte
-            R.CreaReport(dataGridView1,font,doc,writer, widths);   
+            R.CreaReport(dataGridView1, font, doc, writer, widths);
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index ==  5 ||
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 5 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
@@ -217,11 +221,11 @@ namespace CV5
                 catch (FormatException)
                 {
                     formatting.FormattingApplied = false;
-                  
+
                 }
             }
         }
 
-        
+
     }
 }
