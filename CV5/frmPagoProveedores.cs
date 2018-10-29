@@ -98,13 +98,12 @@ namespace CV5
                     flag = false;
                 }
                 string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
-                "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
-                "fp.`RETENTION BASIS`  AS Subtotal, fp.`AMOUNT TAX2` AS `Total Cr Tributario`, fp.INVOICE_TOTAL AS" +
-                "`Total Factura`, pcu.`PAYMENT AMOUNT` AS `Total Pagos`," +
-                " " +
-                "pcu.`AMOUNT DUE` AS `Saldos Actual`, pcu.`CHECK NUMBER` AS `No. Cheque`, " +
-                "bfp.NOMBRE_BANCO AS Banco, bmp.MEMO as Memo, DATE_TO_CHAR(bmp.FECHA_PAGO, 'dd[/]mm[/]yyyy') as `Fecha Cheque`," +
-                "pfp.LOCALIZACION_PROVEEDOR as Localizacion " +
+                "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`, " +
+                "fp.`RETENTION BASIS`  AS Subtotal, fp.MONTO_IMPUESTO_1 as `Total Impuestos`, fp.`AMOUNT TAX2` AS `Total Cr Tributario`," +
+                "fp.INVOICE_TOTAL AS `Total Factura`, pcu.`PAYMENT AMOUNT` AS `Total Pagos`, " +
+                "pcu.`AMOUNT DUE` AS `Saldos Actual`,DATE_TO_CHAR(bmp.FECHA_PAGO, 'dd[/]mm[/]yyyy') as `Fecha Cheque`, " +
+                " bfp.NOMBRE_BANCO AS Banco, pcu.`CHECK NUMBER` AS `No. Cheque`, fp.MEMO as `F. Memo`, bmp.MEMO as Memo, " +
+                "pfp.LOCALIZACION_PROVEEDOR as `L/E` " +
                 "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp, BANC_Movimientos_Principal bmp, BANC_FICHA_PRINCIPAL bfp " +
                 "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND bfp.CODIGO_BANCO_EMPRESA = bmp.CODIGO_BANCO_EMPRESA " +
                 "AND  pcu.`CHECK ID CORP`= bmp.CODIGO_MOVIMIENTO_EMPRESA " +
@@ -116,7 +115,7 @@ namespace CV5
                    cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
             }
-
+                
         
             return;
     
@@ -162,28 +161,41 @@ namespace CV5
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            // SE GENERA EL PDF CON LA CLASE REPORTE
+            //Para generar reporte genera un objeto de clase
             Reporte R = new Reporte();
-            // ES HORIZONTAL
+            //Genera un documento horizontal
             Document doc = R.CreaDoc(true);
-            //Se genera fuente
-            Font font = R.Fuente();
+            //Usa la fuente segun se requiera
+            //Fuente para titulo
+            Font _standardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+            Font font = R.Fuente(_standardFont);
+            //Fuente para encabezados
+            Font _EncstandardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 6);
+            Font fontEnc = R.Fuente(_EncstandardFont);
             //Generar un writer para el reporte
             var writer = R.CreaWriter(doc);
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de Cuentas por pagar");
-            Image img = R.Imagen();
-            R.SetImagen(img, doc);
+            R.Titulo(doc, "Reportes de Cuentas por pagar",font);
+            // Inserta imagen EN DESARROLLO
+                //Image img = R.Imagen();
+                //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
-            float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1f, 1f,
-                                            1f, 1f, 1f, 2f, 3f, 1.5f,
-                                            0.5f};
-            // Lista de encabezados para reporte
-            R.CreaReport(dataGridView1,font,doc,writer, widths);   
+            //Se debe tener el numero exacto de encabezados que se presentan
+            float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1.25f, 1.25f, 1f,
+                                          1f, 1f,2f, 2f,1f, 3f, 3f,
+                                          0.5f};
+            //Se cambia la fuente para el contenidol reporte
+            _standardFont = FontFactory.GetFont(FontFactory.HELVETICA,6);
+            font = R.Fuente(_standardFont);
+            // Lista de encabezados y contenido para reporte
+            // desde el datagridView 
+            R.CreaReport(dataGridView1,font,fontEnc,doc,writer, widths);   
         }
 
+
+        //Formateo de celdas decimales para el datagrid 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
@@ -191,8 +203,7 @@ namespace CV5
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
                 this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 10 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 11)
+                this.dataGridView1.Columns[e.ColumnIndex].Index == 9)
             {
                 if (e.Value != null)
                 {

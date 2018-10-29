@@ -78,7 +78,7 @@
             this.tStripOpciones.Name = "tStripOpciones";
             this.tStripOpciones.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.tStripOpciones.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tStripOpciones.Size = new System.Drawing.Size(1248, 28);
+            this.tStripOpciones.Size = new System.Drawing.Size(1248, 27);
             this.tStripOpciones.TabIndex = 33;
             this.tStripOpciones.Text = "toolStrip1";
             // 
@@ -88,7 +88,7 @@
             this.btnNuevo.Image = ((System.Drawing.Image)(resources.GetObject("btnNuevo.Image")));
             this.btnNuevo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(24, 25);
+            this.btnNuevo.Size = new System.Drawing.Size(24, 24);
             this.btnNuevo.Text = "Nuevo";
             // 
             // btnBuscar
@@ -97,7 +97,7 @@
             this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
             this.btnBuscar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(24, 25);
+            this.btnBuscar.Size = new System.Drawing.Size(24, 24);
             this.btnBuscar.Text = "Buscar";
             // 
             // btnGrabar
@@ -106,7 +106,7 @@
             this.btnGrabar.Image = ((System.Drawing.Image)(resources.GetObject("btnGrabar.Image")));
             this.btnGrabar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGrabar.Name = "btnGrabar";
-            this.btnGrabar.Size = new System.Drawing.Size(24, 25);
+            this.btnGrabar.Size = new System.Drawing.Size(24, 24);
             this.btnGrabar.Text = "Grabar";
             // 
             // btnActualizar
@@ -115,7 +115,7 @@
             this.btnActualizar.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizar.Image")));
             this.btnActualizar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(24, 25);
+            this.btnActualizar.Size = new System.Drawing.Size(24, 24);
             this.btnActualizar.Text = "Actualizar";
             // 
             // btnLimpiar
@@ -124,7 +124,7 @@
             this.btnLimpiar.Image = ((System.Drawing.Image)(resources.GetObject("btnLimpiar.Image")));
             this.btnLimpiar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(24, 25);
+            this.btnLimpiar.Size = new System.Drawing.Size(24, 24);
             this.btnLimpiar.Text = "Limpiar";
             // 
             // btnEliminar
@@ -133,13 +133,13 @@
             this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
             this.btnEliminar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(24, 25);
+            this.btnEliminar.Size = new System.Drawing.Size(24, 24);
             this.btnEliminar.Text = "Eliminar";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // btnPrint
             // 
@@ -147,7 +147,7 @@
             this.btnPrint.Image = ((System.Drawing.Image)(resources.GetObject("btnPrint.Image")));
             this.btnPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(24, 25);
+            this.btnPrint.Size = new System.Drawing.Size(24, 24);
             this.btnPrint.Text = "Imprimir";
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
@@ -157,7 +157,7 @@
             this.btnExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExcel.Image")));
             this.btnExcel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExcel.Name = "btnExcel";
-            this.btnExcel.Size = new System.Drawing.Size(24, 25);
+            this.btnExcel.Size = new System.Drawing.Size(24, 24);
             this.btnExcel.Text = "Exportar";
             this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
@@ -189,9 +189,9 @@
             this.chkAllProv.AutoSize = true;
             this.chkAllProv.Location = new System.Drawing.Point(782, 34);
             this.chkAllProv.Name = "chkAllProv";
-            this.chkAllProv.Size = new System.Drawing.Size(226, 24);
+            this.chkAllProv.Size = new System.Drawing.Size(189, 24);
             this.chkAllProv.TabIndex = 23;
-            this.chkAllProv.Text = "Todos los proveedores";
+            this.chkAllProv.Text = "Todas las cuentas";
             this.chkAllProv.UseVisualStyleBackColor = true;
             this.chkAllProv.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -204,6 +204,7 @@
             this.btnSearch.TabIndex = 22;
             this.btnSearch.Text = "Buscar";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnOk
             // 
@@ -272,9 +273,9 @@
             this.label3.Location = new System.Drawing.Point(32, 105);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(102, 20);
+            this.label3.Size = new System.Drawing.Size(95, 20);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Acreedor .:";
+            this.label3.Text = "Cuentas .:";
             // 
             // cmbAcreedor
             // 

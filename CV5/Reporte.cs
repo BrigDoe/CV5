@@ -12,10 +12,9 @@ namespace CV5
 {
     class Reporte
     {
-
         
-                
-        //Verdadero si se requiere horizontal
+        //Este metodo recepta:
+        //      flag: Booleano que de ser True convierte al reporte en horizontal 
         public Document CreaDoc(Boolean flag) { 
         Document doc = new Document(PageSize.A4);
             if (flag)
@@ -34,12 +33,9 @@ namespace CV5
         img.ScaleAbsolute(25f, 25F);
         }
 
-        public iTextSharp.text.Font Fuente() { 
-        // Creamos el tipo de Font que vamos utilizar
-        iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(
-                iTextSharp.text.Font.FontFamily.HELVETICA,6, iTextSharp.text.Font.NORMAL,
-                BaseColor.BLACK);
-            return _standardFont;
+        public iTextSharp.text.Font Fuente(Font _font) {
+            iTextSharp.text.Font _standardFont = _font;
+        return _standardFont;
         }
 
         public iTextSharp.text.Font Fuente_B()
@@ -66,9 +62,10 @@ namespace CV5
             doc.Open();
         }
 
-        public void Titulo(Document doc, string Titulo)
+        public void Titulo(Document doc, string Titulo, iTextSharp.text.Font _standardFont)
         {
             // Escribimos el encabezado en el documento
+            Chunk _Titulo = new Chunk(Titulo,_standardFont);
             doc.Add(new Paragraph(Titulo));
             doc.Add(Chunk.NEWLINE);
         }
@@ -76,7 +73,7 @@ namespace CV5
         public PdfPTable TablaPDF (int columnas)
         {
             PdfPTable Tabla = new PdfPTable(columnas);
-            //Convierte headers en continuacion de siguiente pagina
+            //Crea borders del lado izquierdo y derecho de la celda
             Tabla.DefaultCell.Border = Rectangle.LEFT_BORDER | Rectangle.RIGHT_BORDER;
             Tabla.HeaderRows = 1;
             return Tabla;
@@ -103,10 +100,10 @@ namespace CV5
 
         public void Contenido(int columnas, List<string> encabezados,
             DataGridView dataGridView1, PdfPTable Tabla,
-            float[] widths)
+            float[] widths, iTextSharp.text.Font _standardFont)
         {
-            Font _standardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD,8);
-           //Se usa el 100% de la tabla 
+       
+            //Se usa el 100% de la tabla 
             Tabla.WidthPercentage = 100;
             Tabla.SetWidths(widths);
 
@@ -142,7 +139,7 @@ namespace CV5
                 {
                     for (int i = 0; i < Celdas.Count; i++)
                     {
-                        string value = dataGridView1.Rows[rows].Cells[i].Value.ToString();
+                        string value = dataGridView1.Rows[rows].Cells[i].FormattedValue.ToString();
                         Celdas[i] = new PdfPCell(new Phrase(value, _standardFont));
                         Celdas[i].BorderWidth = 0.2f;
                         Celdas[i].BorderWidthBottom = 0.75f;
@@ -152,19 +149,20 @@ namespace CV5
                 }
 
                doc.Add(Tabla);
+               //Genera encabezados en las siguientes paginas 
                Tabla.HeaderRows = 1;
                
         }
 
 
-        public void CreaReport(DataGridView dg, iTextSharp.text.Font font,
+        public void CreaReport(DataGridView dg, iTextSharp.text.Font font, iTextSharp.text.Font fontEnc,
                                 Document doc, PdfWriter writer, float[] widths)
         {
             List<string> lista1 = Encabezados(dg);
             var celdas = new List<PdfPCell>();
             celdas = SetCeldasPDF(lista1);
             PdfPTable Tabla = TablaPDF(lista1.Count);
-            Contenido(lista1.Count, lista1, dg, Tabla, widths);
+            Contenido(lista1.Count, lista1, dg, Tabla, widths,fontEnc);
             detalleContenido(dg, Tabla, font, doc, celdas);
             Cerrar(doc, writer);
         }
