@@ -14,7 +14,7 @@ namespace CV5
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmPagoProveedores());
+            Application.Run(new frmConciliacionBancaria());
         }
     }
 }

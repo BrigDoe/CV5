@@ -55,6 +55,7 @@ namespace CV5
         public void FillDataGrid(string cadena, DataGridView dataGridView1,
                                   OdbcConnection DbConnection)
         {
+         
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             OdbcCommand DbCommand = new OdbcCommand(cadena, DbConnection);
@@ -71,7 +72,9 @@ namespace CV5
             DbConnection.Close();
         }
 
-   
+       
+
+
 
         public Boolean CheckDatePicker(DateTimePicker dtpinicio, DateTimePicker dtpfin)
         {
@@ -87,13 +90,7 @@ namespace CV5
             }
         }
 
-        private void copyAlltoClipboard(DataGridView dg)
-        {
-            dg.SelectAll();
-            DataObject dataObj = dg.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
-        }
+        
 
         public void ExcelClick(DataGridView grd)
         {

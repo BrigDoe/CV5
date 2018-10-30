@@ -61,6 +61,12 @@
     <Compile Include="frmActivosFijos.Designer.cs">
       <DependentUpon>frmActivosFijos.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmConciliacionBancaria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConciliacionBancaria.Designer.cs">
+      <DependentUpon>frmConciliacionBancaria.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPagoProveedores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     <Compile Include="Reporte.cs" />
     <EmbeddedResource Include="frmActivosFijos.resx">
       <DependentUpon>frmActivosFijos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmConciliacionBancaria.resx">
+      <DependentUpon>frmConciliacionBancaria.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmPagoProveedores.resx">
       <DependentUpon>frmPagoProveedores.cs</DependentUpon>
