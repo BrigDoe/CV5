@@ -114,6 +114,7 @@ namespace CV5
                 if (flag)
                    cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
+
             }
                 
         

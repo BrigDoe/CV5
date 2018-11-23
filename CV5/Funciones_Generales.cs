@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.Odbc;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using clsConectaMBA;
 
 namespace CV5
 {
     class Funciones_Generales
     {
-        OdbcConnection DbConnection = new OdbcConnection("Dsn=MBA3 PRUEBA12;Driver={4D v12 ODBC Driver};server=192.168.1.2;port=19819;");
+        
+        public void LlenarCombo(String Sql, ComboBox cb, int index=0) { 
 
-        public void LlenarCombo(String Sql, ComboBox cb, int index=0) {
             cb.MaxDropDownItems = 6;
             cb.DropDownStyle = ComboBoxStyle.DropDownList;
             cb.IntegralHeight = false;
             cb.Enabled=true;
-             try
+            try
             {
-                DbConnection.Open();
                 Fill(Sql, cb, 0);
                 cb.SelectedIndex = index;
             }
@@ -37,28 +39,39 @@ namespace CV5
         
         private void Fill(string query, ComboBox cb, int a)
         {
-            OdbcCommand DbCommand = new OdbcCommand(query, DbConnection);
+
+            //DataTable dt = new DataTable();
+            //OdbcDataAdapter adp;
+            //ConexionMba con = new ConexionMba();
+            //OdbcCommand Oc = new OdbcCommand(query,con.getConexion());
+            //Oc.Connection = con.getConexion();
+            //Oc.CommandText = query;
+            //adp = new OdbcDataAdapter(Oc);
+            //adp.Fill(dt);
+            //con.cerrarConexion();
+
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(query, cn.getConexion());
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
             DataTable dt = new DataTable();
-            DbCommand = new OdbcCommand(query, DbConnection);
-            adp1 = new OdbcDataAdapter();
-            dt = new DataTable();
+            DbCommand.Connection = cn.getConexion();
+            DbCommand.CommandText = query;
             adp1.SelectCommand = DbCommand;
             adp1.Fill(dt);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 cb.Items.Add(dt.Rows[i][a].ToString());
             }
-            DbConnection.Close();
+            cn.cerrarConexion();
         }
 
-        public void FillDataGrid(string cadena, DataGridView dataGridView1,
-                                  OdbcConnection DbConnection)
+        public void FillDataGrid(string cadena, DataGridView dataGridView1)
         {
          
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            OdbcCommand DbCommand = new OdbcCommand(cadena, DbConnection);
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AllowUserToAddRows = false;
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
             DataTable dt = new DataTable();
             adp1.SelectCommand = DbCommand;
@@ -69,10 +82,43 @@ namespace CV5
                 dataGridView1.Refresh();                
             }
 
-            DbConnection.Close();
+            cn.cerrarConexion();
         }
 
-       
+
+        public Image Base64ToImage(string base64String)
+        {
+            // Convert base 64 string to byte[]
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+            // Convert byte[] to Image
+            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                Image image = Image.FromStream(ms, true);
+                return image;
+            }
+        }
+
+        public byte[] ImageToByte(System.Drawing.Image img)
+        {
+            byte[] byteArray = new byte[0];
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                stream.Close();
+                byteArray = stream.ToArray();
+            }
+            return byteArray;
+        }
+
+
+        public byte[] ImageToByteArray(System.Drawing.Image imageIn)
+        {
+            using (var ms = new MemoryStream())
+            {
+                imageIn.Save(ms, imageIn.RawFormat);
+                return ms.ToArray();
+            }
+        }
 
 
 
@@ -103,6 +149,7 @@ namespace CV5
                 Microsoft.Office.Interop.Excel.Worksheet hoja_trabajo;
                 aplicacion = new Microsoft.Office.Interop.Excel.Application();
                 libros_trabajo = aplicacion.Workbooks.Add();
+
                 hoja_trabajo =
                     (Microsoft.Office.Interop.Excel.Worksheet)libros_trabajo.Worksheets.get_Item(1);
                 //Recorremos el DataGridView rellenando la hoja de trabajo

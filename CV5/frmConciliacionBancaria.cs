@@ -79,21 +79,23 @@ namespace CV5
                     _CORP = reader.GetString(0);
                 }
                 DbConnection.Close();
-                string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
-                "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
-                "fp.`RETENTION BASIS`  AS Subtotal, fp.`AMOUNT TAX2` AS `Total Cr Tributario`, fp.INVOICE_TOTAL AS" +
-                "`Total Factura`, pcu.`PAYMENT AMOUNT` AS `Total Pagos`, "+ 
-                "pcu.`AMOUNT DUE` AS `Saldos Actual`, pcu.`CHECK NUMBER` AS `No. Cheque`, " +
-                "bfp.NOMBRE_BANCO AS Banco, bmp.MEMO as Memo, DATE_TO_CHAR(bmp.FECHA_PAGO, 'dd[/]mm[/]yyyy') as `Fecha Cheque`," +
-                "pfp.LOCALIZACION_PROVEEDOR as Localizacion " +
-                "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp, BANC_Movimientos_Principal bmp, BANC_FICHA_PRINCIPAL bfp " +
-                "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND bfp.CODIGO_BANCO_EMPRESA = bmp.CODIGO_BANCO_EMPRESA " +
-                "AND  pcu.`CHECK ID CORP`= bmp.CODIGO_MOVIMIENTO_EMPRESA " +
-                "AND fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA " +
-                "AND (PROV_Cobros_Cuotas.CORP = '" + _CORP + "') AND " +
-                "fp.VOID = cast('False' as Boolean) and fp.INVOICE_DATE >= '" + Fech1 + "'";
+                string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N, DATE_TO_CHAR(PEDIDO_FECHA, 'dd[/]mm[/]yyyy') AS `Fecha factura`, PEDIDO_POR, TELEFONO_GENERAL, DIRECCION_GENERAL, IDENTIFICACION_GENERAL, ORDEN_COMPRA_N,  DATE_TO_CHAR(ORDEN_COMPRA_FECHA, 'dd[/]mm[/]yyyy') AS `Fecha f`, BOLEANO_PROYECTO_1," +
+             "CODIGO_SUBCLIENTE, IMPORTACION_TEMPORAL, PROD_ORDEN_N, PROD_FECHA, PROD_POR, BOLEANO_PROYECTO_5, BOLEANO_PROYECTO_4, BOLEANO_PROYECTO_3, REFERENCIA_D4, PAGARE_DIA, PAGARE_MES, PAGARE_ANO, PAGARE_INTERES, " +
+             "PAGARE_FORMA_TEXTO, REFERENCIA_D3, abc_REFERENCIA_4, REFERENCIA_D5, REFERENCIA_1, REFERENCIA_2, REFERENCIA_V1, REFERENCIA_V2, REFERENCIA_D1, REFERENCIA_D2, REFERENCIA_V5, REFERENCIA_V4, REFERENCIA_V3, DESPACHO_N,  " +
+             "DESPACHO_FECHA, DESPACHO_POR, DESPACHO_TIPO, BOLEANO_PROYECTO_2, REVISADO_POR, VERIFICADO_POR, DIRECCION_TRANSPORTE, TELEFONO_TRANSPORTE, TRANSPORTE, PERSONA, ID_PLACAS, BULTOS_Cajas, PESO, VOLUMEN, FECHA_RECEPCION,  " +
+             "PESO_NETO, DIRECCION_FACTURA, DIRECCION_DESPACHO, INSTRUCCIONES_DESPACHO, REFERENCIA_5, EMBARQUE_DOC_GUIA, EMBARQUE_FECHA, CODIGO_PROYECTO_1, CODIGO_PROYECTO_2, CODIGO_PROYECTO_3, CODIGO_PROYECTO_4,  " +
+             "CODIGO_PROYECTO_5, CODIGO_SUBPROYECTO_1, CODIGO_SUBPROYECTO_2, CODIGO_SUBPROYECTO_3, CODIGO_SUBPROYECTO_4, CODIGO_SUBPROYECTO_5, MEMO_PROYECTO_1, MEMO_PROYECTO_2, MEMO_PROYECTO_3, MEMO_PROYECTO_4,  " +
+             "MEMO_PROYECTO_5, REFERENCIA_PROYECTO_1, REFERENCIA_PROYECTO_2, REFERENCIA_PROYECTO_3, REFERENCIA_PROYECTO_4, REFERENCIA_PROYECTO_5, DEPARTMET_CODE_1, DEPARTMET_CODE_2, DEPARTMET_CODE_3, DEPARTMET_CODE_4,  " +
+             "DEPARTMET_CODE_5, PROFIT_CENTER_CODE_1, PROFIT_CENTER_CODE_2, PROFIT_CENTER_CODE_3, PROFIT_CENTER_CODE_4, PROFIT_CENTER_CODE_5, ANALISIS1_1, ANALISIS1_2, ANALISIS1_3, ANALISIS1_4, ANALISIS1_5, ANALISIS2_1, ANALISIS2_2, ANALISIS2_3,  " +
+             "ANALISIS2_4, ANALISIS2_5, ANALISIS3_1, ANALISIS3_2, ANALISIS3_3, ANALISIS3_4, ANALISIS3_5, Booleano_Multidimension_1, Booleano_Multidimension_2, Booleano_Multidimension_3, Booleano_Multidimension_4, Booleano_Multidimension_5, Def_text_1, Def_text_2, Def_text_3,  " +
+             "Email_Fiscal_SubCliente, inf_xml_Codigo_Tipo_Relacion, Codigo_Sucursal, ORIGIN, DB_NumReg, inf_xml_Codigo_Documento, Bolsas, Atados, Barricas, Total_Productos_Factura, IDE_CLIENTE_DE_SUBCLIENTE, Total_Impuesto_Val_Adic, Saldo_Impuesto_Val_Adic,  " +
+             "Codigo_Impuesto_Val_Adic, inf_xml_documentoremplazo, inf_folio_fiscal_original, FechaVctoManual, FechaRemisionOriginal, FechaRecepcionMercaderia, inf_xml_Addenda_Adicional_01, inf_xml_Addenda_Adicional_02, inf_xml_Addenda_Adicional_03,  " +
+             "inf_xml_Addenda_Adicional_04, inf_xml_Addenda_Adicional_05, inf_xml_Addenda_Adicional_06, inf_xml_Addenda_Adicional_07, pkUUID, inf_xml_Addenda_Adicional_08, inf_xml_Addenda_Adicional_09, inf_xml_Addenda_Adicional_10, inf_xml_Codigo_Confirmacion,  " +
+             "inf_xml_Codigo_Uso_CFDI, inf_xml_Complemento_01, inf_xml_Complemento_02, inf_xml_Complemento_03, inf_xml_Complemento_04, inf_xml_Complemento_05, inf_xml_Complemento_06, inf_xml_Complemento_07, inf_xml_Complemento_08, inf_xml_Complemento_09,  " +
+             "inf_xml_Complemento_10 FROM   CLNT_Factura_Principal_Adiciona";
                 // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 fg.FillDataGrid(cadena, dataGridView1, DbConnection);
+                
             }
 
 
