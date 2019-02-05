@@ -22,10 +22,13 @@ namespace CV5
             cb.DropDownStyle = ComboBoxStyle.DropDownList;
             cb.IntegralHeight = false;
             cb.Enabled=true;
+
             try
             {
                 Fill(Sql, cb, 0);
+                if (cb.Items.Count > 0) { 
                 cb.SelectedIndex = index;
+                }
             }
             catch (OdbcException ex)
             {
@@ -37,19 +40,11 @@ namespace CV5
             }
         }
         
+       
+
+
         private void Fill(string query, ComboBox cb, int a)
         {
-
-            //DataTable dt = new DataTable();
-            //OdbcDataAdapter adp;
-            //ConexionMba con = new ConexionMba();
-            //OdbcCommand Oc = new OdbcCommand(query,con.getConexion());
-            //Oc.Connection = con.getConexion();
-            //Oc.CommandText = query;
-            //adp = new OdbcDataAdapter(Oc);
-            //adp.Fill(dt);
-            //con.cerrarConexion();
-
             ConexionMba cn = new ConexionMba();
             OdbcCommand DbCommand = new OdbcCommand(query, cn.getConexion());
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
@@ -58,16 +53,67 @@ namespace CV5
             DbCommand.CommandText = query;
             adp1.SelectCommand = DbCommand;
             adp1.Fill(dt);
-            for (int i = 0; i < dt.Rows.Count; i++)
+            if (dt.Rows.Count > 0)
             {
-                cb.Items.Add(dt.Rows[i][a].ToString());
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    cb.Items.Add(dt.Rows[i][a].ToString());
+                }
             }
             cn.cerrarConexion();
         }
 
         public void FillDataGrid(string cadena, DataGridView dataGridView1)
         {
-         
+
+            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            
+            dataGridView1.AllowUserToAddRows = false;
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
+            OdbcDataAdapter adp1 = new OdbcDataAdapter();
+            DataTable dt = new DataTable();
+            adp1.SelectCommand = DbCommand;
+            adp1.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                dataGridView1.DataSource = dt;
+                dataGridView1.Refresh();
+                AutoSizeGrid(dataGridView1);
+            }
+            
+            cn.cerrarConexion();
+        }
+
+
+        public void FillDataGridNewRow(string cadena, DataGridView dataGridView1,
+                                        DataRow NuevaRow)
+        {
+
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AllowUserToAddRows = false;
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
+            OdbcDataAdapter adp1 = new OdbcDataAdapter();
+            DataTable dt = new DataTable();
+            dt.Rows.InsertAt(NuevaRow, dt.Rows.Count);
+            adp1.SelectCommand = DbCommand;
+            adp1.Fill(dt);
+            
+            if (dt.Rows.Count > 0)
+            {
+                dataGridView1.DataSource = dt;
+                dataGridView1.Refresh();
+            }
+            AutoSizeGrid(dataGridView1);
+            cn.cerrarConexion();
+        }
+
+
+
+        public void FillDataGridImg(string cadena, DataGridView dataGridView1)
+        {
+
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AllowUserToAddRows = false;
             ConexionMba cn = new ConexionMba();
@@ -79,16 +125,26 @@ namespace CV5
             if (dt.Rows.Count > 0)
             {
                 dataGridView1.DataSource = dt;
-                dataGridView1.Refresh();                
+                dataGridView1.Refresh();
             }
-
             cn.cerrarConexion();
+        }
+
+        public void AutoSizeGrid(DataGridView dataGridView)
+        {
+            for (int i = 0; i < dataGridView.ColumnCount; i++)
+            {
+                dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                int widthCol = dataGridView.Columns[i].Width;
+                dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dataGridView.Columns[i].Width = widthCol;
+            }
         }
 
 
         public Image Base64ToImage(string base64String)
         {
-            // Convert base 64 string to byte[]
+            // Convertie base 64 string a byte[]
             byte[] imageBytes = Convert.FromBase64String(base64String);
             // Convert byte[] to Image
             using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
@@ -136,7 +192,10 @@ namespace CV5
             }
         }
 
-        
+        public void ClearCombo(ComboBox cb1)
+        {
+            cb1.Items.Clear();
+        }
 
         public void ExcelClick(DataGridView grd)
         {

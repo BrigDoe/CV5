@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 using System.Web;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http;
 
 namespace CV5
 {
@@ -257,7 +258,7 @@ namespace CV5
             //nv.Add("docref", "0");
             //nv.Add("vp_linea", "3");
             //var qry = ToQueryString(nv);
-            var client = new RestClient();
+            var client = new RestClient("https://app.urbano.com.ec/ws/ue/tracking/");
             client.BaseUrl = new Uri("https://app.urbano.com.ec/ws/ue/tracking/?");
             //client.Authenticator= new SimpleAuthenticator("user", user, "pass", pwd);
             var request = new RestRequest(Method.GET);
@@ -274,61 +275,16 @@ namespace CV5
             };
             var json = new JavaScriptSerializer().Serialize(obj);
             request.AddBody(json);
-
-            //request.AddParameter("docref", "0");
-            //request.AddParameter("vp_linea", "3");
-
-
-
-
-
-
-
-
-            // var json = new JavaScriptSerializer().Serialize(obj);
-
-            // request.AddParameter("application/json", json, ParameterType.RequestBody);
-
-            //request.AddParameter("guia", "WYB6146112");
-            //request.AddParameter("","0");
-            //request.AddParameter("","3");
-            // execute the request
             IRestResponse response = client.Execute(request);
             var content = response.Content; // raw content as string
 
+        }
 
+        private static readonly HttpClient client = new HttpClient();
 
-
-
-            // var client = new RestClient("https://app.urbano.com.ec/ws/ue/tracking/?");
-            // client.Authenticator = new SimpleAuthenticator("user:",user,"pass:",pwd);
-            ////client.Authenticator = new HttpBasicAuthenticator(user,"pass:", pwd);
-            // var request = new RestRequest();
-            // request.Method = Method.GET;
-            // request.AddHeader("Accept","application/x-www-form-urlencoded");
-
-            // var obj = new Lad
-            // {
-            //     guia = "WYB6146112",
-            //     docref = "0",
-            //     vp_linea = "3"
-            // };
-            // var json = new JavaScriptSerializer().Serialize(obj);
-
-
-            // //// easily add HTTP Headers
-
-            // request.AddParameter("application/json", json, ParameterType.RequestBody);
-
-            // //request.AddParameter("guia", "WYB6146112");
-            // //request.AddParameter("","0");
-            // //request.AddParameter("","3");
-
-
-            // // execute the request
-            // IRestResponse response = client.Execute(request);
-            // var content = response.Content; // raw content as string
-
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+           // https://app.urbano.com. ec /ws/ue/tracking/
         }
     }
 }

@@ -42,12 +42,15 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MySql.Data, Version=8.0.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="RestSharp, Version=106.5.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -67,24 +70,75 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Catalogo.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Catalogo.Designer.cs">
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ventas\Catalogo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ventas\Catalogo.Designer.cs">
       <DependentUpon>Catalogo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Contabilidad\frmConciliacionBancaria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Contabilidad\frmConciliacionBancaria.Designer.cs">
+      <DependentUpon>frmConciliacionBancaria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Contabilidad\frmPagoProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Contabilidad\frmPagoProveedores.Designer.cs">
+      <DependentUpon>frmPagoProveedores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Credito\frmPresupuesto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Credito\frmPresupuesto.Designer.cs">
+      <DependentUpon>frmPresupuesto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Funciones_Generales.cs" />
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reporte.cs" />
-    <Compile Include="Urbano.cs">
+    <Compile Include="Bodega\Urbano.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Urbano.Designer.cs">
+    <Compile Include="Bodega\Urbano.Designer.cs">
       <DependentUpon>Urbano.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Catalogo.resx">
+    <EmbeddedResource Include="Ventas\Catalogo.resx">
       <DependentUpon>Catalogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contabilidad\frmConciliacionBancaria.resx">
+      <DependentUpon>frmConciliacionBancaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Contabilidad\frmPagoProveedores.resx">
+      <DependentUpon>frmPagoProveedores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Credito\frmPresupuesto.resx">
+      <DependentUpon>frmPresupuesto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -96,7 +150,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Urbano.resx">
+    <EmbeddedResource Include="Bodega\Urbano.resx">
       <DependentUpon>Urbano.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -126,6 +180,9 @@
     <None Include="Resources\login1.png" />
     <None Include="Resources\Death-Star.jpg" />
     <Content Include="Resources\DeathStar.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Planificacion\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

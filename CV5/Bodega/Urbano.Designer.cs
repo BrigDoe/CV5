@@ -40,6 +40,7 @@
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
             this.btnExcel = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.chkAllProv = new System.Windows.Forms.CheckBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.tStripOpciones.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -184,6 +184,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1111, 35);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(96, 40);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // chkAllProv
             // 
             this.chkAllProv.AutoSize = true;
@@ -198,12 +208,13 @@
             // btnSearch
             // 
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSearch.Location = new System.Drawing.Point(672, 97);
+            this.btnSearch.Location = new System.Drawing.Point(672, 24);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(96, 35);
             this.btnSearch.TabIndex = 22;
             this.btnSearch.Text = "Buscar";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // btnOk
             // 
@@ -333,16 +344,6 @@
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1111, 35);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 40);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Urbano
             // 

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using System.Data.Odbc;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.Globalization;
+using clsConectaMBA;
 
 namespace CV5
 {
     public partial class frmPagoProveedores : Form
     {
-        OdbcConnection DbConnection = new OdbcConnection("Dsn=MBA3 PRUEBA12;Driver={4D v12 ODBC Driver};server=192.168.1.2;port=19819;");
         Reporte R = new Reporte();
         Funciones_Generales fg = new Funciones_Generales();
 
@@ -26,7 +22,7 @@ namespace CV5
             string query = "SELECT  `CORPORATION NAM` FROM SIST_Parametros_Empresa ";
             fg.LlenarCombo(query, cmbEmpresa);
             query = "SELECT DISTINCT VENDOR_NAME FROM PROV_Ficha_Principal";
-            fg.LlenarCombo(query, cmbAcreedor,-1);
+            fg.LlenarCombo(query, cmbAcreedor);
            
         }
 
@@ -62,6 +58,7 @@ namespace CV5
         private void btnOk_Click(object sender, EventArgs e)
         {
             //flag para chequear si existen un Acreedor en particular
+            ConexionMba cs = new ConexionMba();
             CleanGrid(dataGridView1);
             Boolean flag;
             if (!fg.CheckDatePicker(dtpFechAct, dtpFechFin))
@@ -69,29 +66,26 @@ namespace CV5
                 string Fech1 = dtpFechAct.Value.ToString("dd/MM/yyyy");
                 string Fech2 = dtpFechFin.Value.ToString("dd/MM/yyyy");
                 string CORP = "SELECT CORP FROM SIST_Parametros_Empresa  WHERE `CORPORATION NAM`= '" + cmbEmpresa.Text + "' ";
-                DbConnection.Open();
-                OdbcCommand DbCommand = new OdbcCommand(CORP, DbConnection);
+                OdbcCommand DbCommand = new OdbcCommand(CORP, cs.getConexion());
                 OdbcDataReader reader = DbCommand.ExecuteReader();
                 string _CORP="";
                 string _Acree = "";
                 while (reader.Read()) { 
                     _CORP = reader.GetString(0);
                 }
-                DbConnection.Close();
+                cs.cerrarConexion();
                 if (!chkAllProv.Checked)
                 {
                     string Acree = "SELECT CODIGO_PROVEEDOR_EMPRESA FROM PROV_FICHA_PRINCIPAL" +
                                     " WHERE VENDOR_NAME ='" + cmbAcreedor.Text + "'" +
                                     " AND CODIGO_PROVEEDOR_EMPRESA LIKE '%" + _CORP + "'";
-                    DbConnection.Open();
-                    DbCommand = new OdbcCommand(Acree, DbConnection);
+                    DbCommand = new OdbcCommand(Acree, cs.getConexion());
                     reader = DbCommand.ExecuteReader();
-                    
                     while (reader.Read())
                     {
                         _Acree = reader.GetString(0);
                     }
-                    DbConnection.Close();
+                    cs.cerrarConexion();
                     flag = true;
                 } else
                 {
@@ -113,7 +107,7 @@ namespace CV5
                // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 if (flag)
                    cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
-                fg.FillDataGrid(cadena, dataGridView1, DbConnection);
+                fg.FillDataGrid(cadena, dataGridView1);
 
             }
                 
@@ -184,7 +178,7 @@ namespace CV5
                 //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
-            float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1.25f, 1.25f, 1f,
+            float[] widths = new float[] {2f, 1f, 2f, 1.5f, 1f, 1.25f, 1.25f, 1f,
                                           1f, 1f,2f, 2f,1f, 3f, 3f,
                                           0.5f};
             //Se cambia la fuente para el contenidol reporte

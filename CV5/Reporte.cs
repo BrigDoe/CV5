@@ -22,12 +22,14 @@ namespace CV5
             return doc;
         }
 
-        public iTextSharp.text.Image Imagen() {
-            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(@"Resources\labovida.jpg");
+        public iTextSharp.text.Image Imagen(String ruta) {
+            //@"Resources\labovida.jpg"
+            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(ruta);
             return img;
         }
         
-        public void SetImagen(iTextSharp.text.Image img, Document doc) { 
+        public void Logo(string ruta, Document doc) {
+        iTextSharp.text.Image img = Imagen(ruta);
         img.SetAbsolutePosition(100, 650);
         doc.Add(img);
         img.ScaleAbsolute(25f, 25F);
@@ -64,9 +66,10 @@ namespace CV5
 
         public void Titulo(Document doc, string Titulo, iTextSharp.text.Font _standardFont)
         {
-            // Escribimos el encabezado en el documento
-            Chunk _Titulo = new Chunk(Titulo,_standardFont);
-            doc.Add(new Paragraph(Titulo));
+            Chunk _Titulo = new Chunk(Titulo, _standardFont);
+            Paragraph __Titulo = new Paragraph(_Titulo);
+            __Titulo.Alignment = Element.ALIGN_CENTER;
+            doc.Add(__Titulo);
             doc.Add(Chunk.NEWLINE);
         }
 
@@ -152,6 +155,15 @@ namespace CV5
                //Genera encabezados en las siguientes paginas 
                Tabla.HeaderRows = 1;
                
+        }
+
+        public void LineaTexto(Document doc, string linea ,iTextSharp.text.Font font)
+        {
+            Chunk Line = new Chunk(linea, font);
+            Paragraph _Line = new Paragraph(Line);
+            _Line.Alignment = Element.ALIGN_CENTER;
+            doc.Add(_Line);
+            doc.Add(Chunk.NEWLINE);
         }
 
 

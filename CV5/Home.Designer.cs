@@ -41,6 +41,8 @@
             this.ingresarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevoUsuarioCtrlNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.creditoYCobranzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.planificacionYComprasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,7 +65,9 @@
             this.archivoToolStripMenuItem,
             this.edicionToolStripMenuItem,
             this.ingresarToolStripMenuItem,
-            this.acercaDeToolStripMenuItem});
+            this.acercaDeToolStripMenuItem,
+            this.creditoYCobranzaToolStripMenuItem,
+            this.planificacionYComprasToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1381, 33);
@@ -139,6 +143,18 @@
             this.acercaDeToolStripMenuItem.Text = "Acerca de";
             this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
             // 
+            // creditoYCobranzaToolStripMenuItem
+            // 
+            this.creditoYCobranzaToolStripMenuItem.Name = "creditoYCobranzaToolStripMenuItem";
+            this.creditoYCobranzaToolStripMenuItem.Size = new System.Drawing.Size(173, 29);
+            this.creditoYCobranzaToolStripMenuItem.Text = "Credito y cobranza";
+            // 
+            // planificacionYComprasToolStripMenuItem
+            // 
+            this.planificacionYComprasToolStripMenuItem.Name = "planificacionYComprasToolStripMenuItem";
+            this.planificacionYComprasToolStripMenuItem.Size = new System.Drawing.Size(209, 29);
+            this.planificacionYComprasToolStripMenuItem.Text = "Planificacion y compras";
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -175,5 +191,7 @@
         private System.Windows.Forms.ToolStripMenuItem ingresarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoUsuarioCtrlNToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem creditoYCobranzaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem planificacionYComprasToolStripMenuItem;
     }
 }

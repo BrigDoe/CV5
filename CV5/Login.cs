@@ -20,7 +20,6 @@ namespace CV5
         public Login()
         {
             InitializeComponent();
-            txtCodigo.Select();
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -54,15 +53,14 @@ namespace CV5
             cmd.Connection = cn;
             try
             {
-                cmd.CommandText = "Select count(*) from Usuarios where Codigo " +
-                    "= '" + txtCodigo.Text + "' and Username ='" + txtNombre.Text +
-                    "' and Clave ='" + txtClave.Text + "'";
+                cmd.CommandText = "Select count(*) from user where username " +
+                    "= '" + txtNombre.Text + "' and password ='" + txtClave.Text + "'";
                 int valor = int.Parse(cmd.ExecuteScalar().ToString());
                 if (valor == 1)
                 {
                     MessageBox.Show("Se ha ingresado correctamente");
                     this.Hide();
-                    frmPagoProveedores fr_report = new frmPagoProveedores();
+                    Home fr_report = new Home();
                     fr_report.MdiParent = this.ParentForm;
                     fr_report.Show();
                 }
@@ -98,10 +96,6 @@ namespace CV5
         }
 
 
-        private void txtCod_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void pictureBox1_Click_1(object sender, EventArgs e)
         {
@@ -109,6 +103,59 @@ namespace CV5
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNombre_Enter(object sender, EventArgs e)
+        {
+            if (txtNombre.Text=="USUARIO") {
+                txtNombre.Text = "";
+                txtNombre.ForeColor = Color.LightGray;
+                txtNombre.Text.ToUpper();
+            }
+
+
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            if (txtNombre.Text == "")
+            {
+                txtNombre.Text = "USUARIO";
+                txtNombre.ForeColor = Color.DimGray;
+                txtNombre.Text.ToUpper();
+            }
+        }
+
+        private void txtClave_Enter(object sender, EventArgs e)
+        {
+            if (txtClave.Text == "CLAVE")
+            {
+                txtClave.Text = "";
+                txtClave.ForeColor = Color.LightGray;
+                txtClave.UseSystemPasswordChar = true;
+            }
+
+
+        }
+
+        private void txtClave_Leave(object sender, EventArgs e)
+        {
+            if (txtClave.Text == "")
+            {
+                txtClave.Text = "CLAVE";
+                txtClave.ForeColor = Color.DimGray;
+                txtClave.UseSystemPasswordChar = false;
+            }
+        }
+            
+        private void txtNombre_TextChanged(object sender, EventArgs e)
         {
 
         }

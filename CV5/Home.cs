@@ -40,8 +40,18 @@ namespace CV5
                
                 frmPagoProveedores fr_report= new frmPagoProveedores();
                 fr_report.MdiParent = this;
+                fr_report.StartPosition = FormStartPosition.CenterScreen;
+                fr_report.Show();                
+            }
+            if (keyData == (Keys.Control | Keys.C))
+            {
+                Catalogo fr_report = new Catalogo();
+                fr_report.MdiParent = this;
+                fr_report.StartPosition = FormStartPosition.CenterScreen;
                 fr_report.Show();
             }
+
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 

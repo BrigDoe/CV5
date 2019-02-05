@@ -31,11 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConciliacionBancaria));
             this.tStripOpciones = new System.Windows.Forms.ToolStrip();
             this.btnNuevo = new System.Windows.Forms.ToolStripButton();
-            this.btnBuscar = new System.Windows.Forms.ToolStripButton();
-            this.btnGrabar = new System.Windows.Forms.ToolStripButton();
-            this.btnActualizar = new System.Windows.Forms.ToolStripButton();
-            this.btnLimpiar = new System.Windows.Forms.ToolStripButton();
-            this.btnEliminar = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
             this.btnExcel = new System.Windows.Forms.ToolStripButton();
@@ -60,11 +55,6 @@
             this.tStripOpciones.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.tStripOpciones.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnNuevo,
-            this.btnBuscar,
-            this.btnGrabar,
-            this.btnActualizar,
-            this.btnLimpiar,
-            this.btnEliminar,
             this.toolStripSeparator1,
             this.btnPrint,
             this.btnExcel});
@@ -84,51 +74,6 @@
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(24, 24);
             this.btnNuevo.Text = "Nuevo";
-            // 
-            // btnBuscar
-            // 
-            this.btnBuscar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
-            this.btnBuscar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(24, 24);
-            this.btnBuscar.Text = "Buscar";
-            // 
-            // btnGrabar
-            // 
-            this.btnGrabar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnGrabar.Image = ((System.Drawing.Image)(resources.GetObject("btnGrabar.Image")));
-            this.btnGrabar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnGrabar.Name = "btnGrabar";
-            this.btnGrabar.Size = new System.Drawing.Size(24, 24);
-            this.btnGrabar.Text = "Grabar";
-            // 
-            // btnActualizar
-            // 
-            this.btnActualizar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnActualizar.Image = ((System.Drawing.Image)(resources.GetObject("btnActualizar.Image")));
-            this.btnActualizar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(24, 24);
-            this.btnActualizar.Text = "Actualizar";
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLimpiar.Image = ((System.Drawing.Image)(resources.GetObject("btnLimpiar.Image")));
-            this.btnLimpiar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(24, 24);
-            this.btnLimpiar.Text = "Limpiar";
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
-            this.btnEliminar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(24, 24);
-            this.btnEliminar.Text = "Eliminar";
             // 
             // toolStripSeparator1
             // 
@@ -210,12 +155,13 @@
             this.dtpAnio.Size = new System.Drawing.Size(201, 26);
             this.dtpAnio.TabIndex = 3;
             this.dtpAnio.Value = new System.DateTime(2018, 6, 1, 0, 0, 0, 0);
+            this.dtpAnio.ValueChanged += new System.EventHandler(this.dtpAnio_ValueChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(32, 105);
+            this.label3.Location = new System.Drawing.Point(9, 105);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 20);
@@ -226,11 +172,12 @@
             // 
             this.cmbCBancaria.Enabled = false;
             this.cmbCBancaria.FormattingEnabled = true;
-            this.cmbCBancaria.Location = new System.Drawing.Point(165, 97);
+            this.cmbCBancaria.Location = new System.Drawing.Point(146, 102);
             this.cmbCBancaria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCBancaria.Name = "cmbCBancaria";
             this.cmbCBancaria.Size = new System.Drawing.Size(674, 28);
             this.cmbCBancaria.TabIndex = 2;
+            this.cmbCBancaria.SelectedIndexChanged += new System.EventHandler(this.cmbCBancaria_SelectedIndexChanged);
             this.cmbCBancaria.Leave += new System.EventHandler(this.cmbAcreedor_Leave);
             // 
             // cmbEmpresa
@@ -308,11 +255,6 @@
 
         private System.Windows.Forms.ToolStrip tStripOpciones;
         private System.Windows.Forms.ToolStripButton btnNuevo;
-        private System.Windows.Forms.ToolStripButton btnBuscar;
-        private System.Windows.Forms.ToolStripButton btnGrabar;
-        private System.Windows.Forms.ToolStripButton btnActualizar;
-        private System.Windows.Forms.ToolStripButton btnLimpiar;
-        private System.Windows.Forms.ToolStripButton btnEliminar;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton btnPrint;
         private System.Windows.Forms.ToolStripButton btnExcel;

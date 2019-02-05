@@ -30,7 +30,6 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.cmbEmpresa = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,7 +42,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.btnOk);
             this.groupBox1.Controls.Add(this.cmbEmpresa);
             this.groupBox1.Controls.Add(this.label1);
@@ -52,14 +50,14 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(997, 162);
+            this.groupBox1.Size = new System.Drawing.Size(997, 90);
             this.groupBox1.TabIndex = 34;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(328, 90);
+            this.button1.Location = new System.Drawing.Point(763, 24);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 35);
             this.button1.TabIndex = 24;
@@ -67,27 +65,16 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // btnSearch
-            // 
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSearch.Location = new System.Drawing.Point(52, 90);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(96, 35);
-            this.btnSearch.TabIndex = 22;
-            this.btnSearch.Text = "Imprimir";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // btnOk
             // 
             this.btnOk.Enabled = false;
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(467, 90);
+            this.btnOk.Location = new System.Drawing.Point(900, 24);
             this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(58, 35);
+            this.btnOk.Size = new System.Drawing.Size(84, 35);
             this.btnOk.TabIndex = 5;
-            this.btnOk.Text = "&Ok";
+            this.btnOk.Text = "&Buscar";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
@@ -114,11 +101,15 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 232);
+            this.dataGridView1.Location = new System.Drawing.Point(6, 149);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(997, 518);
+            this.dataGridView1.Size = new System.Drawing.Size(997, 601);
             this.dataGridView1.TabIndex = 35;
             // 
             // Catalogo
@@ -129,8 +120,10 @@
             this.ClientSize = new System.Drawing.Size(1009, 762);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Catalogo";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Catalogo de productos";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.groupBox1.ResumeLayout(false);
@@ -145,7 +138,6 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.ComboBox cmbEmpresa;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
         private System.Drawing.Printing.PrintDocument printDocument1;

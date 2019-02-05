@@ -2,6 +2,16 @@
 
 	Sentencias SQL Utilizadas
 
+	consolidado
+	Obtencion de datos de factura principal 
+SELECT fp.EMPRESA, fp.VENDEDOR (COD), fp.CODIGO_CLIENTE, 
+fp.FECHA_FACTURA, fp.VALOR_FACTURA, fp.VALOR_TOTAL_PAGADO (WISHHH),
+clf.
+FROM CLNT_FACTURA_PRINCIPAL fp, CLNT_FICHA_PRINCIPAL clf
+WHERE 
+ANULADO = false 
+
+
 
 
 SELECT 
