@@ -58,7 +58,6 @@ namespace CV5
                 int valor = int.Parse(cmd.ExecuteScalar().ToString());
                 if (valor == 1)
                 {
-                    MessageBox.Show("Se ha ingresado correctamente");
                     this.Hide();
                     Home fr_report = new Home();
                     fr_report.MdiParent = this.ParentForm;
@@ -66,7 +65,10 @@ namespace CV5
                 }
                 else
                 {
-                    MessageBox.Show("Usuario invalido, favor vuelva a intentar");
+                    MessageBox.Show("Usuario invalido, favor vuelva a intentar",
+                        "Usuario incorrecto", MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop, MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.RightAlign, true);
                 }
             }
             catch (Exception ex)

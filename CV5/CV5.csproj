@@ -70,11 +70,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Bodega\frmOrdenXDespachar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Bodega\frmOrdenXDespachar.Designer.cs">
+      <DependentUpon>frmOrdenXDespachar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Credito\frmFacturas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Credito\frmFacturas.Designer.cs">
+      <DependentUpon>frmFacturas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Produccion\frmEntregaParcial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Produccion\frmEntregaParcial.Designer.cs">
+      <DependentUpon>frmEntregaParcial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roles\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Roles\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tesoreria\frnChequesProtestados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tesoreria\frnChequesProtestados.Designer.cs">
+      <DependentUpon>frnChequesProtestados.cs</DependentUpon>
     </Compile>
     <Compile Include="Ventas\Catalogo.cs">
       <SubType>Form</SubType>
@@ -122,6 +146,21 @@
     <Compile Include="Bodega\Urbano.Designer.cs">
       <DependentUpon>Urbano.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Bodega\frmOrdenXDespachar.resx">
+      <DependentUpon>frmOrdenXDespachar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Credito\frmFacturas.resx">
+      <DependentUpon>frmFacturas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Produccion\frmEntregaParcial.resx">
+      <DependentUpon>frmEntregaParcial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roles\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tesoreria\frnChequesProtestados.resx">
+      <DependentUpon>frnChequesProtestados.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ventas\Catalogo.resx">
       <DependentUpon>Catalogo.cs</DependentUpon>
     </EmbeddedResource>

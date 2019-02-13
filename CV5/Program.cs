@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CV5.Produccion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace CV5
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Login());
+            Application.Run(new frmEntregaParcial());
         }
     }
 }

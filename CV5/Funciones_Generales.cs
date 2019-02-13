@@ -75,7 +75,7 @@ namespace CV5
             DataTable dt = new DataTable();
             adp1.SelectCommand = DbCommand;
             adp1.Fill(dt);
-            if (dt.Rows.Count > 0)
+            if (dt.Rows.Count >= 0)
             {
                 dataGridView1.DataSource = dt;
                 dataGridView1.Refresh();

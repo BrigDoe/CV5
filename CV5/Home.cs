@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using MySql.Data;
+using CV5.Tesoreria;
 
 namespace CV5
 {
@@ -56,23 +57,13 @@ namespace CV5
         }
 
 
-        private void copiarCtrlcToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void copiarCtrlCToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-        }
 
         private void Home_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void pegarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void nuevoUsuarioCtrlNToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -81,14 +72,20 @@ namespace CV5
             formulario_login.Show();
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
 
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Mientras exista la pizza todo estara bien.");
+        }
+
+
+
+        private void chequesProtestadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChequesProtestados fr_report = new frmChequesProtestados();
+            fr_report.MdiParent = this;
+            fr_report.StartPosition = FormStartPosition.CenterScreen;
+            fr_report.Show();
         }
     }
 }

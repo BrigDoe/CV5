@@ -90,22 +90,21 @@ namespace CV5
             //flag para chequear si existen un Acreedor en particular
             ConexionMba cs = new ConexionMba();
             CleanGrid(dataGridView1);
-            Boolean flag;
             if (!string.IsNullOrEmpty(cmbEmpresa.Text))
             {
                 string CORP = "SELECT CORP FROM SIST_Parametros_Empresa  WHERE `CORPORATION NAM`= '" + cmbEmpresa.Text + "' ";
                 OdbcCommand DbCommand = new OdbcCommand(CORP, cs.getConexion());
                 OdbcDataReader reader = DbCommand.ExecuteReader();
                 string _CORP = "";
-                string _Acree = "";
+                string flag_localidad;
+
+
                 while (reader.Read())
                 {
                     _CORP = reader.GetString(0);
                 }
                 cs.cerrarConexion();
-
-
-                string flag_localidad;
+                
                 if(cmbLocalidad.SelectedIndex == 0)
                 {
                     flag_localidad = "C";
@@ -114,27 +113,15 @@ namespace CV5
                     flag_localidad = "G";
                 }
 
-                //SWITCH PARA ORGANIZAR POR MES
-                var valor = check_Mes();
-
-
-
-
-
-
 
                 string cadena = "SELECT " +
                 " Vend.DESCRIPTION_SPN as `VENDEDOR`, " +
-                " INVT_Presupuesto_Detalle.PRES_VALOR_" + check_Mes() + " as CUOTA, " +
-                " Vend.Origin as `SUCURSAL` " +
+                " INVT_Presupuesto_Detalle.PRES_VALOR_" + (cmbMes.SelectedIndex + 1) + " as CUOTA, " +
+                " CASE Vend.Origin  WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' END AS REGION  " +
                 " FROM INVT_Presupuesto_Detalle, " +
-                " SIST_Lista_1 Vend WHERE(INVT_Presupuesto_Detalle.PRES_CODIGO_ID_CORP = 'PR02-LABOV') " +
+                " SIST_Lista_1 Vend WHERE(INVT_Presupuesto_Detalle.PRES_CODIGO_ID_CORP = 'PR01-" +_CORP + "') " +
                 " AND Vend.GROUP_CATEGORY = 'SELLm' AND INVT_Presupuesto_Detalle.PRES_VENDEDOR = Vend.CODE " +
                 " AND Vend.CORP = INVT_Presupuesto_Detalle.CORP AND INVT_Presupuesto_Detalle.PRES_CODIGO_ZONA = '" + flag_localidad + "'";    
-
-
-
-
 
 
                 //string cadena = "SELECT  Vend.DESCRIPTION_SPN as `VENDEDOR`, " +
@@ -153,74 +140,26 @@ namespace CV5
 
 
                 fg.FillDataGrid(cadena, dataGridView1);
-                double[] totales = new double[1];
-                for (int a = 1; a <= 1; a++)
-                {
-                    double sum = 0.00;
-                    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
-                    {
-                        sum += Convert.ToDouble(dataGridView1.Rows[i].Cells[a].Value);
-                    }                  
-                    totales[0] = sum;
 
-                }
-                              
-
-                txtTotal.Text = Math.Round(totales[0], 2).ToString(); 
+                #region Valores totales
+                //double[] totales = new double[1];
+                //for (int a = 1; a <= 1; a++)
+                //{
+                //    double sum = 0.00;
+                //    for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                //    {
+                //        sum += Convert.ToDouble(dataGridView1.Rows[i].Cells[a].Value);
+                //    }                  
+                //    totales[0] = sum;
+                //}
+                //txtTotal.Text = Math.Round(totales[0], 2).ToString(); 
+                #endregion
 
             }
 
 
             return;
 
-        }
-
-        private string check_Mes()
-        {
-            string Mes = "";
-            switch (cmbMes.SelectedIndex)
-            {
-                case 0:
-                    Mes = "1 ";
-                    break;
-                case 1:
-                    Mes = "2 ";
-                    break;
-                case 2:
-                    Mes = "3 ";
-                    break;
-                case 3:
-                    Mes = "4 ";
-                    break;
-                case 4:
-                    Mes = "5 ";
-                    break;
-                case 5:
-                    Mes = "6 ";
-                    break;
-                case 6:
-                    Mes = "7 ";
-                    break;
-                case 7:
-                    Mes = "8 ";
-                    break;
-                case 8:
-                    Mes = "9 ";
-                    break;
-                case 9:
-                    Mes = "10 ";
-                    break;
-                case 10:
-                    Mes = "11 ";
-                    break;
-                case 11:
-                    Mes = "12 ";
-                    break;
-                default:
-                    Mes = "12 ";
-                    break;
-            }
-            return Mes;
         }
 
         private void cmbAcreedor_Leave(object sender, EventArgs e)
@@ -243,7 +182,6 @@ namespace CV5
 
         private void cmbEmpresa_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
 
