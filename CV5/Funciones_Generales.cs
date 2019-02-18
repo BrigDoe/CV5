@@ -39,8 +39,20 @@ namespace CV5
                 Application.Exit();
             }
         }
-        
-       
+
+
+        public string EjecutarQuery(string query)
+        {
+            ConexionMba cs = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(query, cs.getConexion());
+            OdbcDataReader reader = DbCommand.ExecuteReader();
+            string _value = "";
+            while (reader.Read())
+            {
+                _value = reader.GetString(0);
+            }
+            return _value;
+        }
 
 
         private void Fill(string query, ComboBox cb, int a)

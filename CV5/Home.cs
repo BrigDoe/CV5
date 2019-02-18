@@ -7,8 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using MySql.Data;
 using CV5.Tesoreria;
 
 namespace CV5
@@ -29,8 +27,7 @@ namespace CV5
         {
             if (keyData == (Keys.Control | Keys.N))
             {
-                Form formulario_login = new Login();
-                formulario_login.Show();
+
             }
             if (keyData == (Keys.Control | Keys.Q))
             {
@@ -67,9 +64,7 @@ namespace CV5
 
         private void nuevoUsuarioCtrlNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form formulario_login = new Login();
-            formulario_login.MdiParent = this;
-            formulario_login.Show();
+ 
         }
 
 
