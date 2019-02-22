@@ -142,12 +142,10 @@ namespace CV5.Credito
             if (chkAllProv.Checked)
             {
                 cmbAcreedor.Enabled = false;
-                btnSearch.Enabled = false;
             }
             else
             {
                 cmbAcreedor.Enabled = true;
-                btnSearch.Enabled = true;
             }
         }
 
@@ -232,6 +230,9 @@ namespace CV5.Credito
             }
         }
 
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
 
+        }
     }
 }

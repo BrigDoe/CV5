@@ -4,14 +4,14 @@ using System.Data.Odbc;
 using iTextSharp.text;
 using clsConectaMBA;
 
-namespace CV5.Tesoreria
+namespace CV5.Roles
 {
-    public partial class frmChequesProtestados : Form
+    public partial class frmChequesAlDia : Form
     {
         Reporte R = new Reporte();
         Funciones_Generales fg = new Funciones_Generales();
 
-        public frmChequesProtestados()
+        public frmChequesAlDia()
         {
             InitializeComponent();
             CargarDatos();
@@ -19,15 +19,21 @@ namespace CV5.Tesoreria
 
         private void CargarDatos()
         {
+            cmbAcreedor.Enabled = false;
             string query = "SELECT  `CORPORATION NAM` FROM SIST_Parametros_Empresa ";
             fg.LlenarCombo(query, cmbEmpresa);
-            query = "SELECT  BENEFICIARIO FROM BANC_MOVIMIENTOS_PRINCIPAL WHERE ANULADO= cast('False' as Boolean)  and Pago_numero=0  AND PAGO_O_DEPOSITO='C' and IMPRESO= cast('True' as Boolean)";
+            string _CORP = "SELECT CORP FROM SIST_PARAMETROS_EMPRESA" +
+                         " WHERE `CORPORATION NAM` = '" + cmbEmpresa.Text + "'";
+            query = "SELECT CFP.NOMBRE_CLIENTE  FROM CLNT_FICHA_PRINCIPAL CFP, " +
+                " CLNT_COBRO_PRINCIPAL CLNT WHERE CFP.CODIGO_CLIENTE_EMPRESA = CLNT.CODIGO_CLIENTE_EMPRESA " +
+                " AND CFP.EMPRESA='" + fg.EjecutarQuery(_CORP) + "' ";
             fg.LlenarCombo(query, cmbAcreedor, -1);
+
         }
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
-            cmbAcreedor.Enabled = true;
+            cmbAcreedor.Enabled = false;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;
             btnOk.Enabled = true;
@@ -74,15 +80,12 @@ namespace CV5.Tesoreria
                     _CORP = reader.GetString(0);
                 }
                 cs.cerrarConexion();
+
                 if (!chkAllProv.Checked)
                 {
-                    string Acree = "SELECT  CODIGO_BANCO_EMPRESA, FECHA_PAGO, " +
-                        " BENEFICIARIO, VALOR, MEMO, EMPRESA, info_creacion," +
-                        " ORIGEN FROM BANC_MOVIMIENTOS_PRINCIPAL WHERE" +
-                        " ANULADO= cast('False' as Boolean)  " +
-                        " and Pago_numero=0  AND PAGO_O_DEPOSITO='C' and " +
-                        " IMPRESO= cast('True' as Boolean) and" +
-                        " BENEFICIARIO = '" + cmbAcreedor.Text + "'" +
+                    string Acree = "SELECT  CODIGO_CLIENTE_EMPRESA " +
+                        " FROM CLNT_FICHA_PRINCIPAL WHERE" +
+                        " NOMBRE_CLIENTE = '" + cmbAcreedor.Text + "'" +
                         " and EMPRESA = '" + _CORP + "'";
                     DbCommand = new OdbcCommand(Acree, cs.getConexion());
                     reader = DbCommand.ExecuteReader();
@@ -99,32 +102,38 @@ namespace CV5.Tesoreria
                 }
 
 
-                string cadena = "SELECT  mov.CODIGO_BANCO_EMPRESA, mov.FECHA_PAGO, " +
-                        " banc.Cuenta_banco, banc.Nombre_banco ," +
-                        " mov.BENEFICIARIO, mov.VALOR, mov.MEMO, mov.EMPRESA, mov.info_creacion," +
-                        " mov.ORIGEN FROM BANC_MOVIMIENTOS_PRINCIPAL mov " +
-                        " LEFT OUTER JOIN BANC_FICHA_PRINCIPAL banc " +
-                        " ON banc.CODIGO_BANCO_EMPRESA = mov.CODIGO_BANCO_EMPRESA " +
-                        " WHERE " +
-                        " mov.ANULADO = cast('False' as Boolean)  " +
-                        " and mov.Pago_numero=0  AND mov.PAGO_O_DEPOSITO='C' and " +
-                        " mov.IMPRESO= cast('True' as Boolean) " +
-                        " and mov.EMPRESA = '" + _CORP + "' and " +
-                        " mov.Fecha_Pago >= '" + Fech1 + "' and mov.Fecha_Pago <= '" + Fech2 + "' ";
-                // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
+                string cadena = "SELECT CLNT.empresa, CLNT.CODIGO_CLIENTE_EMPRESA, CLNT.CHEQUE_NUMERO, CLNT.VALOR_COBRO," +
+                        " DATE_TO_CHAR(CLNT.FECHA_COBRO, 'dd[/]mm[/]yyyy') AS `Fecha cobro` , " +
+                        " CLNT.CODIGO_COBRO, CLNT.ID_FISCAL, CBR.`BANK O CC TYPE`, " +
+                        " DATE_TO_CHAR( CBR.FECHA_CHEQUE_O_EXPIRA_TC, 'dd[/]mm[/]yyyy') AS `Fecha cheque` , CASE CBR.ORIGEN  " +
+                        " WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LE2' THEN 'SIERRA' " +
+                        " WHEN 'DA2' THEN 'SIERRA'  WHEN 'FA2' THEN 'SIERRA'  WHEN 'AN2' THEN 'SIERRA' " +
+                        " WHEN 'ME2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' WHEN 'LE3' THEN 'AUSTRO'  " +
+                        " WHEN 'DA3' THEN 'AUSTRO' WHEN 'ME3' THEN 'AUSTRO' WHEN 'FA3' THEN 'AUSTRO'  " +
+                        " WHEN 'AN3' THEN 'AUSTRO' END AS REGION, CFP.NOMBRE_CLIENTE  " +
+                        " FROM  CLNT_COBRO_FORMADEPAGO CBR, CLNT_COBRO_PRINCIPAL CLNT,  CLNT_FICHA_PRINCIPAL CFP " +
+                        " WHERE CBR.CODIGO_COBRO = CLNT.CODIGO_COBRO AND " +
+                        " CLNT.CODIGO_CLIENTE_EMPRESA = CFP.CODIGO_CLIENTE_EMPRESA AND " +
+                        " CLNT.ANULADO = cast('False' as Boolean) AND " +
+                        " CLNT.FORMA_DE_PAGO='CHEQUE' AND CBR.FORMA_DE_PAGO='Cheque' AND" +
+                        " CLNT.EMPRESA = '" + _CORP + "' AND" + 
+                        " CBR.FECHA_CHEQUE_O_EXPIRA_TC >= '" + Fech1 + "' AND " +
+                        " CBR.FECHA_CHEQUE_O_EXPIRA_TC <= '" + Fech2 + "' " ;
+
                 if (flag)
-                    cadena += " AND mov.Beneficiario = '" + _Acree + "'";
+                    cadena += " AND CLNT.CODIGO_CLIENTE_EMPRESA = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
 
 
+            return;
         }
-
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            CargarDataGrid();
+            CargarDataGrid();           
+
         }
 
 
@@ -182,7 +191,7 @@ namespace CV5.Tesoreria
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de cheques protestados", font);
+            R.Titulo(doc, "Reportes de cheques al dia", font);
             // Inserta imagen EN DESARROLLO
             //Image img = R.Imagen();
             //R.SetImagen(img, doc);
@@ -199,47 +208,21 @@ namespace CV5.Tesoreria
         }
 
 
-        //Formateo de celdas decimales para el datagrid 
-        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 5 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 9)
-            {
-                if (e.Value != null)
-                {
-                    ConvertirFloat(e);
-                }
-            }
-        }
-
-
-        //SE REALIZA EL FORMATEO PARA DECIMALES 
-        private void ConvertirFloat(DataGridViewCellFormattingEventArgs formatting)
-        {
-            if (formatting.Value != null)
-            {
-                try
-                {
-                    decimal e;
-                    e = decimal.Parse(formatting.Value.ToString());
-                    // Convierte a decimales
-                    formatting.Value = e.ToString("N2");
-                }
-                catch (FormatException)
-                {
-                    formatting.FormattingApplied = false;
-
-                }
-            }
-        }
+       
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            fg.BuscarGrid(dataGridView1, txtBuscar);
+
+        }
+
+        private void cmbAcreedor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            fg.LimpiarGrid(dataGridView1);
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Data.Odbc;
 using iTextSharp.text;
 using clsConectaMBA;
+using System.Drawing;
 
 namespace CV5.Planificacion
 {
@@ -10,6 +11,7 @@ namespace CV5.Planificacion
     {
         Reporte R = new Reporte();
         Funciones_Generales fg = new Funciones_Generales();
+
 
         public frmFacturadoBonificado()
         {
@@ -56,6 +58,15 @@ namespace CV5.Planificacion
         private void btnOk_Click(object sender, EventArgs e)
         {
             //flag para chequear si existen un Acreedor en particular
+
+            CargarDataGrid();
+
+            return;
+
+        }
+
+        private void CargarDataGrid()
+        {
             ConexionMba cs = new ConexionMba();
             CleanGrid(dataGridView1);
             Boolean flag;
@@ -67,36 +78,31 @@ namespace CV5.Planificacion
                 OdbcCommand DbCommand = new OdbcCommand(CORP, cs.getConexion());
                 OdbcDataReader reader = DbCommand.ExecuteReader();
                 string _CORP = "";
-                string _Acree = "";
+                string empresa = "";
                 while (reader.Read())
                 {
                     _CORP = reader.GetString(0);
                 }
+                if (!chkAllProv.Checked) { empresa = " AND FP.EMPRESA = '" + _CORP + "'"; } else { empresa = " "; }
                 cs.cerrarConexion();
-
-                string cadena = "SELECT  INV.PRODUCT_ID_CORP, " +
+                string cadena = "SELECT  INV.PRODUCT_ID, " +
                     " INV.PRODUCT_NAME, INV.QUANTITY CANTIDAD , CASE " +
                     " WHEN INV.LINE_TOTAL > 0 THEN 'FACTURADO' " +
                     " WHEN INV.LINE_TOTAL = 0 THEN 'BONIFICADO'" +
                     " ELSE 'N/A'" +
                     " END AS `TIPO DE VENTA`, " +
-                    " INV.DISCOUNT DESCUENTO FROM CLNT_FACTURA_PRINCIPAL FP INNER JOIN " +
+                    " FP.CODIGO_CLIENTE_EMPRESA, FP.CODIGO_FACTURA, DATE_TO_CHAR(FP.FECHA_FACTURA, 'dd[/]mm[/]yyyy') AS `Fecha factura`, " +
+                    " FP.ORIGEN, FP.VENDEDOR " +
+                    " FROM CLNT_FACTURA_PRINCIPAL FP INNER JOIN " +
                     " INVT_PRODUCTO_MOVIMIENTOS INV ON FP.CODIGO_FACTURA = INV.DOC_ID_CORP2 " +
                     " WHERE FP.ANULADA = CAST('FALSE' AS BOOLEAN) AND  " +
                     " FP.CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
                     " AND FP.FECHA_FACTURA >= '" + Fech1 + "' AND FP.FECHA_FACTURA <= '" + Fech2 + "' and" +
-                    " INV.PRODUCT_ID IS NOT NULL";
-
+                    " INV.PRODUCT_ID IS NOT NULL " + empresa + "  ";
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
-
-
-            return;
-
         }
-
-
 
         private void cmbAcreedor_Leave(object sender, EventArgs e)
         {
@@ -128,28 +134,26 @@ namespace CV5.Planificacion
             //Para generar reporte genera un objeto de clase
             Reporte R = new Reporte();
             //Genera un documento horizontal
-            Document doc = R.CreaDoc(true);
+            Document doc = R.CreaDoc(false);
             //Usa la fuente segun se requiera
             //Fuente para titulo
-            Font _standardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
-            Font font = R.Fuente(_standardFont);
+            iTextSharp.text.Font _standardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+            iTextSharp.text.Font font = R.Fuente(_standardFont);
             //Fuente para encabezados
-            Font _EncstandardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 6);
-            Font fontEnc = R.Fuente(_EncstandardFont);
+            iTextSharp.text.Font _EncstandardFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 6);
+            iTextSharp.text.Font fontEnc = R.Fuente(_EncstandardFont);
             //Generar un writer para el reporte
             var writer = R.CreaWriter(doc);
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de Cuentas por pagar", font);
+            R.Titulo(doc, "Reportes de productos facturados y bonificados", font);
             // Inserta imagen EN DESARROLLO
             //Image img = R.Imagen();
             //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
-            float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1.25f, 1.25f, 1f,
-                                          1f, 1f,2f, 2f,1f, 3f, 3f,
-                                          0.5f};
+            float[] widths = new float[] {2f, 2f, 2f, 2f};
             //Se cambia la fuente para el contenidol reporte
             _standardFont = FontFactory.GetFont(FontFactory.HELVETICA, 6);
             font = R.Fuente(_standardFont);
@@ -160,43 +164,82 @@ namespace CV5.Planificacion
 
 
         //Formateo de celdas decimales para el datagrid 
-        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 5 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 9)
-            {
-                if (e.Value != null)
-                {
-                    ConvertirFloat(e);
-                }
-            }
-        }
+        //private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        //{
+        //    if (this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
+        //        this.dataGridView1.Columns[e.ColumnIndex].Index == 5 ||
+        //        this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
+        //        this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
+        //        this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
+        //        this.dataGridView1.Columns[e.ColumnIndex].Index == 9)
+        //    {
+        //        if (e.Value != null)
+        //        {
+        //            ConvertirFloat(e);
+        //        }
+        //    }
+        //}
 
 
         //SE REALIZA EL FORMATEO PARA DECIMALES 
-        private void ConvertirFloat(DataGridViewCellFormattingEventArgs formatting)
-        {
-            if (formatting.Value != null)
-            {
-                try
-                {
-                    decimal e;
-                    e = decimal.Parse(formatting.Value.ToString());
-                    // Convierte a decimales
-                    formatting.Value = e.ToString("N2");
-                }
-                catch (FormatException)
-                {
-                    formatting.FormattingApplied = false;
+        //private void ConvertirFloat(DataGridViewCellFormattingEventArgs formatting)
+        //{
+        //    if (formatting.Value != null)
+        //    {
+        //        try
+        //        {
+        //            decimal e;
+        //            e = decimal.Parse(formatting.Value.ToString());
+        //            // Convierte a decimales
+        //            formatting.Value = e.ToString("N2");
+        //        }
+        //        catch (FormatException)
+        //        {
+        //            formatting.FormattingApplied = false;
 
-                }
+        //        }
+        //    }
+        //}
+
+        private void chkAllProv_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            CargarDataGrid();
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {            
+            if (txtBuscar.Visible == false) {txtBuscar.Visible = true; } else { txtBuscar.Visible = false; }
+            txtBuscar.Text = "Texto a buscar...";
+            txtBuscar.SelectAll();
+            txtBuscar.Focus();
+            txtBuscar.KeyDown += new KeyEventHandler(tb_KeyDown);
+        }
+
+        void tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                fg.BuscarDataGrid(dataGridView1,txtBuscar.Text.ToUpper() );
             }
         }
 
-
+        private void btnGrabar_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("Estoy hecho de 3609 lineas de codigo. " + Environment.NewLine +
+            //                " Mi creador es " +  System.Environment.UserName + Environment.NewLine +
+            //                " Fue concebido en " + System.Environment.MachineName + Environment.NewLine +
+            //                " El creador me mantiene alojado en " + System.Environment.CurrentDirectory + Environment.NewLine +
+            //                "Oh Salve creador mio, hacedor de codigo.  ");
+        }
     }
 }

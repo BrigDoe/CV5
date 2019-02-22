@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Aha-Soft-Large-Seo-SEO.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="clsConectaMBA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,6 +91,12 @@
     <Compile Include="Credito\frmPresupuesto.Designer.cs">
       <DependentUpon>frmPresupuesto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Credito\frmVentasDiarias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Credito\frmVentasDiarias.Designer.cs">
+      <DependentUpon>frmVentasDiarias.cs</DependentUpon>
+    </Compile>
     <Compile Include="Planificacion\frmFacturadoBonificado.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +114,18 @@
     </Compile>
     <Compile Include="Roles\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Roles\frmCargando.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Roles\frmCargando.Designer.cs">
+      <DependentUpon>frmCargando.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tesoreria\frmChequesAlDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tesoreria\frmChequesAlDia.Designer.cs">
+      <DependentUpon>frmChequesAlDia.cs</DependentUpon>
     </Compile>
     <Compile Include="Tesoreria\frnChequesProtestados.cs">
       <SubType>Form</SubType>
@@ -155,6 +176,9 @@
     <EmbeddedResource Include="Credito\frmPresupuesto.resx">
       <DependentUpon>frmPresupuesto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Credito\frmVentasDiarias.resx">
+      <DependentUpon>frmVentasDiarias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Planificacion\frmFacturadoBonificado.resx">
       <DependentUpon>frmFacturadoBonificado.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +187,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Roles\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Roles\frmCargando.resx">
+      <DependentUpon>frmCargando.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tesoreria\frmChequesAlDia.resx">
+      <DependentUpon>frmChequesAlDia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tesoreria\frnChequesProtestados.resx">
       <DependentUpon>frnChequesProtestados.cs</DependentUpon>
@@ -210,6 +240,7 @@
     <None Include="Resources\resistance.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Aha-Soft-Large-Seo-SEO.ico" />
     <Content Include="Sentencias.txt" />
     <None Include="Resources\if_excel_272697.png" />
     <Content Include="Resources\labovida.jpg">

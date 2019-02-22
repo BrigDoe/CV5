@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFacturadoBonificado));
             this.tStripOpciones = new System.Windows.Forms.ToolStrip();
             this.btnNuevo = new System.Windows.Forms.ToolStripButton();
@@ -50,6 +51,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtBuscar = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tStripOpciones.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -85,6 +88,7 @@
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(24, 24);
             this.btnNuevo.Text = "Nuevo";
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // btnBuscar
             // 
@@ -94,6 +98,7 @@
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(24, 24);
             this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // btnGrabar
             // 
@@ -103,6 +108,7 @@
             this.btnGrabar.Name = "btnGrabar";
             this.btnGrabar.Size = new System.Drawing.Size(24, 24);
             this.btnGrabar.Text = "Grabar";
+            this.btnGrabar.Click += new System.EventHandler(this.btnGrabar_Click);
             // 
             // btnActualizar
             // 
@@ -112,6 +118,7 @@
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(24, 24);
             this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnLimpiar
             // 
@@ -187,6 +194,7 @@
             this.chkAllProv.TabIndex = 23;
             this.chkAllProv.Text = "Todas las empresas";
             this.chkAllProv.UseVisualStyleBackColor = true;
+            this.chkAllProv.CheckedChanged += new System.EventHandler(this.chkAllProv_CheckedChanged);
             // 
             // btnOk
             // 
@@ -242,11 +250,11 @@
             this.dtpFechAct.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechAct.Location = new System.Drawing.Point(146, 76);
             this.dtpFechAct.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dtpFechAct.MinDate = new System.DateTime(2019, 2, 14, 0, 0, 0, 0);
+            this.dtpFechAct.MinDate = new System.DateTime(2019, 2, 1, 0, 0, 0, 0);
             this.dtpFechAct.Name = "dtpFechAct";
             this.dtpFechAct.Size = new System.Drawing.Size(187, 26);
             this.dtpFechAct.TabIndex = 3;
-            this.dtpFechAct.Value = new System.DateTime(2019, 2, 14, 0, 0, 0, 0);
+            this.dtpFechAct.Value = new System.DateTime(2019, 2, 1, 0, 0, 0, 0);
             // 
             // cmbEmpresa
             // 
@@ -280,7 +288,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(861, 440);
             this.dataGridView1.TabIndex = 6;
-            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // groupBox2
             // 
@@ -295,18 +302,35 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
             // 
+            // txtBuscar
+            // 
+            this.txtBuscar.Location = new System.Drawing.Point(40, 32);
+            this.txtBuscar.Name = "txtBuscar";
+            this.txtBuscar.Size = new System.Drawing.Size(183, 26);
+            this.txtBuscar.TabIndex = 24;
+            this.txtBuscar.Visible = false;
+            this.txtBuscar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_KeyDown);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // frmFacturadoBonificado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(914, 653);
+            this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tStripOpciones);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmFacturadoBonificado";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Productos facturados y bonificados";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);
@@ -343,5 +367,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox chkAllProv;
+        private System.Windows.Forms.TextBox txtBuscar;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

@@ -41,7 +41,6 @@
             this.btnExcel = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkAllProv = new System.Windows.Forms.CheckBox();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.dtpFechFin = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,6 +52,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.tStripOpciones.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -162,7 +162,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkAllProv);
-            this.groupBox1.Controls.Add(this.btnSearch);
             this.groupBox1.Controls.Add(this.btnOk);
             this.groupBox1.Controls.Add(this.dtpFechFin);
             this.groupBox1.Controls.Add(this.label5);
@@ -192,16 +191,6 @@
             this.chkAllProv.Text = "Todos los proveedores";
             this.chkAllProv.UseVisualStyleBackColor = true;
             this.chkAllProv.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSearch.Location = new System.Drawing.Point(672, 97);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(96, 35);
-            this.btnSearch.TabIndex = 22;
-            this.btnSearch.Text = "Buscar";
-            this.btnSearch.UseVisualStyleBackColor = true;
             // 
             // btnOk
             // 
@@ -333,6 +322,12 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
             // frmFacturas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -344,7 +339,7 @@
             this.Controls.Add(this.tStripOpciones);
             this.Name = "frmFacturas";
             this.ShowIcon = false;
-            this.Text = "Facturas";
+            this.Text = "Reporte de ventas diarias";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);
             this.tStripOpciones.PerformLayout();
@@ -381,7 +376,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox cmbAcreedor;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.CheckBox chkAllProv;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

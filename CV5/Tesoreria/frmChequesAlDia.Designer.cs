@@ -1,6 +1,6 @@
-﻿namespace CV5.Tesoreria
+﻿namespace CV5.Roles
 {
-    partial class frmChequesProtestados
+    partial class frmChequesAlDia
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChequesProtestados));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChequesAlDia));
             this.tStripOpciones = new System.Windows.Forms.ToolStrip();
             this.btnNuevo = new System.Windows.Forms.ToolStripButton();
             this.btnBuscar = new System.Windows.Forms.ToolStripButton();
@@ -43,18 +43,20 @@
             this.txtBuscar = new System.Windows.Forms.TextBox();
             this.chkAllProv = new System.Windows.Forms.CheckBox();
             this.btnOk = new System.Windows.Forms.Button();
-            this.dtpFechFin = new System.Windows.Forms.DateTimePicker();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.dtpFechAct = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbAcreedor = new System.Windows.Forms.ComboBox();
             this.cmbEmpresa = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dtpFechAct = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dtpFechFin = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tStripOpciones.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -88,6 +90,7 @@
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(24, 24);
             this.btnNuevo.Text = "Nuevo";
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // btnBuscar
             // 
@@ -166,14 +169,11 @@
             this.groupBox1.Controls.Add(this.txtBuscar);
             this.groupBox1.Controls.Add(this.chkAllProv);
             this.groupBox1.Controls.Add(this.btnOk);
-            this.groupBox1.Controls.Add(this.dtpFechFin);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.dtpFechAct);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.cmbAcreedor);
             this.groupBox1.Controls.Add(this.cmbEmpresa);
             this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(6, 37);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -186,10 +186,10 @@
             // 
             // txtBuscar
             // 
-            this.txtBuscar.Location = new System.Drawing.Point(29, 0);
+            this.txtBuscar.Location = new System.Drawing.Point(26, 1);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(183, 26);
-            this.txtBuscar.TabIndex = 37;
+            this.txtBuscar.TabIndex = 36;
             this.txtBuscar.Visible = false;
             // 
             // chkAllProv
@@ -209,7 +209,7 @@
             // 
             this.btnOk.Enabled = false;
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(1149, 97);
+            this.btnOk.Location = new System.Drawing.Point(1161, 110);
             this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(58, 35);
@@ -217,53 +217,6 @@
             this.btnOk.Text = "&Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // dtpFechFin
-            // 
-            this.dtpFechFin.CustomFormat = "dd/MM/yyyy";
-            this.dtpFechFin.Enabled = false;
-            this.dtpFechFin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechFin.Location = new System.Drawing.Point(972, 100);
-            this.dtpFechFin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dtpFechFin.Name = "dtpFechFin";
-            this.dtpFechFin.Size = new System.Drawing.Size(150, 26);
-            this.dtpFechFin.TabIndex = 4;
-            this.dtpFechFin.Leave += new System.EventHandler(this.dtpFechFin_Leave);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(966, 74);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 20);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "Hasta .:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(778, 75);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 20);
-            this.label4.TabIndex = 20;
-            this.label4.Text = "Desde .:";
-            // 
-            // dtpFechAct
-            // 
-            this.dtpFechAct.CustomFormat = "dd/MM/yyyy";
-            this.dtpFechAct.Enabled = false;
-            this.dtpFechAct.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechAct.Location = new System.Drawing.Point(783, 100);
-            this.dtpFechAct.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dtpFechAct.MinDate = new System.DateTime(2018, 6, 1, 0, 0, 0, 0);
-            this.dtpFechAct.Name = "dtpFechAct";
-            this.dtpFechAct.Size = new System.Drawing.Size(150, 26);
-            this.dtpFechAct.TabIndex = 3;
-            this.dtpFechAct.Value = new System.DateTime(2018, 6, 1, 0, 0, 0, 0);
             // 
             // label3
             // 
@@ -285,6 +238,7 @@
             this.cmbAcreedor.Name = "cmbAcreedor";
             this.cmbAcreedor.Size = new System.Drawing.Size(516, 28);
             this.cmbAcreedor.TabIndex = 2;
+            this.cmbAcreedor.SelectedIndexChanged += new System.EventHandler(this.cmbAcreedor_SelectedIndexChanged);
             this.cmbAcreedor.Leave += new System.EventHandler(this.cmbAcreedor_Leave);
             // 
             // cmbEmpresa
@@ -310,6 +264,66 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Empresa .:";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dtpFechAct);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.dtpFechFin);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Location = new System.Drawing.Point(688, 58);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(456, 96);
+            this.groupBox3.TabIndex = 24;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Fecha de deposito";
+            // 
+            // dtpFechAct
+            // 
+            this.dtpFechAct.CustomFormat = "dd/MM/yyyy";
+            this.dtpFechAct.Enabled = false;
+            this.dtpFechAct.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechAct.Location = new System.Drawing.Point(26, 54);
+            this.dtpFechAct.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtpFechAct.MinDate = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            this.dtpFechAct.Name = "dtpFechAct";
+            this.dtpFechAct.Size = new System.Drawing.Size(170, 26);
+            this.dtpFechAct.TabIndex = 3;
+            this.dtpFechAct.Value = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(21, 29);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 20);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Desde .:";
+            // 
+            // dtpFechFin
+            // 
+            this.dtpFechFin.CustomFormat = "dd/MM/yyyy";
+            this.dtpFechFin.Enabled = false;
+            this.dtpFechFin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechFin.Location = new System.Drawing.Point(247, 54);
+            this.dtpFechFin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dtpFechFin.Name = "dtpFechFin";
+            this.dtpFechFin.Size = new System.Drawing.Size(170, 26);
+            this.dtpFechFin.TabIndex = 4;
+            this.dtpFechFin.Leave += new System.EventHandler(this.dtpFechFin_Leave);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(241, 28);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(76, 20);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Hasta .:";
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -320,7 +334,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(1206, 334);
             this.dataGridView1.TabIndex = 6;
-            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // groupBox2
             // 
@@ -335,7 +348,7 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
             // 
-            // frmChequesProtestados
+            // frmChequesAlDia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -344,15 +357,17 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tStripOpciones);
-            this.Name = "frmChequesProtestados";
+            this.Name = "frmChequesAlDia";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Cheques protestados";
+            this.Text = "Cheques al dia";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);
             this.tStripOpciones.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -385,6 +400,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox cmbAcreedor;
         private System.Windows.Forms.CheckBox chkAllProv;
+        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox txtBuscar;
     }
 }
