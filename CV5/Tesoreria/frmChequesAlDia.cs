@@ -102,20 +102,26 @@ namespace CV5.Roles
                 }
 
 
-                string cadena = "SELECT CLNT.empresa, CLNT.CODIGO_CLIENTE_EMPRESA, CLNT.CHEQUE_NUMERO, CLNT.VALOR_COBRO," +
-                        " DATE_TO_CHAR(CLNT.FECHA_COBRO, 'dd[/]mm[/]yyyy') AS `Fecha cobro` , " +
-                        " CLNT.CODIGO_COBRO, CLNT.ID_FISCAL, CBR.`BANK O CC TYPE`, " +
-                        " DATE_TO_CHAR( CBR.FECHA_CHEQUE_O_EXPIRA_TC, 'dd[/]mm[/]yyyy') AS `Fecha cheque` , CASE CBR.ORIGEN  " +
+                string cadena = "SELECT CLNT.empresa `EMPRESA`, CLNT.CODIGO_CLIENTE_EMPRESA `CODIGO CLIENTE`, " +
+                        " CLNT.CHEQUE_NUMERO `CHEQUE`, CLNT.VALOR_COBRO `VALOR COBRO`," +
+                        " DATE_TO_CHAR(CLNT.FECHA_COBRO, 'dd[/]mm[/]yyyy') AS `FECHA COBRO` , " +
+                        " CLNT.CODIGO_COBRO `CODIGO COBRO`, CLNT.ID_FISCAL `CUENTA BANCARIA` , CBR.`BANK O CC TYPE` `BANCO`, " +
+                        " DATE_TO_CHAR( CBR.FECHA_CHEQUE_O_EXPIRA_TC, 'dd[/]mm[/]yyyy') AS `FECHA CHEQUE` , CASE CBR.ORIGEN  " +
                         " WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LE2' THEN 'SIERRA' " +
                         " WHEN 'DA2' THEN 'SIERRA'  WHEN 'FA2' THEN 'SIERRA'  WHEN 'AN2' THEN 'SIERRA' " +
                         " WHEN 'ME2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' WHEN 'LE3' THEN 'AUSTRO'  " +
                         " WHEN 'DA3' THEN 'AUSTRO' WHEN 'ME3' THEN 'AUSTRO' WHEN 'FA3' THEN 'AUSTRO'  " +
-                        " WHEN 'AN3' THEN 'AUSTRO' END AS REGION, CFP.NOMBRE_CLIENTE  " +
-                        " FROM  CLNT_COBRO_FORMADEPAGO CBR, CLNT_COBRO_PRINCIPAL CLNT,  CLNT_FICHA_PRINCIPAL CFP " +
+                        " WHEN 'AN3' THEN 'AUSTRO' END AS REGION, CFP.NOMBRE_CLIENTE `NOMBRE CLIENTE`," +
+                        " VEN.DESCRIPTION_SPN `COBRADOR` " +
+                        " FROM  CLNT_COBRO_FORMADEPAGO CBR, CLNT_COBRO_PRINCIPAL CLNT,  CLNT_FICHA_PRINCIPAL CFP," +
+                        " SIST_LISTA_1 VEN " +
                         " WHERE CBR.CODIGO_COBRO = CLNT.CODIGO_COBRO AND " +
                         " CLNT.CODIGO_CLIENTE_EMPRESA = CFP.CODIGO_CLIENTE_EMPRESA AND " +
                         " CLNT.ANULADO = cast('False' as Boolean) AND " +
-                        " CLNT.FORMA_DE_PAGO='CHEQUE' AND CBR.FORMA_DE_PAGO='Cheque' AND" +
+                        " CLNT.FORMA_DE_PAGO='CHEQUE' AND CBR.FORMA_DE_PAGO='Cheque' AND " +
+                        " CLNT.Codigo_Cobrador = VEN.CODE AND" +
+                        " VEN.GROUP_CATEGORY = 'SELLm' AND " +
+                        " VEN.CORP=CLNT.EMPRESA AND " +
                         " CLNT.EMPRESA = '" + _CORP + "' AND" + 
                         " CBR.FECHA_CHEQUE_O_EXPIRA_TC >= '" + Fech1 + "' AND " +
                         " CBR.FECHA_CHEQUE_O_EXPIRA_TC <= '" + Fech2 + "' " ;
@@ -198,7 +204,7 @@ namespace CV5.Roles
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
             float[] widths = new float[] {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f,
-                                          2f, 2f};
+                                          2f, 2f, 2f, 2f};
             //Se cambia la fuente para el contenidol reporte
             _standardFont = FontFactory.GetFont(FontFactory.HELVETICA, 6);
             font = R.Fuente(_standardFont);

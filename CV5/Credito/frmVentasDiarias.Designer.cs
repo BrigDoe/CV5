@@ -40,6 +40,11 @@
             this.btnPrint = new System.Windows.Forms.ToolStripButton();
             this.btnExcel = new System.Windows.Forms.ToolStripButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkEmpresa = new System.Windows.Forms.CheckBox();
+            this.chkVendedor = new System.Windows.Forms.CheckBox();
+            this.chkRegion = new System.Windows.Forms.CheckBox();
+            this.chkLocalidad = new System.Windows.Forms.CheckBox();
             this.cmbRegion = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -72,19 +77,14 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtValorTotal = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.chkEmpresa = new System.Windows.Forms.CheckBox();
-            this.chkVendedor = new System.Windows.Forms.CheckBox();
-            this.chkRegion = new System.Windows.Forms.CheckBox();
-            this.chkLocalidad = new System.Windows.Forms.CheckBox();
             this.tStripOpciones.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tStripOpciones
@@ -104,7 +104,7 @@
             this.tStripOpciones.Name = "tStripOpciones";
             this.tStripOpciones.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this.tStripOpciones.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.tStripOpciones.Size = new System.Drawing.Size(1265, 27);
+            this.tStripOpciones.Size = new System.Drawing.Size(1290, 27);
             this.tStripOpciones.TabIndex = 33;
             this.tStripOpciones.Text = "toolStrip1";
             // 
@@ -207,13 +207,71 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(1236, 201);
+            this.groupBox1.Size = new System.Drawing.Size(1271, 201);
             this.groupBox1.TabIndex = 34;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.chkEmpresa);
+            this.groupBox6.Controls.Add(this.chkVendedor);
+            this.groupBox6.Controls.Add(this.chkRegion);
+            this.groupBox6.Controls.Add(this.chkLocalidad);
+            this.groupBox6.Location = new System.Drawing.Point(328, 116);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(479, 65);
+            this.groupBox6.TabIndex = 39;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Seleccionar todo";
+            // 
+            // chkEmpresa
+            // 
+            this.chkEmpresa.AutoSize = true;
+            this.chkEmpresa.Location = new System.Drawing.Point(9, 30);
+            this.chkEmpresa.Name = "chkEmpresa";
+            this.chkEmpresa.Size = new System.Drawing.Size(119, 24);
+            this.chkEmpresa.TabIndex = 40;
+            this.chkEmpresa.Text = "Empresas";
+            this.chkEmpresa.UseVisualStyleBackColor = true;
+            this.chkEmpresa.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // chkVendedor
+            // 
+            this.chkVendedor.AutoSize = true;
+            this.chkVendedor.Location = new System.Drawing.Point(134, 30);
+            this.chkVendedor.Name = "chkVendedor";
+            this.chkVendedor.Size = new System.Drawing.Size(114, 24);
+            this.chkVendedor.TabIndex = 41;
+            this.chkVendedor.Text = "Vendedor";
+            this.chkVendedor.UseVisualStyleBackColor = true;
+            this.chkVendedor.CheckedChanged += new System.EventHandler(this.chkVendedor_CheckedChanged);
+            // 
+            // chkRegion
+            // 
+            this.chkRegion.AutoSize = true;
+            this.chkRegion.Location = new System.Drawing.Point(254, 30);
+            this.chkRegion.Name = "chkRegion";
+            this.chkRegion.Size = new System.Drawing.Size(93, 24);
+            this.chkRegion.TabIndex = 41;
+            this.chkRegion.Text = "Region";
+            this.chkRegion.UseVisualStyleBackColor = true;
+            this.chkRegion.CheckedChanged += new System.EventHandler(this.chkRegion_CheckedChanged);
+            // 
+            // chkLocalidad
+            // 
+            this.chkLocalidad.AutoSize = true;
+            this.chkLocalidad.Location = new System.Drawing.Point(353, 30);
+            this.chkLocalidad.Name = "chkLocalidad";
+            this.chkLocalidad.Size = new System.Drawing.Size(116, 24);
+            this.chkLocalidad.TabIndex = 42;
+            this.chkLocalidad.Text = "Localidad";
+            this.chkLocalidad.UseVisualStyleBackColor = true;
+            this.chkLocalidad.CheckedChanged += new System.EventHandler(this.chkLocalidad_CheckedChanged);
+            // 
             // cmbRegion
             // 
+            this.cmbRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbRegion.Enabled = false;
             this.cmbRegion.FormattingEnabled = true;
             this.cmbRegion.Items.AddRange(new object[] {
@@ -223,7 +281,7 @@
             this.cmbRegion.Location = new System.Drawing.Point(146, 125);
             this.cmbRegion.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbRegion.Name = "cmbRegion";
-            this.cmbRegion.Size = new System.Drawing.Size(149, 28);
+            this.cmbRegion.Size = new System.Drawing.Size(159, 28);
             this.cmbRegion.TabIndex = 38;
             // 
             // label5
@@ -243,9 +301,9 @@
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.dtpFechFin);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Location = new System.Drawing.Point(787, 93);
+            this.groupBox4.Location = new System.Drawing.Point(822, 74);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(448, 97);
+            this.groupBox4.Size = new System.Drawing.Size(442, 97);
             this.groupBox4.TabIndex = 36;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Fecha de factura";
@@ -304,15 +362,15 @@
             this.cmbEmpresa.Size = new System.Drawing.Size(504, 28);
             this.cmbEmpresa.TabIndex = 1;
             this.cmbEmpresa.SelectedIndexChanged += new System.EventHandler(this.cmbEmpresa_SelectedIndexChanged);
-            this.cmbEmpresa.Leave += new System.EventHandler(this.cmbEmpresa_Leave);
             // 
             // cmbLocalidad
             // 
+            this.cmbLocalidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLocalidad.FormattingEnabled = true;
             this.cmbLocalidad.Items.AddRange(new object[] {
             "Ciudad",
             "Gira"});
-            this.cmbLocalidad.Location = new System.Drawing.Point(898, 32);
+            this.cmbLocalidad.Location = new System.Drawing.Point(1042, 32);
             this.cmbLocalidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbLocalidad.Name = "cmbLocalidad";
             this.cmbLocalidad.Size = new System.Drawing.Size(136, 28);
@@ -322,7 +380,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(777, 35);
+            this.label7.Location = new System.Drawing.Point(921, 35);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(113, 20);
@@ -331,12 +389,13 @@
             // 
             // cmbCodigo
             // 
+            this.cmbCodigo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCodigo.Enabled = false;
             this.cmbCodigo.FormattingEnabled = true;
             this.cmbCodigo.Location = new System.Drawing.Point(146, 74);
             this.cmbCodigo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCodigo.Name = "cmbCodigo";
-            this.cmbCodigo.Size = new System.Drawing.Size(149, 28);
+            this.cmbCodigo.Size = new System.Drawing.Size(159, 28);
             this.cmbCodigo.TabIndex = 25;
             // 
             // label2
@@ -354,7 +413,7 @@
             // 
             this.btnOk.Enabled = false;
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOk.Location = new System.Drawing.Point(1167, 25);
+            this.btnOk.Location = new System.Drawing.Point(1206, 28);
             this.btnOk.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(58, 35);
@@ -379,7 +438,7 @@
             this.groupBox3.Controls.Add(this.rbtAmb);
             this.groupBox3.Controls.Add(this.rbtFar);
             this.groupBox3.Controls.Add(this.rbtInst);
-            this.groupBox3.Location = new System.Drawing.Point(302, 74);
+            this.groupBox3.Location = new System.Drawing.Point(328, 65);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(479, 45);
             this.groupBox3.TabIndex = 36;
@@ -389,7 +448,7 @@
             // 
             this.rbtAmb.AutoSize = true;
             this.rbtAmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbtAmb.Location = new System.Drawing.Point(290, 13);
+            this.rbtAmb.Location = new System.Drawing.Point(300, 13);
             this.rbtAmb.Name = "rbtAmb";
             this.rbtAmb.Size = new System.Drawing.Size(90, 26);
             this.rbtAmb.TabIndex = 38;
@@ -401,7 +460,7 @@
             this.rbtFar.AutoSize = true;
             this.rbtFar.Checked = true;
             this.rbtFar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbtFar.Location = new System.Drawing.Point(179, 13);
+            this.rbtFar.Location = new System.Drawing.Point(189, 13);
             this.rbtFar.Name = "rbtFar";
             this.rbtFar.Size = new System.Drawing.Size(109, 26);
             this.rbtFar.TabIndex = 37;
@@ -413,7 +472,7 @@
             // 
             this.rbtInst.AutoSize = true;
             this.rbtInst.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbtInst.Location = new System.Drawing.Point(6, 13);
+            this.rbtInst.Location = new System.Drawing.Point(16, 13);
             this.rbtInst.Name = "rbtInst";
             this.rbtInst.Size = new System.Drawing.Size(176, 26);
             this.rbtInst.TabIndex = 0;
@@ -425,10 +484,10 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(14, 46);
+            this.dataGridView1.Location = new System.Drawing.Point(14, 29);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1189, 403);
+            this.dataGridView1.Size = new System.Drawing.Size(1250, 420);
             this.dataGridView1.TabIndex = 6;
             // 
             // groupBox2
@@ -440,7 +499,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(1237, 459);
+            this.groupBox2.Size = new System.Drawing.Size(1272, 459);
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Detalle";
@@ -466,7 +525,7 @@
             this.groupBox5.Controls.Add(this.label6);
             this.groupBox5.Location = new System.Drawing.Point(6, 715);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1210, 61);
+            this.groupBox5.Size = new System.Drawing.Size(1271, 61);
             this.groupBox5.TabIndex = 36;
             this.groupBox5.TabStop = false;
             // 
@@ -534,6 +593,7 @@
             // 
             // txtValorTotal
             // 
+            this.txtValorTotal.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtValorTotal.Location = new System.Drawing.Point(218, 21);
             this.txtValorTotal.Name = "txtValorTotal";
             this.txtValorTotal.Size = new System.Drawing.Size(160, 26);
@@ -549,69 +609,12 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Totales";
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.chkEmpresa);
-            this.groupBox6.Controls.Add(this.chkVendedor);
-            this.groupBox6.Controls.Add(this.chkRegion);
-            this.groupBox6.Controls.Add(this.chkLocalidad);
-            this.groupBox6.Location = new System.Drawing.Point(302, 125);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(479, 65);
-            this.groupBox6.TabIndex = 39;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Seleccionar todo";
-            // 
-            // chkEmpresa
-            // 
-            this.chkEmpresa.AutoSize = true;
-            this.chkEmpresa.Location = new System.Drawing.Point(9, 30);
-            this.chkEmpresa.Name = "chkEmpresa";
-            this.chkEmpresa.Size = new System.Drawing.Size(119, 24);
-            this.chkEmpresa.TabIndex = 40;
-            this.chkEmpresa.Text = "Empresas";
-            this.chkEmpresa.UseVisualStyleBackColor = true;
-            this.chkEmpresa.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // chkVendedor
-            // 
-            this.chkVendedor.AutoSize = true;
-            this.chkVendedor.Location = new System.Drawing.Point(134, 30);
-            this.chkVendedor.Name = "chkVendedor";
-            this.chkVendedor.Size = new System.Drawing.Size(114, 24);
-            this.chkVendedor.TabIndex = 41;
-            this.chkVendedor.Text = "Vendedor";
-            this.chkVendedor.UseVisualStyleBackColor = true;
-            this.chkVendedor.CheckedChanged += new System.EventHandler(this.chkVendedor_CheckedChanged);
-            // 
-            // chkRegion
-            // 
-            this.chkRegion.AutoSize = true;
-            this.chkRegion.Location = new System.Drawing.Point(254, 30);
-            this.chkRegion.Name = "chkRegion";
-            this.chkRegion.Size = new System.Drawing.Size(93, 24);
-            this.chkRegion.TabIndex = 41;
-            this.chkRegion.Text = "Region";
-            this.chkRegion.UseVisualStyleBackColor = true;
-            this.chkRegion.CheckedChanged += new System.EventHandler(this.chkRegion_CheckedChanged);
-            // 
-            // chkLocalidad
-            // 
-            this.chkLocalidad.AutoSize = true;
-            this.chkLocalidad.Location = new System.Drawing.Point(353, 30);
-            this.chkLocalidad.Name = "chkLocalidad";
-            this.chkLocalidad.Size = new System.Drawing.Size(116, 24);
-            this.chkLocalidad.TabIndex = 42;
-            this.chkLocalidad.Text = "Localidad";
-            this.chkLocalidad.UseVisualStyleBackColor = true;
-            this.chkLocalidad.CheckedChanged += new System.EventHandler(this.chkLocalidad_CheckedChanged);
-            // 
             // frmVentasDiarias
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1265, 788);
+            this.ClientSize = new System.Drawing.Size(1290, 790);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
@@ -625,6 +628,8 @@
             this.tStripOpciones.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -633,8 +638,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

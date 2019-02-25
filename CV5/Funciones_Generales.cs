@@ -37,8 +37,6 @@ namespace CV5
             }
         }
 
-
-
         public void BuscarGrid(DataGridView dg, TextBox txtBuscar)
         {
             if (txtBuscar.Visible == false) { txtBuscar.Visible = true; } else { txtBuscar.Visible = false; }
@@ -142,6 +140,15 @@ namespace CV5
             }
             cn.cerrarConexion();
         }
+
+        public void FormatoGrid(List<int> list, DataGridView dgv)
+        {
+            foreach (int cols in list)
+            {
+                dgv.Columns[cols].DefaultCellStyle.Format = "N2";
+            }
+        }
+
 
 
         public void FillDataGridNewRow(string cadena, DataGridView dataGridView1,
@@ -273,6 +280,8 @@ namespace CV5
 
         public void ExcelClick(DataGridView grd)
         {
+            //Copy to clipboard
+            grd.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             copyAlltoClipboard(grd);
             Microsoft.Office.Interop.Excel.Application xlexcel;
             Microsoft.Office.Interop.Excel.Workbook xlWorkBook;

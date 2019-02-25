@@ -4,6 +4,7 @@ using System.Data.Odbc;
 using iTextSharp.text;
 using clsConectaMBA;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace CV5.Planificacion
 {
@@ -60,9 +61,9 @@ namespace CV5.Planificacion
             //flag para chequear si existen un Acreedor en particular
 
             CargarDataGrid();
-
-            return;
-
+            var columnas_formato = new List<int>();
+            columnas_formato.Add(16);
+            fg.FormatoGrid(columnas_formato,dataGridView1);
         }
 
         private void CargarDataGrid()
@@ -85,20 +86,35 @@ namespace CV5.Planificacion
                 }
                 if (!chkAllProv.Checked) { empresa = " AND FP.EMPRESA = '" + _CORP + "'"; } else { empresa = " "; }
                 cs.cerrarConexion();
-                string cadena = "SELECT  INV.PRODUCT_ID, " +
-                    " INV.PRODUCT_NAME, INV.QUANTITY CANTIDAD , CASE " +
+                string cadena = "SELECT  INV.PRODUCT_ID `CODIGO`, " +
+                    " INV.PRODUCT_NAME `PRODUCTO`, IFP.TIPO_ORIGEN `SEGMENTO`, INV.QUANTITY CANTIDAD , CASE " +
                     " WHEN INV.LINE_TOTAL > 0 THEN 'FACTURADO' " +
                     " WHEN INV.LINE_TOTAL = 0 THEN 'BONIFICADO'" +
                     " ELSE 'N/A'" +
                     " END AS `TIPO DE VENTA`, " +
-                    " FP.CODIGO_CLIENTE_EMPRESA, FP.CODIGO_FACTURA, DATE_TO_CHAR(FP.FECHA_FACTURA, 'dd[/]mm[/]yyyy') AS `Fecha factura`, " +
-                    " FP.ORIGEN, FP.VENDEDOR " +
+                    " FIP.NOMBRE_CLIENTE `CLIENTE`, FIP.CLIENT_TYPE `TIPO CLIENTE`, FP.CODIGO_FACTURA `FACTURA`, DATE_TO_CHAR(FP.FECHA_FACTURA, 'dd[/]mm[/]yyyy') AS `FECHA FACTURA`, " +
+                    " CASE FP.ORIGEN  " +
+                        " WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LE2' THEN 'SIERRA' " +
+                        " WHEN 'DA2' THEN 'SIERRA'  WHEN 'FA2' THEN 'SIERRA'  WHEN 'AN2' THEN 'SIERRA' " +
+                        " WHEN 'ME2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' WHEN 'LE3' THEN 'AUSTRO'  " +
+                        " WHEN 'DA3' THEN 'AUSTRO' WHEN 'ME3' THEN 'AUSTRO' WHEN 'FA3' THEN 'AUSTRO'  " +
+                        " WHEN 'AN3' THEN 'AUSTRO' END AS REGION," +
+                    " FP.VENDEDOR `CODIGO VENDEDOR`, VEN.DESCRIPTION_SPN `VENDEDOR`, FIP.ZONA `CIUDAD O GIRA`,FIP.ESTADO `PROVINCIA`, FIP.CIUDAD_PRINCIPAL `CIUDAD`, " +
+                    " FIP.NOMBRE_SECTOR `PARROQUIA`, INV.LINE_TOTAL `VALOR LINEA`  " +
                     " FROM CLNT_FACTURA_PRINCIPAL FP INNER JOIN " +
-                    " INVT_PRODUCTO_MOVIMIENTOS INV ON FP.CODIGO_FACTURA = INV.DOC_ID_CORP2 " +
+                    " INVT_PRODUCTO_MOVIMIENTOS INV ON FP.CODIGO_FACTURA = INV.DOC_ID_CORP2, " +
+                    " CLNT_FICHA_PRINCIPAL FIP, SIST_LISTA_1 VEN, INVT_FICHA_PRINCIPAL IFP " +
                     " WHERE FP.ANULADA = CAST('FALSE' AS BOOLEAN) AND  " +
-                    " FP.CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
-                    " AND FP.FECHA_FACTURA >= '" + Fech1 + "' AND FP.FECHA_FACTURA <= '" + Fech2 + "' and" +
-                    " INV.PRODUCT_ID IS NOT NULL " + empresa + "  ";
+                    " FIP.CODIGO_CLIENTE_EMPRESA=FP.CODIGO_CLIENTE_EMPRESA AND " +
+                    " VEN.CODE = FP.VENDEDOR AND " +
+                    " VEN.GROUP_CATEGORY='SELLm'AND " +
+                    " VEN.CORP = FP.EMPRESA AND " +
+                    " IFP.PRODUCT_ID_CORP = INV.PRODUCT_ID_CORP AND" +
+                    " FP.CONFIRMADO = CAST('TRUE' AS BOOLEAN) AND " +
+                    " FP.FECHA_FACTURA >= '" + Fech1 + "' AND " +
+                    " FP.FECHA_FACTURA <= '" + Fech2 + "' AND" +
+                    " INV.PRODUCT_ID IS NOT NULL " + empresa + "  " +
+                    " ORDER BY FP.CODIGO_FACTURA";
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
@@ -153,7 +169,8 @@ namespace CV5.Planificacion
             //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
-            float[] widths = new float[] {2f, 2f, 2f, 2f};
+            float[] widths = new float[] {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f,
+                                          2f, 2f, 2f, 2f,2f, 2f, 2f};
             //Se cambia la fuente para el contenidol reporte
             _standardFont = FontFactory.GetFont(FontFactory.HELVETICA, 6);
             font = R.Fuente(_standardFont);

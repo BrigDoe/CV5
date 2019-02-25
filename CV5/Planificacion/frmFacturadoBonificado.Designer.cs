@@ -331,7 +331,7 @@
             this.Name = "frmFacturadoBonificado";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Productos facturados y bonificados";
+            this.Text = "Reporte de productos por sector";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);
             this.tStripOpciones.PerformLayout();

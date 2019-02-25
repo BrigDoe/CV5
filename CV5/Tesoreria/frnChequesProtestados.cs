@@ -102,7 +102,8 @@ namespace CV5.Tesoreria
                 string cadena = "SELECT  mov.CODIGO_BANCO_EMPRESA, mov.FECHA_PAGO, " +
                         " banc.Cuenta_banco, banc.Nombre_banco ," +
                         " mov.BENEFICIARIO, mov.VALOR, mov.MEMO, mov.EMPRESA, mov.info_creacion," +
-                        " mov.ORIGEN FROM BANC_MOVIMIENTOS_PRINCIPAL mov " +
+                        " mov.ORIGEN " +
+                        " FROM BANC_MOVIMIENTOS_PRINCIPAL mov    " +
                         " LEFT OUTER JOIN BANC_FICHA_PRINCIPAL banc " +
                         " ON banc.CODIGO_BANCO_EMPRESA = mov.CODIGO_BANCO_EMPRESA " +
                         " WHERE " +
