@@ -2,6 +2,7 @@
 using CV5.Planificacion;
 using System;
 using System.Windows.Forms;
+using CV5.Roles;
 
 namespace CV5
 {
@@ -13,7 +14,7 @@ namespace CV5
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmFacturadoBonificado());
+            Application.Run(new frmVentasDiarias());
         }
     }
 }

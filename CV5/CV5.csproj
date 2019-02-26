@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Aha-Soft-Large-Seo-SEO.ico</ApplicationIcon>
+    <ApplicationIcon>cv5_new.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clsConectaMBA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -241,6 +241,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Aha-Soft-Large-Seo-SEO.ico" />
+    <Content Include="cv5_new.ico" />
+    <Content Include="cv5_orig.ico" />
     <Content Include="Sentencias.txt" />
     <None Include="Resources\if_excel_272697.png" />
     <Content Include="Resources\labovida.jpg">
