@@ -79,6 +79,7 @@
     <Compile Include="Bodega\frmOrdenXDespachar.Designer.cs">
       <DependentUpon>frmOrdenXDespachar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Credito\CabeceraCobros.cs" />
     <Compile Include="Credito\frmFacturas.cs">
       <SubType>Form</SubType>
     </Compile>
