@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Odbc;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using clsConectaMBA;
+using CV5.Credito;
 using CV5.Roles;
 
 namespace CV5
@@ -140,6 +143,77 @@ namespace CV5
             }
             cn.cerrarConexion();
         }
+
+
+        public void FillDataGridANDSAVE(string cadena, DataGridView dataGridView1)
+        {
+            dataGridView1.AllowUserToAddRows = false;
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
+            OdbcDataAdapter adp1 = new OdbcDataAdapter();
+            DataTable dt = new DataTable();
+            adp1.SelectCommand = DbCommand;
+            adp1.Fill(dt);
+
+            if (dt.Rows.Count >= 0)
+            {
+                dataGridView1.DataSource = dt;
+                dataGridView1.Refresh();
+           //     AutoSizeGrid(dataGridView1);
+            }
+
+            CabeceraCobros cabecera = new CabeceraCobros();
+            Create(cabecera, dataGridView1);
+
+        }
+
+        public void Create(CabeceraCobros cabecera, DataGridView dataGridView1)
+        {
+            SQLiteConnection sql_con = new SQLiteConnection
+                ("Data Source=.\\Credito\\BaseCobros.db; Version=3;New=False;Compress=True;");
+
+            sql_con.Open();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                SQLiteCommand insertSQL = new SQLiteCommand("insert into BASECOBROS (FECHA_FACTURA,CODIGO_FACTURA," +
+                        "CODIGO_COBRO,NOMBRE_CLIENTE) values " +
+                        "('" + row.Cells[0].Value.ToString() + "', '" + row.Cells[1].Value.ToString() + "' , '" + row.Cells[1].Value.ToString() +
+                        "' , '" + row.Cells[1].Value.ToString() + "' ", sql_con);
+                try
+                {
+                    insertSQL.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+            }
+            //foreach (DataGridViewRow row in dataGridView1.Rows)
+            //{
+            //    insertSQL.Parameters.Add(row.Cells[0].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[1].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[2].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[3].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[4].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[5].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[6].Value.ToString());
+            //    insertSQL.Parameters.Add((float)Convert.ToDouble(row.Cells[7].Value.ToString()));
+            //    insertSQL.Parameters.Add(row.Cells[8].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[9].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[10].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[11].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[12].Value.ToString());
+            //}
+
+            sql_con.Close();
+            
+        }
+
+
+
+
 
         public void FormatoGrid(List<int> list, DataGridView dgv)
         {

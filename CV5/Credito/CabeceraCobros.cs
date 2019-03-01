@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace CV5.Credito
 {
-    class CabeceraCobros
+    public class CabeceraCobros
     {
         public int ID { get; set; }
         public string FECHA_FACTURA { get; set; }
         public string CODIGO_FACTURA { get; set; }
+        public string CODIGO_COBRO { get; set; }
         public string NOMBRE_CLIENTE { get; set; }
         public string FECHA_PAGO { get; set; }
         public string FECHA_DOCUMENTO { get; set; }

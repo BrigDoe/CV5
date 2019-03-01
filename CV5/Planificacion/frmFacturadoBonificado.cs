@@ -113,7 +113,8 @@ namespace CV5.Planificacion
                     " FP.CONFIRMADO = CAST('TRUE' AS BOOLEAN) AND " +
                     " FP.FECHA_FACTURA >= '" + Fech1 + "' AND " +
                     " FP.FECHA_FACTURA <= '" + Fech2 + "' AND" +
-                    " INV.PRODUCT_ID IS NOT NULL " + empresa + "  " +
+                    " INV.PRODUCT_ID IS NOT NULL " + empresa + "  AND " +
+                    " FIP.CLIENT_TYPE NOT LIKE '%EMPRE%'" +
                     " ORDER BY FP.CODIGO_FACTURA";
                 fg.FillDataGrid(cadena, dataGridView1);
 

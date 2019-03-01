@@ -118,8 +118,6 @@ namespace CV5.Tesoreria
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
-
-
         }
 
 

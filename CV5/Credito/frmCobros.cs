@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace CV5
 {
-    public partial class frmVentasDiarias : Form
+    public partial class frmCobros : Form
     {
 
         Reporte R = new Reporte();
@@ -21,7 +21,7 @@ namespace CV5
         string code_vendedor;
 
 
-        public frmVentasDiarias()
+        public frmCobros()
         {
             InitializeComponent();
             CargarDatos();
@@ -36,9 +36,9 @@ namespace CV5
             " WHERE `CORPORATION NAM` = '" + cmbEmpresa.Text + "'";
             pgb.Style = ProgressBarStyle.Marquee;
             pgb.MarqueeAnimationSpeed = 30;
-           // DESHABILITADO PAARA DEBUG
-           // cmbLocalidad.SelectedIndex = -1;
-           // cmbCodigo.SelectedIndex = -1;
+            // DESHABILITADO PAARA DEBUG
+            // cmbLocalidad.SelectedIndex = -1;
+            // cmbCodigo.SelectedIndex = -1;
         }
 
 
@@ -87,23 +87,12 @@ namespace CV5
             pgb.Visible = true;
             ObtenerFacturas();
             var columnas = new List<int>();
-            columnas.Add(6);
-            columnas.Add(13);
-            columnas.Add(14);
-            columnas.Add(15);
+            columnas.Add(8);
+            columnas.Add(7);
             FormatoGrid(columnas);
-            decimal totalVenta = dataGridView1.Rows.Cast<DataGridViewRow>()
-                .Sum(t => Convert.ToDecimal(t.Cells[6].Value));
-            decimal NC = dataGridView1.Rows.Cast<DataGridViewRow>()
-                .Sum(t => Convert.ToDecimal(t.Cells[14].Value));
-            decimal totalValorBruto = dataGridView1.Rows.Cast<DataGridViewRow>()
-                .Sum(t => Convert.ToDecimal(t.Cells[6].Value));
-            decimal totalValorNeto = dataGridView1.Rows.Cast<DataGridViewRow>()
-                .Sum(t => Convert.ToDecimal(t.Cells[15].Value));
-            txtValorTotal.Text = String.Format("{0:.##}", totalValorNeto);
-            txtNC.Text = String.Format("{0:.##}", NC);
-            txtValorBruto.Text = String.Format("{0:.##}", totalValorBruto);
-            txtValorNeto.Text = String.Format("{0:.##}", totalValorNeto);
+
+            
+
             pgb.Visible = false;
         }
 
@@ -124,7 +113,7 @@ namespace CV5
                          " ORDER BY VEN.DESCRIPTION_SPN ";
             fg.LlenarCombo(query_vendedores, cmbCodigo, 0);
             if (chkVendedor.Checked)
-                cmbCodigo.Enabled = false; cmbCodigo.SelectedIndex = -1;            
+                cmbCodigo.Enabled = false; cmbCodigo.SelectedIndex = -1;
             cmbLocalidad.SelectedIndex = -1;
         }
 
@@ -148,14 +137,14 @@ namespace CV5
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de Cobros", font);
+            R.Titulo(doc, "Reportes de Ventas Diarias", font);
             // Inserta imagen EN DESARROLLO
             //Image img = R.Imagen();
             //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
-            float[] widths = new float[] {1f, 1f, 1.25f, 1f, 1.5f, 1f, 1f,
-                                          2f, 1f,2f,2f,3f,2f,1f,1f,1f};
+            float[] widths = new float[] {1f,1f, 2f, 1.5f, 2f, 1f, 1f, 1f,
+                                          1f, 1f,1f,1f,1f,0.5f,1f};
             //Se cambia la fuente para el contenidol reporte
             _standardFont = FontFactory.GetFont(FontFactory.HELVETICA, 6);
             font = R.Fuente(_standardFont);
@@ -168,7 +157,7 @@ namespace CV5
         void ObtenerFacturas()
         {
             ConexionMba cs = new ConexionMba();
-            if (!fg.CheckDatePicker(dtpFechAct, dtpFechFin))
+            if (!fg.CheckDatePicker(dtpFechAct, dtpFechFin))    
             {
                 string Fech1 = dtpFechAct.Value.ToString("dd/MM/yyyy");
                 string Fech2 = dtpFechFin.Value.ToString("dd/MM/yyyy");
@@ -194,49 +183,44 @@ namespace CV5
                 }
 
 
-                string cadena = " SELECT FP.EMPRESA `EMPRESA `, CASE FP.ORIGEN  WHEN 'PRI' THEN 'COSTA'" +
-                    " WHEN 'LA2' THEN 'SIERRA' WHEN 'LE2' THEN 'SIERRA'  " +
-                    " WHEN 'DA2' THEN 'SIERRA'  WHEN 'FA2' THEN 'SIERRA'  WHEN 'AN2' THEN 'SIERRA' " +
-                    " WHEN 'ME2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' WHEN 'LE3' THEN 'AUSTRO'  " +
-                    " WHEN 'DA3' THEN 'AUSTRO' WHEN 'ME3' THEN 'AUSTRO' WHEN 'FA3' THEN 'AUSTRO' " +
-                    " WHEN 'AN3' THEN 'AUSTRO' END AS REGION, " +
-                    " FIP.ESTADO `PROVINCIA`, FIP.CIUDAD_PRINCIPAL `CIUDAD`, FIP.NOMBRE_SECTOR `SECTOR`, " +
-                    // " FP.codigo_cliente, " +
-                    " DATE_TO_CHAR(FP.fecha_factura, 'dd[/]mm[/]yyyy') AS `FECHA FACT`, " +
-                    " CAST(FP.VALOR_FACTURA AS float) `VALOR TOTAL`, FP.codigo_factura `FACTURA`, " +
-                    " DATE_TO_CHAR(FP.FECHA_EMBARQUE, 'dd[/]mm[/]yyyy') AS `DESPACHO`, " +
-                    // " FP.numero_factura, FP.origen, FP.total_devolucion, valor_factura, " +
-                    " FIP.IDENTIFICACION_FISCAL `IDENTIFICACION`, FIP.NOMBRE_CLIENTE `CLIENTE`, FIP.DIRECCION_PRINCIPAL_1 `DIRECCION`," +
-                    " VEN.DESCRIPTION_SPN `VENDEDOR`, FP.VALOR_FACTURA `VALOR BRUTO`, FP.TOTAL_DEVOLUCION `NOTA DE CREDITO`, " +
-                    " (FP.VALOR_FACTURA - FP.TOTAL_DEVOLUCION) `VALOR NETO`" +
-                //    "FIP.CLIENT_TYPE, FIP.SALESMAN, VEN.DESCRIPTION_SPN " +
-                    " FROM " +
-                    " CLNT_FACTURA_PRINCIPAL FP " +
-                    " INNER JOIN " +
-                    " (CLNT_FICHA_PRINCIPAL FIP INNER JOIN SIST_LISTA_1 VEN ON FIP.SALESMAN = VEN.CODE) " +
-                    " ON FP.CODIGO_CLIENTE_EMPRESA = FIP.CODIGO_CLIENTE_EMPRESA " +
-                    " WHERE ANULADA = CAST('FALSE' AS BOOLEAN) AND CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
-                    " AND FECHA_FACTURA >= '" + Fech1 + "' AND FECHA_FACTURA <='" + Fech2 + "' AND  FIP.CLIENT_TYPE IN ('DISTR', 'FARMA')" +
-                    " AND VEN.GROUP_CATEGORY = 'SELLm' AND VEN.CORP=FIP.EMPRESA ";
-                //" AND FP.EMPRESA = '" + _CORP + "' ";
-                //" AND VEN.CODE= '" +  + "' " +
+                string cadena = "SELECT CASE CAST(CCP.ANULADO AS INT) WHEN 0 THEN 'ACTIVO' WHEN 1 THEN 'ANULADO' END AS VALIDEZ ," +
+                    " DATE_TO_CHAR(FP.FECHA_FACTURA, 'dd[/]mm[/]yyyy') AS `FECHA FACTURA`," +
+                    " CCD.CODIGO_FACTURA  `FACTURA`, CCD.CODIGO_COBRO, " +
+                    " CFP.NOMBRE_CLIENTE `CLIENTE`, DATE_TO_CHAR(CCP.FECHA_COBRO, 'dd[/]mm[/]yyyy') AS `FECHA PAGO`," +
+                    " DATE_TO_CHAR(CCP.FECHA_COBRO, 'dd[/]mm[/]yyyy') AS `FECHA DOCUMENTO`, " +
+                    " DATE_TO_CHAR(FP.FECHA_VENCIMIENTO, 'dd[/]mm[/]yyyy') AS `FECHA VENCIMIENTO` ," +
+                    " CCP.VALOR_COBRO `VALOR COBRO`, CCP.CHEQUE_NUMERO `NUMERO DOCUMENTO`, CCP.ID_FISCAL `CUENTA BANCARIA`," +
+                    " CBFP.FECHA_CHEQUE_O_EXPIRA_TC `FECHA CHEQUE`, CCP.FORMA_DE_PAGO `FORMA DE PAGO`," +
+                    " CCP.CODIGO_COBRADOR `CODIGO COBRADOR`, VEN.DESCRIPTION_SPN `COBRADOR` " +
+                    " FROM CLNT_FICHA_PRINCIPAL CFP, CLNT_COBRO_DETALLE CCD," +
+                    " CLNT_COBRO_PRINCIPAL CCP,CLNT_FACTURA_PRINCIPAL FP, CLNT_COBRO_FORMADEPAGO CBFP, SIST_LISTA_1 VEN" +
+                    " WHERE " +
+                    " CCD.CODIGO_COBRO = CCP.CODIGO_COBRO AND " +
+                    " CFP.CODIGO_CLIENTE_EMPRESA = CCD.CODIGO_CLIENTE AND " +
+                    " CCD.CODIGO_FACTURA = FP.CODIGO_FACTURA  AND " +
+                    " CBFP.CODIGO_COBRO = CCD.CODIGO_COBRO AND" +
+                    " VEN.CODE = CCP.CODIGO_COBRADOR AND" +
+                    " VEN.GROUP_CATEGORY = 'SELLm' AND" +
+                    " VEN.CORP=CCP.EMPRESA AND" +
+                    " CCP.CODIGO_COBRADOR <> '' ";
                 if (cmbLocalidad.SelectedIndex != -1)
-                    cadena += " AND FIP.ZONA= '" + flag_localidad + "' ";
+                    cadena += " AND CFP.ZONA= '" + flag_localidad + "' ";
                 if (cmbRegion.SelectedIndex != -1)
                     cadena += " AND FP.ORIGEN='" + CheckRegion(cmbRegion, flag_region, _CORP) + "' ";
                 if (cmbEmpresa.SelectedIndex != -1)
-                    cadena += " AND FP.EMPRESA ='" + _CORP + "' ";
+                    cadena += " AND CCP.EMPRESA ='" + _CORP + "' ";
                 if (cmbCodigo.SelectedIndex != -1)
                     cadena += " AND VEN.CODE ='" + CheckCodeVendedor() + "' ";
-                if (_CORP == "" && cmbRegion.Text.Length > 0 && flag_region.Length == 0) 
-                    MessageBox.Show("Es necesario seleccionar una empresa para mostrar su region", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);   
+                if (_CORP == "" && cmbRegion.Text.Length > 0 && flag_region.Length == 0)
+                    MessageBox.Show("Es necesario seleccionar una empresa para mostrar su region", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 fg.FillDataGrid(cadena, dataGridView1);
             }
         }
 
 
 
-        private string CheckCodeVendedor()  {
+        private string CheckCodeVendedor()
+        {
             string _CORP = "SELECT CORP FROM SIST_PARAMETROS_EMPRESA" +
             " WHERE `CORPORATION NAM` = '" + cmbEmpresa.Text + "'";
             string query_cod_vendedor = "SELECT  CODE FROM SIST_LISTA_1 " +
@@ -362,7 +346,8 @@ namespace CV5
                 cmbEmpresa.Enabled = false;
                 cmbEmpresa.SelectedIndex = -1;
                 chkVendedor.Enabled = false;
-            } else
+            }
+            else
             {
                 cmbEmpresa.Enabled = true;
                 cmbEmpresa.SelectedIndex = 0;
