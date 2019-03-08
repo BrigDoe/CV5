@@ -27,6 +27,7 @@ namespace CV5.Tesoreria
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = true;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;
@@ -55,9 +56,8 @@ namespace CV5.Tesoreria
             dg.Refresh();
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        private void CargarDataGrid()
         {
-   
             ConexionMba cs = new ConexionMba();
             CleanGrid(dataGridView1);
             Boolean flag;
@@ -103,7 +103,8 @@ namespace CV5.Tesoreria
                 string cadena = "SELECT  mov.CODIGO_BANCO_EMPRESA, mov.FECHA_PAGO, " +
                         " banc.Cuenta_banco, banc.Nombre_banco ," +
                         " mov.BENEFICIARIO, mov.VALOR, mov.MEMO, mov.EMPRESA, mov.info_creacion," +
-                        " mov.ORIGEN FROM BANC_MOVIMIENTOS_PRINCIPAL mov " +
+                        " mov.ORIGEN " +
+                        " FROM BANC_MOVIMIENTOS_PRINCIPAL mov    " +
                         " LEFT OUTER JOIN BANC_FICHA_PRINCIPAL banc " +
                         " ON banc.CODIGO_BANCO_EMPRESA = mov.CODIGO_BANCO_EMPRESA " +
                         " WHERE " +
@@ -111,17 +112,19 @@ namespace CV5.Tesoreria
                         " and mov.Pago_numero=0  AND mov.PAGO_O_DEPOSITO='C' and " +
                         " mov.IMPRESO= cast('True' as Boolean) " +
                         " and mov.EMPRESA = '" + _CORP + "' and " +
-                        " mov.Fecha_Pago >= '" + Fech1 + "' and mov.Fecha_Pago <= '" + Fech2 +"' " ;
+                        " mov.Fecha_Pago >= '" + Fech1 + "' and mov.Fecha_Pago <= '" + Fech2 + "' ";
                 // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 if (flag)
                     cadena += " AND mov.Beneficiario = '" + _Acree + "'";
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
+        }
 
 
-            return;
-
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            CargarDataGrid();
         }
 
 
@@ -236,7 +239,17 @@ namespace CV5.Tesoreria
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            fg.BuscarGrid(dataGridView1, txtBuscar);
+        }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            fg.BuscarGrid(dataGridView1, txtBuscar);
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            CargarDataGrid();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             btnOk.Enabled = true;
         }
 

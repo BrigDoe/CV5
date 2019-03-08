@@ -187,6 +187,8 @@
             // chkAllProv
             // 
             this.chkAllProv.AutoSize = true;
+            this.chkAllProv.Checked = true;
+            this.chkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAllProv.Location = new System.Drawing.Point(782, 34);
             this.chkAllProv.Name = "chkAllProv";
             this.chkAllProv.Size = new System.Drawing.Size(226, 24);
@@ -197,6 +199,7 @@
             // 
             // btnSearch
             // 
+            this.btnSearch.Enabled = false;
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSearch.Location = new System.Drawing.Point(672, 97);
             this.btnSearch.Name = "btnSearch";
@@ -223,10 +226,10 @@
             this.dtpFechFin.CustomFormat = "dd/MM/yyyy";
             this.dtpFechFin.Enabled = false;
             this.dtpFechFin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechFin.Location = new System.Drawing.Point(972, 100);
+            this.dtpFechFin.Location = new System.Drawing.Point(970, 100);
             this.dtpFechFin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dtpFechFin.Name = "dtpFechFin";
-            this.dtpFechFin.Size = new System.Drawing.Size(150, 26);
+            this.dtpFechFin.Size = new System.Drawing.Size(159, 26);
             this.dtpFechFin.TabIndex = 4;
             this.dtpFechFin.Leave += new System.EventHandler(this.dtpFechFin_Leave);
             // 
@@ -259,11 +262,11 @@
             this.dtpFechAct.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechAct.Location = new System.Drawing.Point(783, 100);
             this.dtpFechAct.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dtpFechAct.MinDate = new System.DateTime(2018, 6, 1, 0, 0, 0, 0);
+            this.dtpFechAct.MinDate = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
             this.dtpFechAct.Name = "dtpFechAct";
-            this.dtpFechAct.Size = new System.Drawing.Size(150, 26);
+            this.dtpFechAct.Size = new System.Drawing.Size(160, 26);
             this.dtpFechAct.TabIndex = 3;
-            this.dtpFechAct.Value = new System.DateTime(2018, 6, 1, 0, 0, 0, 0);
+            this.dtpFechAct.Value = new System.DateTime(2019, 1, 1, 0, 0, 0, 0);
             // 
             // label3
             // 
@@ -369,6 +372,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frmPagoProveedores";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pago a proveedores";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);

@@ -6,8 +6,6 @@ using System.Data.Odbc;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Globalization;
-using RestSharp;
-using RestSharp.Authenticators;
 using System.Web.Script;
 using System.Web.Script.Serialization;
 using System.Web;
@@ -258,14 +256,14 @@ namespace CV5
             //nv.Add("docref", "0");
             //nv.Add("vp_linea", "3");
             //var qry = ToQueryString(nv);
-            var client = new RestClient("https://app.urbano.com.ec/ws/ue/tracking/");
-            client.BaseUrl = new Uri("https://app.urbano.com.ec/ws/ue/tracking/?");
-            //client.Authenticator= new SimpleAuthenticator("user", user, "pass", pwd);
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("content-type","application/x-www-form-urlencoded");
-            request.AddHeader("user",user);
-            request.AddHeader("pass",pwd);
-            request.RequestFormat = DataFormat.Json;
+            //var client = new RestClient("https://app.urbano.com.ec/ws/ue/tracking/");
+            //client.BaseUrl = new Uri("https://app.urbano.com.ec/ws/ue/tracking/?");
+            ////client.Authenticator= new SimpleAuthenticator("user", user, "pass", pwd);
+            //var request = new RestRequest(Method.GET);
+            //request.AddHeader("content-type","application/x-www-form-urlencoded");
+            //request.AddHeader("user",user);
+            //request.AddHeader("pass",pwd);
+            //request.RequestFormat = DataFormat.Json;
 
             var obj = new Lad
             {
@@ -274,8 +272,8 @@ namespace CV5
                 vp_linea = "3"
             };
             var json = new JavaScriptSerializer().Serialize(obj);
-            request.AddBody(json);
-            IRestResponse response = client.Execute(request);
+            //request.AddBody(json);
+            //IRestResponse response = client.Execute(request);
             var content = response.Content; // raw content as string
 
         }

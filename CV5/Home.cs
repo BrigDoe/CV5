@@ -7,8 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using MySql.Data;
+using CV5.Produccion;
 using CV5.Tesoreria;
 
 namespace CV5
@@ -29,8 +28,7 @@ namespace CV5
         {
             if (keyData == (Keys.Control | Keys.N))
             {
-                Form formulario_login = new Login();
-                formulario_login.Show();
+
             }
             if (keyData == (Keys.Control | Keys.Q))
             {
@@ -60,16 +58,14 @@ namespace CV5
 
         private void Home_Load(object sender, EventArgs e)
         {
-
+            this.BackColor = Color.FromArgb(255, 232, 232);
         }
 
 
 
         private void nuevoUsuarioCtrlNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form formulario_login = new Login();
-            formulario_login.MdiParent = this;
-            formulario_login.Show();
+ 
         }
 
 
@@ -83,6 +79,43 @@ namespace CV5
         private void chequesProtestadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmChequesProtestados fr_report = new frmChequesProtestados();
+            fr_report.MdiParent = this;
+            fr_report.StartPosition = FormStartPosition.CenterScreen;
+            fr_report.Show();
+        }
+
+        private void entregaExcedenteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmEntregaParcial fr_report = new frmEntregaParcial();
+            fr_report.MdiParent = this;
+            fr_report.StartPosition = FormStartPosition.CenterScreen;
+            fr_report.Show();
+        }
+
+        private void ventasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVentasDiarias fr_report = new frmVentasDiarias();
+            fr_report.MdiParent = this;
+            fr_report.StartPosition = FormStartPosition.CenterScreen;
+            fr_report.Show();
+        }
+
+        private void presupuestoDeVentasYCobranzasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cobrosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCobros fr_report = new frmCobros();
+            fr_report.MdiParent = this;
+            fr_report.StartPosition = FormStartPosition.CenterScreen;
+            fr_report.Show();
+        }
+
+        private void monitorDeCobrosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmMonitorNC fr_report = new frmMonitorNC();
             fr_report.MdiParent = this;
             fr_report.StartPosition = FormStartPosition.CenterScreen;
             fr_report.Show();

@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using System.Data.Odbc;
 using iTextSharp.text;
 using clsConectaMBA;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 
 namespace CV5
 {
@@ -12,6 +15,7 @@ namespace CV5
         Funciones_Generales fg = new Funciones_Generales();
         string ID_Presupuesto;
 
+
         public frmPresupuesto()
         {
             InitializeComponent();
@@ -20,19 +24,26 @@ namespace CV5
 
         private void CargarDatos()
         {
-
             string query = "SELECT  `CORPORATION NAM` FROM SIST_Parametros_Empresa ";
             fg.LlenarCombo(query, cmbEmpresa);
-
-           
+            string _CORP = "SELECT CORP FROM SIST_PARAMETROS_EMPRESA" +
+                          " WHERE `CORPORATION NAM` = '" + cmbEmpresa.Text + "'";
             query = "SELECT INVT_Presupuesto_Principal.PRES_CODIGO_ID " +
-                "  FROM INVT_Presupuesto_Principal INVT_Presupuesto_Principal";
-            fg.LlenarCombo(query,cmbCodigo,0);
+                "  FROM INVT_Presupuesto_Principal INVT_Presupuesto_Principal WHERE " +
+                " CORP='" + fg.EjecutarQuery(_CORP) + "'";
 
-            cmbLocalidad.SelectedIndex = 0;
-            cmbMes.SelectedIndex = 0;
+
+            fg.LlenarCombo(query, cmbCodigo, 0);
+
+            cmbLocalidad.SelectedIndex = -1;
+            CultureInfo CulturaEcu = new CultureInfo("es-ES", false);
+            cmbMes.DataSource = CulturaEcu.DateTimeFormat
+                                   .MonthNames.Take(12).ToList();
+            cmbMes.SelectedIndex = Int32.Parse(DateTime.Now.ToString("MM")) - 1 ;
+
 
         }
+
 
         private void CambiarRef()
         {
@@ -41,6 +52,7 @@ namespace CV5
                 " INVT_Presupuesto_Principal.PRES_ANIO, INVT_Presupuesto_Principal.PRES_CODIGO_ID_CORP" +
               " FROM INVT_Presupuesto_Principal INVT_Presupuesto_Principal WHERE " +
               " INVT_Presupuesto_Principal.PRES_CODIGO_ID = '" + cmbCodigo.Text + "'";
+
             //flag para chequear si existen un Acreedor en particular
             ConexionMba cs = new ConexionMba();
             OdbcCommand DbCommand = new OdbcCommand(query, cs.getConexion());
@@ -59,8 +71,9 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
-            
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             btnOk.Enabled = true;
+
         }
 
 
@@ -104,11 +117,12 @@ namespace CV5
                     _CORP = reader.GetString(0);
                 }
                 cs.cerrarConexion();
-                
-                if(cmbLocalidad.SelectedIndex == 0)
+
+                if (cmbLocalidad.SelectedIndex == 0)
                 {
                     flag_localidad = "C";
-                } else
+                }
+                else
                 {
                     flag_localidad = "G";
                 }
@@ -117,11 +131,12 @@ namespace CV5
                 string cadena = "SELECT " +
                 " Vend.DESCRIPTION_SPN as `VENDEDOR`, " +
                 " INVT_Presupuesto_Detalle.PRES_VALOR_" + (cmbMes.SelectedIndex + 1) + " as CUOTA, " +
-                " CASE Vend.Origin  WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LA3' THEN 'AUSTRO' END AS REGION  " +
+                " CASE Vend.Origin  WHEN 'PRI' THEN 'COSTA' WHEN 'LA2' THEN 'SIERRA' WHEN 'LA3' THEN " +
+                " 'AUSTRO' END AS REGION  " +
                 " FROM INVT_Presupuesto_Detalle, " +
-                " SIST_Lista_1 Vend WHERE(INVT_Presupuesto_Detalle.PRES_CODIGO_ID_CORP = 'PR01-" +_CORP + "') " +
+                " SIST_Lista_1 Vend WHERE(INVT_Presupuesto_Detalle.PRES_CODIGO_ID_CORP = 'PR01-" + _CORP + "') " +
                 " AND Vend.GROUP_CATEGORY = 'SELLm' AND INVT_Presupuesto_Detalle.PRES_VENDEDOR = Vend.CODE " +
-                " AND Vend.CORP = INVT_Presupuesto_Detalle.CORP AND INVT_Presupuesto_Detalle.PRES_CODIGO_ZONA = '" + flag_localidad + "'";    
+                " AND Vend.CORP = INVT_Presupuesto_Detalle.CORP AND INVT_Presupuesto_Detalle.PRES_CODIGO_ZONA = '" + flag_localidad + "'";
 
 
                 //string cadena = "SELECT  Vend.DESCRIPTION_SPN as `VENDEDOR`, " +
@@ -164,7 +179,7 @@ namespace CV5
 
         private void cmbAcreedor_Leave(object sender, EventArgs e)
         {
-            
+
         }
 
         private void cmbEmpresa_Leave(object sender, EventArgs e)
@@ -182,6 +197,14 @@ namespace CV5
 
         private void cmbEmpresa_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string _CORP = "SELECT CORP FROM SIST_PARAMETROS_EMPRESA" +
+                          " WHERE `CORPORATION NAM` = '" + cmbEmpresa.Text + "'";
+            string query = "SELECT INVT_Presupuesto_Principal.PRES_CODIGO_ID " +
+                "  FROM INVT_Presupuesto_Principal INVT_Presupuesto_Principal WHERE " +
+                " CORP='" + fg.EjecutarQuery(_CORP) + "'";
+            fg.LlenarCombo(query, cmbCodigo, 0);
+            cmbLocalidad.SelectedIndex = 0;
+            cmbMes.SelectedIndex = 0;
         }
 
 
@@ -204,15 +227,14 @@ namespace CV5
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de Cuentas por pagar", font);
+            R.Titulo(doc, "Reportes de Presupuesto", font);
             // Inserta imagen EN DESARROLLO
             //Image img = R.Imagen();
             //R.SetImagen(img, doc);
             //Settear anchos de la tabla en base a los encabezados
             //Se debe tener el numero exacto de encabezados que se presentan
             float[] widths = new float[] {2f, 1f, 2f, 1f, 1f, 1.25f, 1.25f, 1f,
-                                          1f, 1f,2f, 2f,1f, 3f, 3f,
-                                          0.5f};
+                                          1f, 1f,2f};
             //Se cambia la fuente para el contenidol reporte
             _standardFont = FontFactory.GetFont(FontFactory.HELVETICA, 6);
             font = R.Fuente(_standardFont);
@@ -222,50 +244,10 @@ namespace CV5
         }
 
 
-        //Formateo de celdas decimales para el datagrid 
-        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (this.dataGridView1.Columns[e.ColumnIndex].Index == 1 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 2 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 3 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 4 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 5 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 6 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 7 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 8 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 9 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 10 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 11 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 12 ||
-                this.dataGridView1.Columns[e.ColumnIndex].Index == 13)
-            {
-                if (e.Value != null)
-                {
-                    ConvertirFloat(e);
-                }
-            }
-        }
 
 
-        //SE REALIZA EL FORMATEO PARA DECIMALES 
-        private void ConvertirFloat(DataGridViewCellFormattingEventArgs formatting)
-        {
-            if (formatting.Value != null)
-            {
-                try
-                {
-                    decimal e;
-                    e = decimal.Parse(formatting.Value.ToString());
-                    // Convierte a decimales
-                    formatting.Value = e.ToString("N2");
-                }
-                catch (FormatException)
-                {
-                    formatting.FormattingApplied = false;
 
-                }
-            }
-        }
+
 
         private void label5_Click(object sender, EventArgs e)
         {
@@ -291,5 +273,129 @@ namespace CV5
         {
 
         }
+
+        void ObtenerFacturas()
+        {
+            ConexionMba cs = new ConexionMba();
+            CleanGrid(dataGridView1);
+            if (!string.IsNullOrEmpty(cmbEmpresa.Text))
+            {
+                string CORP = "SELECT CORP FROM SIST_Parametros_Empresa  WHERE `CORPORATION NAM`= '" + cmbEmpresa.Text + "' ";
+                OdbcCommand DbCommand = new OdbcCommand(CORP, cs.getConexion());
+                OdbcDataReader reader = DbCommand.ExecuteReader();
+                string _CORP = "";
+                string flag_localidad;
+
+                while (reader.Read())
+                {
+                    _CORP = reader.GetString(0);
+                }
+
+                cs.cerrarConexion();
+
+                if (cmbLocalidad.SelectedIndex == 0)
+                {
+                    flag_localidad = "C";
+                }
+                else
+                {
+                    flag_localidad = "G";
+                }
+
+                string cadena = " SELECT FP.codigo_factura, FP.codigo_cliente_empresa, FP.empresa," +
+                    " DATE_TO_CHAR(FP.fecha_factura, 'dd[/]mm[/]yyyy') AS `fecha fact`, " +
+                    " FP.numero_factura, FP.origen, FP.total_devolucion, valor_factura, " +
+                    " FIP.CLIENT_TYPE, FIP.SALESMAN, VEN.DESCRIPTION_SPN " +
+                    " FROM " +
+                    " CLNT_FACTURA_PRINCIPAL FP " +
+                    " INNER JOIN " +
+                    " (CLNT_FICHA_PRINCIPAL FIP INNER JOIN SIST_LISTA_1 VEN ON FIP.SALESMAN = VEN.CODE) " +
+                    " ON FP.CODIGO_CLIENTE_EMPRESA = FIP.CODIGO_CLIENTE_EMPRESA " +
+                    " WHERE ANULADA = CAST('FALSE' AS BOOLEAN) AND CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
+                    " AND FECHA_FACTURA >= '01/06/2018' AND  FIP.CLIENT_TYPE IN ('DISTR', 'FARMA')" +
+                    " AND VEN.GROUP_CATEGORY = 'SELLm' AND VEN.CORP=FIP.EMPRESA " +
+                    " AND FP.EMPRESA = '" + _CORP + "' " +
+                    " AND FIP.ZONA= '" + flag_localidad + "' ";
+
+                //string cadena = "SELECT " +
+                //" FP.codigo_factura, FP.codigo_cliente_empresa, " +
+                //" FP.empresa, DATE_TO_CHAR(FP.fecha_factura, 'dd[/]mm[/]yyyy') AS `Fecha factura`, " +
+                //" FP.numero_factura, FP.origen, FP.total_devolucion, " +
+                //" FP.valor_factura, FIP.CLIENT_TYPE, FIP.SALESMAN, VEN.DESCRIPTION_SPN " +
+                //" FROM " +
+                //" CLNT_FACTURA_PRINCIPAL FP " +
+                //" INNER JOIN " +
+                //" (CLNT_FICHA_PRINCIPAL FIP INNER JOIN SIST_LISTA_1 VEN ON FIP.SALESMAN = VEN.CODE) " +
+                //" WHERE " +
+                //" ANULADA = CAST('FALSE' AS BOOLEAN) AND " +
+                //" CONFIRMADO = CAST('TRUE' AS BOOLEAN) AND " +
+                //" FECHA_FACTURA >= '01/06/2018' AND " +
+                //" FIP.CLIENT_TYPE IN ('DISTR', 'FARMA') AND " +
+                //" VEN.GROUP_CATEGORY = 'SELLm' AND " +
+                //" VEN.CORP = FIP.EMPRESA";
+
+                fg.FillDataGrid(cadena, dataGridView1);
+
+            }
+
+        }
+
+
+        void Pruebita()
+        {
+            ConexionMba cs = new ConexionMba();
+            CleanGrid(dataGridView1);
+            if (!string.IsNullOrEmpty(cmbEmpresa.Text))
+            {
+                string CORP = "SELECT CORP FROM SIST_Parametros_Empresa  WHERE `CORPORATION NAM`= '" + cmbEmpresa.Text + "' ";
+                OdbcCommand DbCommand = new OdbcCommand(CORP, cs.getConexion());
+                OdbcDataReader reader = DbCommand.ExecuteReader();
+                string _CORP = "";
+                string flag_localidad;
+
+                while (reader.Read())
+                {
+                    _CORP = reader.GetString(0);
+
+                    if (cmbLocalidad.SelectedIndex == 0)
+                    {
+                        flag_localidad = "C";
+                    }
+                    else
+                    {
+                        flag_localidad = "G";
+                    }
+                    string cadena = " SELECT VEN.DESCRIPTION_SPN, TRUNC(SUM(valor_factura), 2)   `Valor Factura`" +
+                        " FROM " +
+                        " CLNT_FACTURA_PRINCIPAL FP " +
+                        " INNER JOIN " +
+                        " (CLNT_FICHA_PRINCIPAL FIP INNER JOIN SIST_LISTA_1 VEN ON FIP.SALESMAN = VEN.CODE) " +
+                        " ON FP.CODIGO_CLIENTE_EMPRESA = FIP.CODIGO_CLIENTE_EMPRESA " +
+                        " WHERE ANULADA = CAST('FALSE' AS BOOLEAN) AND CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
+                        " AND FECHA_FACTURA >=  AND  FIP.CLIENT_TYPE IN ('DISTR', 'FARMA')" +
+                        " AND VEN.GROUP_CATEGORY = 'SELLm' AND VEN.CORP=FIP.EMPRESA " +
+                        " AND FP.EMPRESA = '" + _CORP + "' " +
+                        " AND FIP.ZONA= '" + flag_localidad + "' " +
+                        " GROUP BY VEN.DESCRIPTION_SPN ";
+
+                    fg.FillDataGrid(cadena, dataGridView1);
+                }
+                cs.cerrarConexion();
+            }
+
+        }
+
+        private void btnCheckVen_Click(object sender, EventArgs e)
+        {
+            // USAR ESTE PARA OBTENER FACTURAS --->  ObtenerFacturas();
+            Pruebita();
+            //using (frmLoading frm = new frmLoading(new Action() => Pruebita()))
+            //{
+            //    frm.ShowDialog(this);
+            //}
+
+        }
+
+
     }
 }

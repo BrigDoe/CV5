@@ -1,10 +1,10 @@
-﻿using CV5.Produccion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using CV5.Tesoreria;
+using CV5.Planificacion;
 using CV5.Credito;
+using System;
+using System.Windows.Forms;
+using CV5.Roles;
+using CV5.Produccion;
 
 namespace CV5
 {
@@ -16,7 +16,7 @@ namespace CV5
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmFacturas());
+            Application.Run(new Home());
         }
     }
 }

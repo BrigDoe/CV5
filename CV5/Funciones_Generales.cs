@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
-using System.Data.Common;
 using System.Data.Odbc;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using clsConectaMBA;
+using CV5.Credito;
+using CV5.Roles;
 
 namespace CV5
 {
@@ -17,12 +19,10 @@ namespace CV5
     {
         
         public void LlenarCombo(String Sql, ComboBox cb, int index=0) { 
-
             cb.MaxDropDownItems = 6;
             cb.DropDownStyle = ComboBoxStyle.DropDownList;
             cb.IntegralHeight = false;
             cb.Enabled=true;
-
             try
             {
                 Fill(Sql, cb, 0);
@@ -39,8 +39,69 @@ namespace CV5
                 Application.Exit();
             }
         }
-        
-       
+
+        public void BuscarGrid(DataGridView dg, TextBox txtBuscar)
+        {
+            if (txtBuscar.Visible == false) { txtBuscar.Visible = true; } else { txtBuscar.Visible = false; }
+            txtBuscar.Text = "Texto a buscar...";
+            txtBuscar.SelectAll();
+            txtBuscar.Focus();
+            txtBuscar.KeyDown += (sender, e) => tb_KeyDown(sender, e, dg, txtBuscar);
+        }
+
+        void tb_KeyDown(object sender, KeyEventArgs e, DataGridView dataGridView1,TextBox txtBuscar)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BuscarDataGrid(dataGridView1, txtBuscar.Text.ToUpper());
+            }
+        }
+
+
+        public void LimpiarGrid(DataGridView dg)
+        {
+            dg.DataSource = null;
+            dg.Refresh();
+        }
+
+        public string EjecutarQuery(string query)
+        {
+            ConexionMba cs = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(query, cs.getConexion());
+            OdbcDataReader reader = DbCommand.ExecuteReader();
+            string _value = "";
+            while (reader.Read())
+            {
+                _value = reader.GetString(0);
+            }
+            return _value;
+        }
+
+        public void BuscarDataGrid(DataGridView dg1, string txt_a_buscar)
+        {
+            int rowIndex = -1;            
+            string searchValue = txt_a_buscar;
+            dg1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            try
+            {
+                foreach (DataGridViewRow row in dg1.Rows)
+                {
+                    while (row.Cells[1].Value.ToString().Contains(searchValue))
+                    {
+                        rowIndex = row.Index;
+                        dg1.Rows[rowIndex].Selected = true;      
+                        break;
+                    }
+                   
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+
 
 
         private void Fill(string query, ComboBox cb, int a)
@@ -63,11 +124,10 @@ namespace CV5
             cn.cerrarConexion();
         }
 
+
+       
         public void FillDataGrid(string cadena, DataGridView dataGridView1)
         {
-
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            
             dataGridView1.AllowUserToAddRows = false;
             ConexionMba cn = new ConexionMba();
             OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
@@ -81,9 +141,88 @@ namespace CV5
                 dataGridView1.Refresh();
                 AutoSizeGrid(dataGridView1);
             }
-            
             cn.cerrarConexion();
         }
+
+
+        public void FillDataGridANDSAVE(string cadena, DataGridView dataGridView1)
+        {
+            dataGridView1.AllowUserToAddRows = false;
+            ConexionMba cn = new ConexionMba();
+            OdbcCommand DbCommand = new OdbcCommand(cadena, cn.getConexion());
+            OdbcDataAdapter adp1 = new OdbcDataAdapter();
+            DataTable dt = new DataTable();
+            adp1.SelectCommand = DbCommand;
+            adp1.Fill(dt);
+
+            if (dt.Rows.Count >= 0)
+            {
+                dataGridView1.DataSource = dt;
+                dataGridView1.Refresh();
+           //     AutoSizeGrid(dataGridView1);
+            }
+
+            CabeceraCobros cabecera = new CabeceraCobros();
+            Create(cabecera, dataGridView1);
+
+        }
+
+        public void Create(CabeceraCobros cabecera, DataGridView dataGridView1)
+        {
+            SQLiteConnection sql_con = new SQLiteConnection
+                ("Data Source=.\\Credito\\BaseCobros.db; Version=3;New=False;Compress=True;");
+
+            sql_con.Open();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                SQLiteCommand insertSQL = new SQLiteCommand("insert into BASECOBROS (FECHA_FACTURA,CODIGO_FACTURA," +
+                        "CODIGO_COBRO,NOMBRE_CLIENTE) values " +
+                        "('" + row.Cells[0].Value.ToString() + "', '" + row.Cells[1].Value.ToString() + "' , '" + row.Cells[1].Value.ToString() +
+                        "' , '" + row.Cells[1].Value.ToString() + "' ", sql_con);
+                try
+                {
+                    insertSQL.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+
+            }
+            //foreach (DataGridViewRow row in dataGridView1.Rows)
+            //{
+            //    insertSQL.Parameters.Add(row.Cells[0].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[1].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[2].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[3].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[4].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[5].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[6].Value.ToString());
+            //    insertSQL.Parameters.Add((float)Convert.ToDouble(row.Cells[7].Value.ToString()));
+            //    insertSQL.Parameters.Add(row.Cells[8].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[9].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[10].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[11].Value.ToString());
+            //    insertSQL.Parameters.Add(row.Cells[12].Value.ToString());
+            //}
+
+            sql_con.Close();
+            
+        }
+
+
+
+
+
+        public void FormatoGrid(List<int> list, DataGridView dgv)
+        {
+            foreach (int cols in list)
+            {
+                dgv.Columns[cols].DefaultCellStyle.Format = "N2";
+            }
+        }
+
 
 
         public void FillDataGridNewRow(string cadena, DataGridView dataGridView1,
@@ -98,6 +237,7 @@ namespace CV5
             DataTable dt = new DataTable();
             dt.Rows.InsertAt(NuevaRow, dt.Rows.Count);
             adp1.SelectCommand = DbCommand;
+
             adp1.Fill(dt);
             
             if (dt.Rows.Count > 0)
@@ -132,15 +272,21 @@ namespace CV5
 
         public void AutoSizeGrid(DataGridView dataGridView)
         {
+
             for (int i = 0; i < dataGridView.ColumnCount; i++)
             {
                 dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 int widthCol = dataGridView.Columns[i].Width;
                 dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                dataGridView.Columns[i].Width = widthCol;
+                dataGridView.Columns[i].Width = widthCol;               
             }
+            //Loading.Close();
         }
 
+        private void myStartingMethod()
+        {
+            
+        }
 
         public Image Base64ToImage(string base64String)
         {
@@ -197,33 +343,32 @@ namespace CV5
             cb1.Items.Clear();
         }
 
+        private void copyAlltoClipboard(DataGridView grd)
+        {
+            grd.SelectAll();
+            DataObject dataObj = grd.GetClipboardContent();
+            if (dataObj != null)
+                Clipboard.SetDataObject(dataObj);
+        }
+
+
         public void ExcelClick(DataGridView grd)
         {
-            SaveFileDialog fichero = new SaveFileDialog();
-            fichero.Filter = "Excel (*.xls)|*.xls";
-            if (fichero.ShowDialog() == DialogResult.OK)
-            {
-                Microsoft.Office.Interop.Excel.Application aplicacion;
-                Microsoft.Office.Interop.Excel.Workbook libros_trabajo;
-                Microsoft.Office.Interop.Excel.Worksheet hoja_trabajo;
-                aplicacion = new Microsoft.Office.Interop.Excel.Application();
-                libros_trabajo = aplicacion.Workbooks.Add();
-
-                hoja_trabajo =
-                    (Microsoft.Office.Interop.Excel.Worksheet)libros_trabajo.Worksheets.get_Item(1);
-                //Recorremos el DataGridView rellenando la hoja de trabajo
-                for (int i = 0; i < grd.Rows.Count - 1; i++)
-                {
-                    for (int j = 0; j < grd.Columns.Count; j++)
-                    {
-                        hoja_trabajo.Cells[i + 1, j + 1] = grd.Rows[i].Cells[j].FormattedValue.ToString();
-                    }
-                }
-                libros_trabajo.SaveAs(fichero.FileName,
-                    Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookNormal);
-                libros_trabajo.Close(true);
-                aplicacion.Quit();
-            }
+            //Copy to clipboard
+            grd.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            copyAlltoClipboard(grd);
+            Microsoft.Office.Interop.Excel.Application xlexcel;
+            Microsoft.Office.Interop.Excel.Workbook xlWorkBook;
+            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet;
+            object misValue = System.Reflection.Missing.Value;
+            xlexcel = new Microsoft.Office.Interop.Excel.Application();
+            xlexcel.Visible = true;
+            xlWorkBook = xlexcel.Workbooks.Add(misValue);
+            xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            Microsoft.Office.Interop.Excel.Range CR = (Microsoft.Office.Interop.Excel.Range)xlWorkSheet.Cells[1, 1];
+            CR.Select();
+            xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
         }
     }
+    
 }

@@ -28,7 +28,9 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
-            cmbAcreedor.Enabled = true;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            cmbAcreedor.Enabled = false;
+            btnBuscar.Enabled = false;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;
             btnOk.Enabled = true;
@@ -91,19 +93,25 @@ namespace CV5
                 {
                     flag = false;
                 }
+
+
                 string cadena = "SELECT pfp.VENDOR_NAME AS Proveedor , TRIM(' DIAS' FROM pfp.`TERMS ALFA`) AS `Dias Credito`, " +
-                "pcu.`VEND INV REF` AS Factura, DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`, " +
-                "fp.`RETENTION BASIS`  AS Subtotal, fp.MONTO_IMPUESTO_1 as `Total Impuestos`, fp.`AMOUNT TAX2` AS `Total Cr Tributario`," +
-                "fp.INVOICE_TOTAL AS `Total Factura`, pcu.`PAYMENT AMOUNT` AS `Total Pagos`, " +
-                "pcu.`AMOUNT DUE` AS `Saldos Actual`,DATE_TO_CHAR(bmp.FECHA_PAGO, 'dd[/]mm[/]yyyy') as `Fecha Cheque`, " +
-                " bfp.NOMBRE_BANCO AS Banco, pcu.`CHECK NUMBER` AS `No. Cheque`, fp.MEMO as `F. Memo`, bmp.MEMO as Memo, " +
-                "pfp.LOCALIZACION_PROVEEDOR as `L/E` " +
-                "FROM PROV_Cobros_Cuotas pcu, PROV_Factura_Principal fp, PROV_Ficha_Principal pfp, BANC_Movimientos_Principal bmp, BANC_FICHA_PRINCIPAL bfp " +
-                "WHERE PROV_Cobros_Cuotas.`VEND INV REF` = fp.DOC_REFERENCE AND bfp.CODIGO_BANCO_EMPRESA = bmp.CODIGO_BANCO_EMPRESA " +
-                "AND  pcu.`CHECK ID CORP`= bmp.CODIGO_MOVIMIENTO_EMPRESA " +
-                "AND fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA " +
-                "AND (PROV_Cobros_Cuotas.CORP = '" +  _CORP +  "') AND " +
-                "fp.VOID = cast('False' as Boolean) and fp.INVOICE_DATE >= '"+  Fech1 + "' and fp.INVOICE_DATE <= '" + Fech2 + "'";
+                " fp.DOC_REFERENCE AS Factura, " +
+                " DATE_TO_CHAR(fp.INVOICE_DATE, 'dd[/]mm[/]yyyy') AS `Fecha factura`," +
+                " fp.`RETENTION BASIS`  AS Subtotal, fp.MONTO_IMPUESTO_1 as `Total Impuestos`, " +
+                " fp.`AMOUNT TAX2` AS `Total Cr Tributario`,fp.INVOICE_TOTAL AS `Total Factura`, " +
+                " fp.`AMOUNT PAID` AS `Total Pagos`, fp.`BALANCE` AS `Saldos Actual`, " +
+                " fp.MEMO as `F.Memo`,  " +
+                " pfp.LOCALIZACION_PROVEEDOR as `L / E` " +
+                " FROM PROV_Factura_Principal fp, " +
+                " PROV_Ficha_Principal pfp " +
+                " WHERE " +
+                " fp.VENDOR_ID_CORP = pfp.CODIGO_PROVEEDOR_EMPRESA AND " +
+                " fp.VOID = cast('False' as Boolean) AND " +
+                " fp.INVOICE_DATE >= '" +Fech1+ "' AND " +
+                " fp.INVOICE_DATE <= '"+Fech2+"' AND " +
+                " fp.CORP = '" + _CORP + "' ";
+                //"pcu.`PAYMENT AMOUNT` < fp.INVOICE_TOTAL";
                // string cadena = "SELECT `INVOICE ID`, CORP, CON_DATOS, REFERENCIA_3, COBRADOR, PEDIDO_N FROM   CLNT_Factura_Principal_Adiciona";
                 if (flag)
                    cadena+=" AND fp.VENDOR_ID_CORP = '" + _Acree + "'";
@@ -142,8 +150,8 @@ namespace CV5
                 btnSearch.Enabled = false;
             } else
             {
-                cmbAcreedor.Enabled = true;
-                btnSearch.Enabled = true;
+                cmbAcreedor.Enabled = false;
+                btnSearch.Enabled = false;
             }
         }
 
