@@ -28,6 +28,7 @@ namespace CV5.Bodega
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = true;
             btnOk.Enabled = true;
         }

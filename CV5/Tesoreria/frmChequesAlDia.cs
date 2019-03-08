@@ -33,6 +33,7 @@ namespace CV5.Roles
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = false;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;

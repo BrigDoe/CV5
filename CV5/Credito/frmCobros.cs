@@ -46,6 +46,7 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             btnOk.Enabled = true;
         }
 
@@ -83,6 +84,7 @@ namespace CV5
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             CleanGrid(dataGridView1);
             pgb.Visible = true;
             ObtenerFacturas();
@@ -90,10 +92,11 @@ namespace CV5
             columnas.Add(8);
             columnas.Add(7);
             FormatoGrid(columnas);
-
-            
-
+            decimal totalVenta = dataGridView1.Rows.Cast<DataGridViewRow>()
+               .Sum(t => Convert.ToDecimal(t.Cells[8].Value));
+            txtValorTotal.Text = String.Format("{0:.##}", totalVenta);
             pgb.Visible = false;
+            Cursor.Current = Cursors.Default;
         }
 
         public void StopBarra()
@@ -137,7 +140,7 @@ namespace CV5
             //Inicia la apertura del documento y escritura
             R.Iniciar(doc);
             //Titulo
-            R.Titulo(doc, "Reportes de Ventas Diarias", font);
+            R.Titulo(doc, "Reportes de Cobros", font);
             // Inserta imagen EN DESARROLLO
             //Image img = R.Imagen();
             //R.SetImagen(img, doc);
@@ -200,6 +203,7 @@ namespace CV5
                     " CCD.CODIGO_FACTURA = FP.CODIGO_FACTURA  AND " +
                     " CBFP.CODIGO_COBRO = CCD.CODIGO_COBRO AND" +
                     " VEN.CODE = CCP.CODIGO_COBRADOR AND" +
+                    " CCP.FECHA_COBRO >= '" + Fech1 + "' AND CCP.FECHA_COBRO <='" + Fech2 + "' AND" +
                     " VEN.GROUP_CATEGORY = 'SELLm' AND" +
                     " VEN.CORP=CCP.EMPRESA AND" +
                     " CCP.CODIGO_COBRADOR <> '' ";

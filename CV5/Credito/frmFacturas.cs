@@ -28,6 +28,7 @@ namespace CV5.Credito
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = true;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;
@@ -58,6 +59,7 @@ namespace CV5.Credito
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             //flag para chequear si existen un Acreedor en particular
             ConexionMba cs = new ConexionMba();
             CleanGrid(dataGridView1);
@@ -113,10 +115,8 @@ namespace CV5.Credito
                 fg.FillDataGrid(cadena, dataGridView1);
 
             }
-
-
-            return;
-
+            Cursor.Current = Cursors.Default;
+            return;          
         }
 
 

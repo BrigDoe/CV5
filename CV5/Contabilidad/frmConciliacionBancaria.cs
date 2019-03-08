@@ -53,6 +53,7 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbCBancaria.Enabled = true;
             dtpAnio.Enabled = true;
             btnOk.Enabled = true;

@@ -27,6 +27,7 @@ namespace CV5.Tesoreria
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = true;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;

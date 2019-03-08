@@ -68,12 +68,6 @@
             this.pgb = new System.Windows.Forms.ProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.txtValorNeto = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtValorBruto = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtNC = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtValorTotal = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -514,12 +508,6 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.txtValorNeto);
-            this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.txtValorBruto);
-            this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.txtNC);
             this.groupBox5.Controls.Add(this.label8);
             this.groupBox5.Controls.Add(this.txtValorTotal);
             this.groupBox5.Controls.Add(this.label6);
@@ -528,58 +516,6 @@
             this.groupBox5.Size = new System.Drawing.Size(1271, 61);
             this.groupBox5.TabIndex = 36;
             this.groupBox5.TabStop = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(934, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(100, 23);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "Valor Neto:";
-            // 
-            // txtValorNeto
-            // 
-            this.txtValorNeto.Location = new System.Drawing.Point(1042, 21);
-            this.txtValorNeto.Name = "txtValorNeto";
-            this.txtValorNeto.Size = new System.Drawing.Size(160, 26);
-            this.txtValorNeto.TabIndex = 7;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(630, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(106, 23);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "Valor bruto:";
-            // 
-            // txtValorBruto
-            // 
-            this.txtValorBruto.Location = new System.Drawing.Point(738, 21);
-            this.txtValorBruto.Name = "txtValorBruto";
-            this.txtValorBruto.Size = new System.Drawing.Size(160, 26);
-            this.txtValorBruto.TabIndex = 5;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
-            this.label9.Location = new System.Drawing.Point(400, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 23);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "N/C:";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // txtNC
-            // 
-            this.txtNC.Location = new System.Drawing.Point(453, 21);
-            this.txtNC.Name = "txtNC";
-            this.txtNC.Size = new System.Drawing.Size(160, 26);
-            this.txtNC.TabIndex = 3;
             // 
             // label8
             // 
@@ -622,7 +558,7 @@
             this.Name = "frmCobros";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Ventas diarias";
+            this.Text = "Cobros";
             this.Load += new System.EventHandler(this.frmPagoProveedores_Load);
             this.tStripOpciones.ResumeLayout(false);
             this.tStripOpciones.PerformLayout();
@@ -679,15 +615,9 @@
         private System.Windows.Forms.ComboBox cmbRegion;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtValorBruto;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox txtNC;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtValorTotal;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox txtValorNeto;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox chkEmpresa;
         private System.Windows.Forms.CheckBox chkVendedor;

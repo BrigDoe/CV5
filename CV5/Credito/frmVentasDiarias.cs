@@ -46,6 +46,7 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             btnOk.Enabled = true;
         }
 
@@ -83,6 +84,7 @@ namespace CV5
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             CleanGrid(dataGridView1);
             pgb.Visible = true;
             ObtenerFacturas();
@@ -105,6 +107,7 @@ namespace CV5
             txtValorBruto.Text = String.Format("{0:.##}", totalValorBruto);
             txtValorNeto.Text = String.Format("{0:.##}", totalValorNeto);
             pgb.Visible = false;
+            Cursor.Current = Cursors.Default;
         }
 
         public void StopBarra()

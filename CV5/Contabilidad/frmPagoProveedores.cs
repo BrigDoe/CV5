@@ -28,6 +28,7 @@ namespace CV5
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             cmbAcreedor.Enabled = false;
             btnBuscar.Enabled = false;
             dtpFechAct.Enabled = true;

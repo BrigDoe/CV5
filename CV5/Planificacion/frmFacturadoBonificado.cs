@@ -29,6 +29,7 @@ namespace CV5.Planificacion
 
         private void frmPagoProveedores_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             dtpFechAct.Enabled = true;
             dtpFechFin.Enabled = true;
             btnOk.Enabled = true;
@@ -114,7 +115,7 @@ namespace CV5.Planificacion
                     " FP.FECHA_FACTURA >= '" + Fech1 + "' AND " +
                     " FP.FECHA_FACTURA <= '" + Fech2 + "' AND" +
                     " INV.PRODUCT_ID IS NOT NULL " + empresa + "  AND " +
-                    " FIP.CLIENT_TYPE NOT LIKE '%EMPRE%'" +
+                    " FIP.CLIENT_TYPE NOT LIKE '%EMPRE%' AND FIP.CLIENT_TYPE NOT LIKE '%TERCE%'" +
                     " ORDER BY FP.CODIGO_FACTURA";
                 fg.FillDataGrid(cadena, dataGridView1);
 
